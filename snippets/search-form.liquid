@@ -1,0 +1,19 @@
+{%- assign placeholder = "Search for products" -%}
+
+<form action="/search" role="search"
+  class="block relative">
+  <input type="hidden" name="type" value="product" />
+
+  <span class="absolute left-3 position-center-vertical line-height-solid"
+    style="font-size: 1{% unless location == 'desktop' %}.125{% endunless %}rem;">
+    <i class="far fa-search" style="margin-left: 2px;"></i>
+  </span>
+    <input 
+        type="text"
+    	data-findify-attr="findify-autocomplete-input" 
+		class="{% if location == 'desktop' %}border border-light-grey border-radius-pill{% else %}border-none{% endif %} width-100 padding-vertical-3 padding-left-10 padding-right-3 font-size-3 line-height-solid"
+        autocomplete="off" 
+        placeholder="Search"    
+        id = "searchbox_keyword" 
+	    aria-label="Search our products" />
+</form>

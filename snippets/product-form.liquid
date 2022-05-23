@@ -1,0 +1,83 @@
+
+{%- include "attribute-cart-ajax-enabled" -%}
+{%- capture product_json -%}{% include "product-json" %}{%- endcapture -%}
+
+<form action="/cart/add" 
+  method="post" 
+  enctype="multipart/form-data" 
+  class="js-product-form product-page-form" 
+  {% if cart_ajax_enabled %}data-behavior="ajax-cart-form"{% endif %}
+  data-product-json='{{ product_json }}'>
+  <input type="hidden" name="id" value="{{ current_variant.id }}" />
+  <input type="hidden" id="quantity" name="quantity" value="1" />
+
+  <div class="flex flex-row items-center justify-between margin-bottom-5">
+    <p class="line-height-solid margin-0 font-family-heading font-weight-6 font-size-5 letter-spacing-0 text-uppercase">
+      {% comment %} Recharge needs a price class here so it can update the price when you select the subscription options {% endcomment %}
+      <span class="js-price price">
+        {{ product.price | money }}
+      </span>
+
+      <s class="js-compare-price {% unless variant_on_sale %}hide{% endunless %}">
+        {{ product.compare_at_price | money }}
+      </s>
+
+      {%- comment -%}
+      Add subtotal as necessary here if you want to see price * quantity:
+      <span class="js-product-subtotal" data-product-quantity="1" data-product-price="{{ current_variant.price }}">{{ current_variant.price | money_without_trailing_zeros }}</span>
+      {%- endcomment -%}
+    </p>
+
+    {% include "product-reviews-stars" %}
+  </div>
+
+  {%- if product.description != blank -%}
+    <div class="rte font-size-4 margin-bottom-6">
+      {{ product.description | replace: ' ', ' ' }}
+    </div>
+  {%- endif -%}
+
+  {%- if product_options and product.variants.size > 1 -%}
+    <div class="margin-left--1 margin-bottom-6">
+      {% include "product-options" with product_page_form: true %}
+    </div>
+  {%- endif -%}
+
+  <div class="product-form-atc large--hide margin-bottom-8">
+    {% if product.selected_or_first_available_variant.available or template contains 'pre-order' %}
+      <button type="submit" class="js-add-to-cart button width-100">
+        {% if template contains 'pre-order' %}
+          Pre-Order Now
+        {% else %}
+          Add to cart
+        {% endif %}
+      </button>
+    {% else %}
+      <a class="klaviyo-bis-trigger button width-100" href="#">Email When Available</a>
+    {% endif %}
+  </div>
+
+  {% include "product-bundles" %}
+
+  {% include "product-tabs" %}
+
+  <div class="product-form-atc hide large--block">
+    {% if product.selected_or_first_available_variant.available or template contains 'pre-order' %}
+      <button type="submit" class="js-add-to-cart button width-100">
+        {% if template contains 'pre-order' %}
+          Pre-Order Now
+        {% else %}
+          Add to cart
+        {% endif %}
+      </button>
+    {% else %}
+      <a class="klaviyo-bis-trigger button width-100" href="#">Email When Available</a>
+    {% endif %}
+  </div>
+
+  {%- if settings.product_shipping_message_small != blank -%}
+    <div class="padding-bottom-4 large--padding-top-4 text-center font-size-xs text-grey">
+      {{ settings.product_shipping_message_small | remove: "<p>" | remove: "</p>" }}
+    </div>
+  {%- endif -%}
+</form>

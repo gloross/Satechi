@@ -1,0 +1,109 @@
+{%- assign page_404 = section.settings -%}
+
+{%- assign title                    = page_404.title | default: "404" -%}
+{%- assign description              = page_404.content | default: false -%}
+{%- assign url                      = page_404.link_url | default: "/" -%}
+{%- assign text                     = page_404.link_text | default: "Return to Home Page" -%}
+{%- assign background_image         = page_404.background_image -%}
+{%- assign background_image_mobile  = page_404.background_image_mobile | default: background_image -%}
+
+<div class="relative padding-vertical-15 padding-horizontal-2">
+  <div class="container padding-vertical-15 text-center relative z-index-2">
+    <div class="max-width-6 center">
+
+        <div class="relative padding-top-8 large--padding-top-12">
+          <span class="relative z-index-2 inline-block">
+            {% include 'section-heading', title: title, description: false, tag: 'h2' %}
+          </span>
+
+          <span class="absolute position-center z-index-1 text-light-grey font-family-heading white-space-nowrap"
+            style="font-size: 8.875rem;">
+            404
+          </span>
+        </div>
+
+        <div class="rte padding-bottom-8">
+          {% include "unwidow" with description %}
+        </div>
+
+        {%- if page_404.enable_search -%}
+          {% include "search-bar", class: "margin-top-5 max-width-6 center" %}
+        {%- endif -%}
+
+        <div class="text-center padding-bottom-8 large--padding-bottom-12">
+          <a href="{{ url }}"
+            class="button border border-secondary background-transparent text-default border-default-hover background-default-hover text-white-hover"
+            title="{{ text }}">
+            {{ text }}
+          </a>
+        </div>
+
+    </div>
+  </div>
+
+  <aside class="absolute absolute-fill z-index-1">
+    {%- if background_image != blank -%}
+      <img data-src="{{ background_image | img_url: '1440x', scale: 2 }}"
+        class="hide large--block object-fit-cover object-position-center"
+        alt="" />
+    {%- endif -%}
+
+    {%- if background_image_mobile != blank -%}
+      <img data-src="{{ background_image_mobile | img_url: '768x' }}"
+        class="block large--hide object-fit-cover object-position-center"
+        alt="" />
+    {%- endif -%}
+  </aside>
+</div>
+
+{% schema %}
+
+  {
+    "name": "404 Page Content",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "title",
+        "label": "Page Title",
+        "info": "Default is \"404\""
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_search",
+        "label": "Show search bar?",
+        "default": true
+      },
+      {
+        "type": "url",
+        "id": "link_url",
+        "label": "Link URL",
+        "info": "Default is the homepage"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "Link Text",
+        "default": "Return to Home Page",
+        "info": "Default is \"Return to Home Page\""
+      }, 
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background image - desktop", 
+        "info": "Suggested size: 2880 x 1440px"
+      }, 
+      {
+        "type": "image_picker",
+        "id": "background_image_mobile",
+        "label": "Background image - mobile", 
+        "info": "Suggested size: 768 x 1434px"
+      }
+    ]
+  }
+
+{% endschema %}

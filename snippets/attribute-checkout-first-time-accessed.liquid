@@ -1,0 +1,5 @@
+{% assign checkout_first_time_accessed = false %}
+
+{% if content_for_layout contains "window.first_time_accessed = true" %}
+  {% assign checkout_first_time_accessed = true %}
+{% endif %}

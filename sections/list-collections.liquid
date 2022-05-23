@@ -1,0 +1,127 @@
+{%- assign column_count_desktop = section.settings.column_limit_desktop -%}
+{%- assign column_count_mobile = section.settings.column_limit_mobile -%}
+
+{%- assign collection_list_image = section.settings.collection_list_image -%}
+{%- if collection_list_image == blank -%}
+  {%- if collections['all'].image -%}
+    {%- assign collection_list_image = collections['all'].image -%}
+  {%- endif -%}
+{%- endif -%}
+
+{% include "list-collections-hero" %}
+
+<div class="js-sticky-bar large--sticky top-0 z-index-5 background-white margin-vertical-1">
+  <div class="container">
+    <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-column justify-center height-100">
+        <div class="hide-when-sticky">
+          {% include "breadcrumb" %}
+        </div>
+
+        <div class="show-when-sticky fade-in">
+          <a href="#"
+            title="Back to top"
+            class="link inline-block line-height-copy padding-vertical-5"
+            data-behavior="scroll-to-top">
+            <span class="text-primary font-size-4 font-weight-4">&uarr;</span>
+            <span class="font-family-heading font-weight-6 font-size-3 text-uppercase letter-spacing-1">All Collections</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %}terrible... kind of?{% endcomment %}
+  <div class="show-when-sticky border-bottom border-off-white"></div>
+</div>
+
+<div class="container">
+  {%- for block in section.blocks -%}
+    {%- assign collection_handle = block.settings.collection -%}
+    {%- assign collection = collections[collection_handle] -%}
+    <div class="margin-horizontal--4 small--margin-horizontal--6 large--margin-horizontal-0 padding-bottom-5 margin-bottom-5 large--padding-bottom-10 large--margin-bottom-10">
+      <div class="grid grid-gap-xs large--grid-gap-4 columns-{{ column_count_mobile }} large--columns-{{ column_count_desktop }}">
+        {%- include 'collection-thumbnail' -%}
+
+        {%- for product in collection.products limit: 5 -%}
+          <div class="width-100">
+            {% include "product-thumbnail" %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+<style type="text/css">
+  .collection-thumbnail-arrow > * { 
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collections list content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { 
+      "type": "image_picker", 
+      "id": "collection_list_image", 
+      "label": "Hero image", 
+      "info": "Recommended size: 2880px wide. If left blank, collection image of 'All' collection will be used"
+    }, 
+    { 
+      "type": "text", 
+      "id": "hero_min_height", 
+      "label": "Desktop minimum height (in px)", 
+      "default": "304"
+    }, 
+    { 
+      "type": "text", 
+      "id": "hero_min_height_mobile", 
+      "label": "Mobile minimum height (in px)", 
+      "default": "200"
+    }, 
+    {
+      "type": "header",
+      "content": "Product layout"
+    },
+    {
+      "type": "number",
+      "id": "column_limit_desktop",
+      "label": "Products per row (desktop)",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "column_limit_mobile",
+      "label": "Products per row (mobile)",
+      "default": 2
+    }
+  ], 
+  "blocks": [ 
+    {
+      "type": "collections",
+      "name": "Collections",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection", 
+          "info": "Collection thumbnail + first 5 products in collection will show"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Collection List image", 
+          "info": "Will override the default collection image on this page only. Recommended size: 724 x 848px"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

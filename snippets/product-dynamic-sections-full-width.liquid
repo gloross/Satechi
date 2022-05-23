@@ -1,0 +1,40 @@
+{%- if custom_full_width_image != blank -%}
+  <div class="width-100 center max-width-11 margin-bottom-8">
+    {% include 'cf-image' with image: custom_full_width_image, size: "1920x", tag_alt: product.title, tag_class: "hide large--block width-100" %}
+
+    {%- if custom_full_width_image_mobile == blank -%}
+      {%- assign custom_full_width_image_mobile = custom_full_width_image -%}
+    {%- endif -%}
+
+    {% include 'cf-image' with image: custom_full_width_image_mobile, size: "1024x", tag_alt: product.title, tag_class: "block large--hide width-100" %}
+  </div>
+{%- endif -%}
+
+{%- if custom_full_width_video != blank and custom_full_width_video_type != "(none)" -%}
+  {%- assign full_width_video_url = false -%}
+  {%- if custom_full_width_video_type == "Vimeo" -%}
+    {%- assign video_color = settings.color_primary | remove: '#' -%}
+    {%- assign video_id = custom_full_width_video | split: "/" | last -%}
+    {%- assign full_width_video_url = "//player.vimeo.com/video/ID" | replace: "ID", video_id | append: "?portrait=0&title=0&byline=0&color=" | append: video_color -%}
+  {%- elsif custom_full_width_video_type == "YouTube" -%}
+    {%- assign video_id = custom_full_width_video | split: "v=" | last | split: "&" | first -%}
+    {%- assign full_width_video_url = "//www.youtube.com/embed/ID" | replace: "ID", video_id -%}
+  {%- endif -%}
+
+  {%- if full_width_video_url -%}
+    <div class="large--max-width-8 center large--padding-bottom-16">
+      <div class="center width-100 large--padding-top-8 large--padding-bottom-16">
+        <div class="aspect-ratio-16x9">
+          <iframe 
+            class="absolute top-0 left-0 width-100 height-100 z-index-2"
+            src="{{ full_width_video_url }}" 
+            frameborder="0" 
+            webkitallowfullscreen="webkitallowfullscreen" 
+            mozallowfullscreen="mozallowfullscreen" 
+            allowfullscreen="allowfullscreen"
+            muted></iframe>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

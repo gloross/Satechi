@@ -1,0 +1,16 @@
+{% comment %}
+  DESCRIPTION
+
+    Convert array of strings to an array of handles.
+
+    For anything that does actually have a handle attribute, use map
+    instead, ex: `{{ linklists.footer.links | map: "handle" }}`.
+
+  USAGE
+
+    {% include "filter-map-handle", input: collection.tags %}
+    {% assign collection_tag_handles = output %}
+
+{% endcomment %}
+
+{% assign output = input | join: "whooooyeah" | handle | split: "whooooyeah" %}

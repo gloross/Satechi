@@ -1,0 +1,14 @@
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "@id": {{ shop.secure_url | append: "#organization" | json }},
+  "name": {{ shop.name | json }},
+  "url": {{ shop.secure_url | json }},
+  "logo": {
+    "@type": "ImageObject",
+    "url": {{ shop_logo | json }}
+  }{% if shop_social_links %},
+  "sameAs" : [{% for link in shop_social_links %}"{{ link.url }}"{% unless forloop.last %},{% endunless %}{% endfor %}]{% endif %}
+}
+</script>

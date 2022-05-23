@@ -1,0 +1,18 @@
+{% assign breakpoint = "" %}
+{% assign column_width = "" %}
+
+{% for attribute_title in attribute_titles %}
+  {% if attribute_title == "breakpoint" %}
+    {% assign breakpoint = attribute_values[forloop.index0] | append: "--" %}
+  {% endif %}
+
+  {% if attribute_title == "width" %}
+    {% assign column_width = attribute_values[forloop.index0] %}
+  {% endif %}
+{% endfor %}
+
+{% if start %}
+  <div class="grid-item {{ breakpoint }}{{ column_width }}">
+{% else %}
+  </div>
+{% endif %}

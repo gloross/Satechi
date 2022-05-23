@@ -1,0 +1,38 @@
+{% comment %}
+{%- assign detail_title = product.metafields.product-details.title -%}
+{% endcomment %}
+{%- assign desc_title_1 = product.metafields.product-details.desc_title_1 -%}
+{%- assign desc_info_1 = product.metafields.product-details.desc_info_1 -%}
+{%- assign desc_title_2 = product.metafields.product-details.desc_title_2 -%}
+{%- assign desc_info_2 = product.metafields.product-details.desc_info_2 -%}
+
+<ul class="list-reset">
+  {% for i in (1..10) %}
+    {% comment %}
+    {% assign field_icon = 'icon_%1' | replace: '%1', i %}
+    {% assign icon_class = product.metafields.product-details[field_icon] | downcase | prepend: 'icon-' %}
+    {% endcomment %}
+    {%- assign field_feature = 'feature_%1' | replace: '%1', i -%}
+    {%- assign field_info = 'info_%1' | replace: '%1', i -%}
+    
+    {%- assign feature = product.metafields.product-details[field_feature] -%}
+    {%- assign info = product.metafields.product-details[field_info] -%}
+
+    {%- unless feature == blank -%}
+    <li>
+      <span class="{{ feature_class }}">{{ feature }}</span>
+      <p class="{{ value_class }}">{{ info }}</p>
+    </li>
+    {%- endunless -%}
+  {%- endfor -%}    
+
+  <li>
+    <span class="{{ feature_class }}">{{ desc_title_1 }}</span>
+    <p class="{{ value_class }}">{{ desc_info_1 }}</p>
+  </li>
+
+  <li>
+    <span class="{{ feature_class }}">{{ desc_title_2 }}</span>
+    <p class="{{ value_class }}">{{ desc_info_2 }}</p>
+  </li>
+</ul>

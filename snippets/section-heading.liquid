@@ -1,0 +1,15 @@
+{% assign heading_tag = tag | default: 'h2' %}
+
+<div class="margin-bottom-8">
+  {% if title %}
+    <{{ heading_tag }} class="font-weight-6 font-size-rte-title text-uppercase letter-spacing-1">
+      {% include "unwidow" with title %}
+    </{{ heading_tag }}>
+  {% endif %}
+
+  {% if description %}
+    <div class="rte">
+      {% include "unwidow" with description %}
+    </div>
+  {% endif %}
+</div>

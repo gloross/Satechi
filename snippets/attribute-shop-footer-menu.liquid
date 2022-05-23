@@ -1,0 +1,10 @@
+{%- comment %}
+	Specifying a linklist in theme settings will allow you to create another menu
+  for a development theme, and edit that without affecting the live theme. It is
+  tedious to duplicate a menu (as of now) but at least the live site will be unaffected.
+
+  This is an attribute in case you need a separate desktop and mobile template.
+{% endcomment -%}
+{% assign menu_handle = settings.footer_menu_handle| default: "footer" %}
+
+{% assign shop_footer_menu = linklists[menu_handle] %}

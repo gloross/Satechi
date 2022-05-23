@@ -1,0 +1,13 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_list_item_texts = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</li>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign list_item_text = line | strip_html | strip | split: "-<-@" %}
+
+  {% assign rte_list_item_texts = rte_list_item_texts | concat: list_item_text %}
+{% endfor %}

@@ -1,0 +1,9 @@
+<ul class="list-reset padding-vertical-3">
+  {% for currency in shop.enabled_currencies  %}
+      <li class="padding-vertical-3 padding-horizontal-6
+        {% if currency == cart.currency %} active {% endif %}"
+        data-behavior="change-currency" data-currency-code="{{currency.iso_code}}" >
+        {{ currency.symbol }} {{currency.iso_code}}
+      </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,11 @@
+{% include "object-current-url" %}
+
+{% assign link_active = link.active %}
+
+{% if current_url contains link.url %}
+  {% assign link_active = true %}
+{% endif %}
+
+{% if template.name == "product" and link.url contains "/collections" %}
+  {% assign link_active = true %}
+{% endif %}

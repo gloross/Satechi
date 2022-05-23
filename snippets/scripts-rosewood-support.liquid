@@ -1,0 +1,20 @@
+{%- comment -%}theme settings preview window might choke on our JS. the markup below will only appear in theme settings requests{%- endcomment -%}
+{%- comment -%}apps that run on app proxies, like smart wishlist at /a/wishlist might choke on our JS. in this case, a global template object won't exist{%- endcomment -%}
+<script type="text/javascript">
+  window.Rosewood = window.Rosewood || {};
+
+  {% assign url = content_for_header | split: '"pageurl":"' | last | split: '"' | first | split: ".myshopify.com" | last | replace: "\/", "/" | replace: "%20", " " | replace: "\u0026", "&" %}
+  {% if url contains "shopify.content_for_header.start" %}
+    window.Rosewood.isThemeSettings = true;
+  {% else %}
+    window.Rosewood.isThemeSettings = false;
+  {% endif %}
+
+  {% if template %}
+    window.Rosewood.isAppProxy = false;
+  {% else %}
+    window.Rosewood.isAppProxy = true;
+  {% endif %}
+
+  window.Rosewood.currencyIsoCode = '{{ cart.currency.iso_code }}';
+</script>

@@ -1,0 +1,15 @@
+{% capture search_title %}
+  {% if search.performed and search.results_count == 0 %}
+    {{ section.settings.title_no_results }}
+  {% endif %}
+
+  {% if search.results_count > 0 %}
+    {{ section.settings.title_results }}
+  {% endif %}
+
+  {% if search.performed == false %}
+    {{ section.settings.title_no_search }}
+  {% endif %}
+{% endcapture %}
+
+{% assign search_title = search_title | strip | replace: "{{ search_terms }}", search.terms %}

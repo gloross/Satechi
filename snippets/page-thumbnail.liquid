@@ -1,0 +1,20 @@
+{% include "attribute-page-image-style" %}
+{% include "attribute-page-aspect-ratio" %}
+
+<div class="page-thumbnail">
+  <div class="aspect-ratio-{{ aspect_ratio }} text-center">
+    <a href="{{ page.url }}" {% if image_style == 'background' %} class="absolute absolute-fill background-cover background-position-center" data-src="{{ page_image | img_url: '450x' }}" {% endif %}>
+      {% if image_style == 'tag' %}
+        <img data-src="{{ page_image | img_url: '450x' }}" />
+      {% endif %}
+    </a>
+  </div>
+
+  <div class="margin-top-2 padding-horizontal-3 text-center">
+    <a
+      href="{{ page.url }}"
+      class="font-weight-6 font-size-3 line-height-double text-no-decoration text-default">
+      {{ page.title }} <span class="padding-left-1"> </span>
+    </a>
+  </div>
+</div>

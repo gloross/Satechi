@@ -1,0 +1,12 @@
+{%- assign shop_logo = 'SATECHI-logo.png' | asset_url -%}
+
+{% if template == 'index' and logo == 'header' %}<h1 class="margin-0 padding-0 line-height-0">{% endif %}
+<a href="/" class="inline-block font-size-0" title="{{ shop.name }}">
+  <img
+    class="logo"
+    data-src="{{ shop_logo }}"
+    alt="{{ shop.name }}" 
+    width="136" 
+    height="16" />
+</a>
+{% if template == 'index' and logo == 'header' %}</h1>{% endif %}

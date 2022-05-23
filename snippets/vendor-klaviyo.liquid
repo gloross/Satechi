@@ -1,0 +1,63 @@
+<script type="text/javascript">
+  // tracking scripts
+  var _learnq = _learnq || [];
+
+  _learnq.push(['account', '{{ settings.klaviyo_api_key }}']);
+
+  (function () {
+  var b = document.createElement('script'); b.type = 'text/javascript'; b.async = true;
+  b.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'a.klaviyo.com/media/js/analytics/analytics.js';
+  var a = document.getElementsByTagName('script')[0]; a.parentNode.insertBefore(b, a);
+  })();
+
+  // Identifying a person and tracking special Klaviyo properties
+  {% if customer %}
+  _learnq.push(['identify', {
+    '$email' : '{{ customer.email }}',
+    '$first_name' : '{{ customer.first_name }}',
+    '$last_name' : '{{ customer.last_name }}'
+  }]);
+  {% endif %}
+
+  {% if template contains "product" %}
+  // product tracking
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+  
+  {% endif %}
+</script>
+
+<script src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+<script>
+  KlaviyoSubscribe.attachToForms("#NewsletterForm, #NewsletterFormPopup", {
+    hide_form_on_success: false, 
+    success: function () {
+      setTimeout(function() { 
+        document.querySelector('.success_message').innerText = ""; 
+        document.querySelector('.success_message').style.display = "none";
+      }, 5000); 
+    }
+  });
+</script>

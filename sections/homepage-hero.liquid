@@ -1,0 +1,323 @@
+{% assign hero_settings = section.settings %}
+
+{% assign number_of_buttons = 0 %}
+{% for block in section.blocks %}
+  {% if block.type == "button" %}
+    {% assign number_of_buttons = number_of_buttons | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% assign image_mobile = hero_settings.image_mobile | default: false | default: hero_settings.image_desktop %}
+{% assign image_mobile_alt_text = hero_settings.image_mobile_alt_text %}
+{% assign image_desktop = hero_settings.image_desktop %}
+{% assign image_desktop_alt_text = hero_settings.image_desktop_alt_text %}
+
+{% include 'attribute-image-aspect-ratio-percentage', image: hero_settings.image_desktop %}
+{% assign image_desktop_ratio_percentage = image_aspect_ratio_percentage %}
+
+{% include 'attribute-image-aspect-ratio-percentage', image: image_mobile %}
+{% assign image_mobile_ratio_percentage = image_aspect_ratio_percentage %}
+
+{% if hero_settings.image_desktop == blank %}
+  {% assign image_desktop_ratio_percentage = '33' %}
+  {% assign image_mobile_ratio_percentage = '100' %}
+{% endif %}
+
+{% assign block_alignment_x = hero_settings.block_alignment_x %}
+{% assign block_alignment_y = hero_settings.block_alignment_y %}
+{% assign block_max_width   = hero_settings.block_max_width %}
+{% assign desktop_min_height   = hero_settings.desktop_min_height %}
+
+{% assign mobile_block_alignment_x = hero_settings.mobile_block_alignment_x %}
+{% assign mobile_block_alignment_y = hero_settings.mobile_block_alignment_y %}
+{% assign mobile_block_max_width   = hero_settings.mobile_block_max_width %}
+{% assign mobile_min_height        = hero_settings.mobile_min_height %}
+
+{% assign text_alignment = hero_settings.block_text_alignment %}
+{% assign mobile_text_alignment = hero_settings.mobile_block_text_alignment %}
+
+{% assign text_color = hero_settings.text_color %}
+
+{% include "homepage-hero" %}
+
+{% schema %}
+{
+  "name": "Hero with text/button",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop", 
+      "info": "Image size will vary based on hero height. Recommended width is 2880px"
+    },
+    { 
+      "type": "text", 
+      "id": "image_desktop_alt_text", 
+      "label": "Desktop image alt text", 
+      "info": "If blank, will default to shop name"
+    }, 
+    { 
+      "type": "text", 
+      "id": "desktop_min_height", 
+      "label": "Desktop minimum height (in px)", 
+      "default": "600"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile", 
+      "info": "Image size will vary based on hero height. Recommended width is 1536px"
+    },
+    { 
+      "type": "text", 
+      "id": "image_mobile_alt_text", 
+      "label": "Mobile image alt text", 
+      "info": "If blank, will default to shop name"
+    }, 
+    { 
+      "type": "text", 
+      "id": "mobile_min_height", 
+      "label": "Mobile minimum height (in px)", 
+      "default": "600"
+    }, 
+    {
+      "type": "header",
+      "content": "Desktop block settings"
+    },
+    {
+      "type": "select",
+      "id": "block_alignment_x",
+      "label": "Horizontal block alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "block_alignment_y",
+      "label": "Vertical block alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "block_text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }, 
+    {
+      "type": "text",
+      "id": "block_max_width", 
+      "label": "Max width (in pixels)", 
+      "info": "If blank, max width will be 100%"
+    },
+    {
+      "type": "header",
+      "content": "Mobile block settings"
+    },
+    {
+      "type": "select",
+      "id": "mobile_block_alignment_x",
+      "label": "Horizontal block alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_block_alignment_y",
+      "label": "Vertical block alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_block_text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }, 
+    {
+      "type": "text",
+      "id": "mobile_block_max_width", 
+      "label": "Max width (in pixels)", 
+      "info": "If blank, max width will be 100%"
+    },
+    { 
+      "type": "header", 
+      "content": "Text color"
+    }, 
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Color",
+      "options": [
+        {
+          "value": "default",
+          "label": "Black"
+        },
+        {
+          "value": "white",
+          "label": "White"
+        }
+      ],
+      "default": "white"
+    }, 
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_activate",
+      "label": "Enable?"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacity",
+      "default": 0,
+      "max": 100,
+      "min": 0,
+      "unit": "%"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Title",
+      "type": "title",
+      "limit": 1, 
+      "settings": [
+        {
+          "label": "Text",
+          "id": "text",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "name": "Subtitle",
+      "type": "subtitle",
+      "limit": 1, 
+      "settings": [
+        {
+          "label": "Text",
+          "id": "text",
+          "type": "richtext", 
+          "info": "Italicized text will show as primary color in Theme Settings > Brand"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "type": "button",
+      "limit": 1, 
+      "settings": [
+        {
+          "label": "Text",
+          "id": "text",
+          "type": "text"
+        },
+        {
+          "label": "Link",
+          "id": "link",
+          "type": "url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with text/button",
+      "category": "Rosewood"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_image_hrefs = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "<img" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign image_href = "#" | split: "  " %}
+
+  {% if line contains 'href="' %}
+    {% assign image_href = line | split: 'href="' | last | split: '"' | first %}
+    {% assign image_href = image_href | split: "  " %}
+  {% endif %}
+
+  {% assign rte_image_hrefs = rte_image_hrefs | concat: image_href %}
+{% endfor %}

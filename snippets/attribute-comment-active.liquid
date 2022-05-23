@@ -1,0 +1,5 @@
+{% assign comment_active = false %}
+
+{% if comment.id == current_comment.id %}
+  {% assign comment_active = true %}
+{% endif %}

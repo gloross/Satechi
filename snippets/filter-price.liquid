@@ -1,0 +1,26 @@
+{%- comment %}
+  This applies any additional quantity breaks on top of an already calculated group / conditional / contract price / etc.
+{% endcomment -%}
+
+{%- assign INPUT_TAG_SPLIT_PREFIX = "Price Filter" -%}
+{%- assign INPUT_TAGS = product.tags -%}
+{%- assign INPUT_VALUE = price -%}
+
+{%- assign before_filter_price = price -%}
+{%- include "filter-logical-expression-price-filter-tag" -%}
+
+{%- if RETURN_VALUE and RETURN_VALUE < price -%}
+  {%- assign filter_price = RETURN_VALUE -%}
+{%- else -%}
+  {%- assign filter_price = INPUT_VALUE -%}
+{%- endif -%}
+
+{%- assign after_filter_price = filter_price -%}
+{%- assign price = after_filter_price | times: 1 -%}
+
+<!--
+  price filter debug for {{ product.title }}
+  =========================================
+  before filter: {{ before_filter_price }}
+  after filter: {{ after_filter_price }}
+-->

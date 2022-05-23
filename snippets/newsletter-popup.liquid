@@ -1,0 +1,61 @@
+<div class="newsletter-popup background-white open">
+  <div class="padding-vertical-10 padding-horizontal-8 large--padding-16 relative">
+    <div class="large--text-center large--padding-horizontal-8">
+      <span class="block font-family-heading font-weight-5 letter-spacing-1 font-size-1 large--font-size-4 text-uppercase">
+        {{ settings.newsletter_popup_subheading }}
+      </span>
+
+      <h3 class="newsletter-popup-heading text-uppercase font-family-heading font-weight-7 margin-bottom-4 large--margin-bottom-6">
+        {{ settings.newsletter_popup_heading }}
+      </h3>
+
+      <p class="font-size-4 text-grey font-weight-4 letter-spacing--1 margin-bottom-4 large--margin-bottom-6">
+        {{ settings.newsletter_popup_description }}
+      </p>
+    </div>
+
+    <form id="NewsletterFormPopup"
+      class="center"
+      action="//manage.kmail-lists.com/subscriptions/subscribe" 
+      data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" 
+      method="GET" 
+      target="_blank" 
+      novalidate="novalidate">
+      <input type="hidden" name="g" value="{{ settings.klaviyo_list_id }}" />
+      <div class="flex flex-row flex-wrap items-center overflow-hidden">
+        <div class="width-100 margin-bottom-2">
+          <input type="email" 
+          value="{% if customer %}{{ customer.email }}{% endif %}" 
+          placeholder="yourself@gmail.com" 
+          name="email" 
+          aria-label="Email Address" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          class="width-100 border border-secondary padding-3 font-family-heading font-size-3 font-weight-4" />
+        </div>
+
+        <input class="button background-default background-primary-hover font-size-1 text-uppercase width-100" type="submit" value="Submit" name="subscribe" {% unless settings.newsletter_popup_terms_conditions_url == blank %}disabled{% endunless %} />
+      </div>
+
+      {%- if settings.newsletter_popup_terms_conditions_url != blank -%}
+        <div class="padding-vertical-8 input-group input-checkbox">
+          <input type="checkbox" id="NewsletterFormTermsConditions" />
+          <label for="NewsletterFormTermsConditions">
+            <span class="font-family-primary font-size-3 font-weight-4 text-grey text-regular-case letter-spacing--1">
+              I agree to the <a target="_blank" class="text-grey text-default-hover" href="{{ settings.newsletter_popup_terms_conditions_url }}">terms and conditions</a>
+            </span>
+          </label>
+        </div>
+      {%- endif -%}
+
+      <div class="klaviyo_messages font-size-3 text-center">
+        <div class="success_message margin-vertical-3" style="display:none;"></div>
+        <div class="error_message margin-vertical-3" style="display:none;"></div>
+      </div>
+    </form>
+  </div>
+
+  <span class="absolute z-index-2 top-6 right-7 line-height-solid font-size-6" data-behavior="close-newsletter-popup"><i class="far fa-times"></i></span>
+</div>
+
+<div class="newsletter-popup-overlay open" data-behavior="close-newsletter-popup"></div>

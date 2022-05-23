@@ -1,0 +1,44 @@
+{% include 'object-param-load', section_name: "product-related-products" %}
+
+{%- assign title = section.settings.related_products_title -%}
+
+{%- if section.settings.show_related_products -%}
+  <div id="FeaturedCollection" class="padding-bottom-8 medium--padding-bottom-16 margin-vertical-6 large--margin-bottom-0 overflow-hidden">
+    <div class="container">
+      <div class="text-center margin-bottom-5 max-width-5 center medium--max-width-100">
+        <h2 class="font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy">
+          {{ title }}
+        </h2>
+      </div>
+
+      {{ section.settings.related_products_widget }}
+    </div>
+  </div>
+{%- endif -%}
+
+{%- assign product = current_product -%}
+
+{% schema %}
+{
+  "name": "Related products",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_related_products", 
+      "label": "Show related products?", 
+      "default": true
+    }, 
+    { 
+      "type": "text", 
+      "id": "related_products_title", 
+      "label": "Title", 
+      "default": "Related Products"
+    }, 
+    { 
+      "type": "textarea", 
+      "id": "related_products_widget", 
+      "label": "App widget code"
+    }
+  ]
+}
+{% endschema %}

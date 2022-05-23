@@ -1,0 +1,45 @@
+<div class="js-sticky-bar sticky top-0 z-index-5 background-white margin-vertical-1">
+  <div class="container">
+    <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-column justify-center height-100">
+        <div class="hide-when-sticky">
+          <div class="large--hide">
+            <span class="inline-block padding-vertical-4 text-medium-grey">{{ collection.all_products_count }} items</span>
+          </div>
+          <div class="hide large--block">
+            {% include "breadcrumb" %}
+          </div>
+        </div>
+
+        <div class="show-when-sticky fade-in">
+          <a href="#"
+            title="Back to top"
+            class="link inline-block line-height-copy padding-vertical-5"
+            data-behavior="scroll-to-top">
+            <span class="text-primary font-size-4 font-weight-4">&uarr;</span>
+            <span class="font-family-heading font-weight-6 font-size-3 text-uppercase letter-spacing-1">{{ collection.title }}</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <a href="#"
+          data-behavior="toggle-collection-filter"
+          title="Filter"
+          class="link inline-block font-size-4 font-weight-4 large--margin-right-6">
+          Filter 
+          <span class="align-middle font-size-5">
+            {% include "icon-filter" %}
+          </span>
+        </a>
+
+        <div class="align-middle hide large--inline-block">
+          {% include "collection-sort" %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %}terrible... kind of?{% endcomment %}
+  <div class="show-when-sticky border-bottom border-off-white"></div>
+</div>

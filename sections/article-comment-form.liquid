@@ -1,0 +1,80 @@
+{%- assign form = section.settings -%}
+{%- assign form_input_group_class = "input-group margin-bottom-5" -%}
+
+{%- assign success = form.success -%}
+{%- assign description = form.description | default: false -%}
+{%- assign call_to_action = form.call_to_action -%}
+
+{% form "new_comment", article %}
+  {% if form.errors %}
+    <div class="rte margin-vertical-6" role="alert">
+      The following errors were found when the form was submitted:<br/>
+      {{ form.errors | default_errors }}
+    </div>
+  {% endif %}
+
+  <div class="{{ form_input_group_class }}">
+    <label for="comment-author">Name</label>
+    <input type="text" id="comment-author" class="input" name="comment[author]" value="{{ form.author }}" autocapitalize="words" required />
+  </div>
+
+  <div class="{{ form_input_group_class }}">
+    <label for="comment-email">Email</label>
+    <input type="email" id="comment-email" class="input" name="comment[email]" value="{{ form.email }}" autocorrect="off" autocapitalize="off" required />
+  </div>
+
+  <div class="{{ form_input_group_class }}">
+    <label for="comment-body">Message</label>
+    <textarea id="comment-body" class="input" name="comment[body]" rows="7" required>{{ form.body }}</textarea>
+  </div>
+
+  {% if description %}
+    <p class="font-size-3 margin-vertical-6">{{ description }}</p>
+  {% endif %}
+
+  <button type="submit" class="button background-primary background-default-hover padding-horizontal-12">{{ call_to_action }}</button>
+
+  {% if form.posted_successfully? %}
+    <p class="font-italic">
+      {{ success }}
+    </p>
+
+    <script>
+      window.location.hash = "#comments";
+    </script>
+  {% endif %}
+{% endform %}
+
+{% schema %}
+{
+  "name": "Comment form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Leave a comment"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default":
+        "Please note comments must be approved before they are published."
+    },
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Submit"
+    },
+    {
+      "type": "textarea",
+      "id": "success",
+      "label": "Success",
+      "default": "Thank you! Your comment is awaiting approval.",
+      "info": "Note: comments are not published immediately if moderated."
+    }
+  ]
+}
+{% endschema %}

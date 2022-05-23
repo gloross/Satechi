@@ -1,0 +1,31 @@
+
+{% assign add_ons = false %}
+
+{% assign product_refs = product.metafields.custom_fields["add_ons"] | split: "|" %}
+{% for product_handle in product_refs %}
+    {% assign product_ref = all_products[product_handle] %}
+    {% assign current_variant = product_ref.selected_or_first_available_variant %}
+
+    {% if current_variant.available %}
+        {% assign add_ons = true %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+
+{% if product.metafields.custom_fields["product_addons_variant"] != blank %}
+    {% assign product_addon_handles = product.metafields.custom_fields["product_addons_variant"] | split: ',' %}
+    {% assign theHandle = '' %}
+    {% assign variantid = '' %}
+
+    {% for product_handle in product_addon_handles %}
+        {% assign theHandle = product_handle | split: '|' %}
+        {% assign variantid = theHandle.last %}
+        {% assign product_ref = all_products[theHandle.first] %}
+
+        {% if product_ref.available %}
+        {% assign add_ons = true %}
+        {% break %}
+        {% endif %}
+    {% endfor %}
+{% endif %}

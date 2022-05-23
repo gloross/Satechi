@@ -1,0 +1,38 @@
+<script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+<script>
+    var klaviyo = klaviyo || [];
+    klaviyo.init({
+      account: "QteKQU",
+      list: "PBWhm2",
+      platform: "shopify"
+    });
+    klaviyo.enable("backinstock",{ 
+    trigger: {
+      product_page_text: "Email When Available",
+      product_page_class: "btn",
+      product_page_text_align: "center",
+      product_page_margin: "0px",
+      replace_anchor: true
+    },
+    modal: {
+     headline: "Email when back in stock",
+     body_content: "Enter your email address below to receive an email as soon as this product is back in stock.<br /><span class='modal-product-title'>{product_name}</span>",
+     email_field_label: "Email address",
+     button_label: "Email when back in stock",
+     newsletter_subscribe_label: "Let me know about sales and new product releases, too.",
+     subscription_success_label: "Registered for back in stock alert",
+     footer_content: '',
+     additional_styles: "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap'); @import url('https://fonts.googleapis.com/css2?family=Raleway:ital@1&display=swap'); @import url('{{ 'klaviyo-custom.css' | asset_url }}');",
+     drop_background_color: "#000",
+     background_color: "#fff",
+     text_color: "#42464A",
+     button_text_color: "#fff",
+     button_background_color: "#000",
+     close_button_color: "#ccc",
+     error_background_color: "#DF4628",
+     error_text_color: "#fff",
+     success_background_color: "#15B763",
+     success_text_color: "#fff"
+    }
+  });
+</script>

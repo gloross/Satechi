@@ -1,0 +1,16 @@
+<div class="padding-vertical-10 padding-horizontal-7">
+  <span class="block padding-vertical-4 font-family-heading font-weight-6 text-uppercase text-medium-grey letter-spacing-2 font-size-xs">
+    {{ customer_service_menu_title }}
+  </span>
+
+  <ul class="list-reset">
+    {%- for link in linklists[customer_service_menu].links -%}
+      <li class="block">
+        <a href="{{ link.url }}"
+          class="block link padding-vertical-2">
+          {{ link.title }}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>

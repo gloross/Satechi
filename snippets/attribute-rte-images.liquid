@@ -1,0 +1,10 @@
+{% assign rte_images = false %}
+
+{% if rte contains "<img" %}
+  {% assign rte_images = true %}
+{% endif %}
+
+{% include "attribute-rte-image-alts" %}
+{% include "attribute-rte-image-hrefs" %}
+{% include "attribute-rte-image-titles" %}
+{% include "attribute-rte-image-urls" %}

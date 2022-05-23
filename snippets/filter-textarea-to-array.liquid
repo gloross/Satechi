@@ -1,0 +1,25 @@
+{%- comment %}
+  ==============================================================================
+  @param input: "settings.wholesale_payment_terms"
+  ==============================================================================
+
+  Assumptions:
+  settings.wholesale_payment_terms is a textarea setting type with one value per line
+
+	Usage:
+  {%- include "filter-textarea-to-array" input: settings.wholesale_payment_terms -%}
+  {%- assign shop_payment_terms = output -%}
+{% endcomment -%}
+
+{%- assign output_raw = input | newline_to_br | replace: "<br />", "<br/>" | replace: "<br/>", "<br>" | split: "<br>" -%}
+{%- assign output = false -%}
+{%- for item in output_raw -%}
+  {%- assign editable_item = item | strip -%}
+  {%- if output -%}
+    {%- assign output = output | append: "  " | append: editable_item -%}
+  {%- else -%}
+    {%- assign output = editable_item -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign output = output | split: "  " -%}

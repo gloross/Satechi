@@ -1,0 +1,13 @@
+{% comment %} if collection_image_override, it came from the block schema and has precedence {% endcomment %}
+{% assign collection_image = collection_image_override | default: collection.image %}
+
+{% unless collection.image %}
+  {% for product in collection.products %}
+    {% if product.featured_image %}
+      {% assign collection_image = product.featured_image %}
+      {% break %}
+    {% else %}
+      {% continue %}
+    {% endif %}
+  {% endfor %}
+{% endunless %}

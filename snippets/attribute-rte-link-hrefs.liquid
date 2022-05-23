@@ -1,0 +1,17 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_link_hrefs = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</a>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign link_href = "#" | split: "  " %}
+
+  {% if line contains 'href="' %}
+    {% assign link_href = line | split: 'href="' | last | split: '"' | first | split: "  " %}
+  {% endif %}
+
+  {% assign rte_link_hrefs = rte_link_hrefs | concat: link_href %}
+{% endfor %}

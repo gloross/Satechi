@@ -1,0 +1,6 @@
+{% assign article_previous_article = false %}
+
+{% if blog.previous_article %}
+  {% assign article_previous_article = blog.previous_article | remove_first: "/blogs/" %}
+  {% assign article_previous_article = articles[article_previous_article] %}
+{% endif %}

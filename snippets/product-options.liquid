@@ -1,0 +1,56 @@
+{%- for num in (1..product.options.size) -%}
+  {%- assign option_title = product.options[forloop.index0] | default: false -%}
+  {%- assign option_handle = option_title | handle -%}
+  {%- assign option_number = "option" | append: num -%}
+  {%- assign options = product.variants | map: option_number | uniq -%}
+  {%- assign swatch_prefix = "" -%}
+  {%- assign color_dark = false -%}
+  {%- assign space_gray_first = false -%}
+  {%- assign is_color = false -%}
+
+  {%- if option_title contains 'Color' -%}
+    {%- assign swatch_prefix = "color-" -%}
+    {% assign is_color = true %}
+  {%- endif -%}
+
+  <fieldset class="block product-option-row" data-option-name="{{ option_handle }}">
+    <legend class="invisible">{{ option_title }}</legend>
+    {%- for option in options -%}
+      {%- assign option_handle = option | handle -%}
+      {%- assign selected = false -%}
+      {%- if option == current_variant[option_number] -%}
+        {%- assign selected = true -%}
+      {%- endif -%}
+
+      {%- if option_handle == 'brown' or option_handle == 'black' or option_handle == 'blue' -%}
+        {%- assign color_dark = true -%}
+      {%- endif -%}
+
+      <input type="radio"
+        name="{{ option_number }}"
+        value="{{ option }}"
+        class="invisible js-product-option-swatch {% if space_gray_first == true and option == 'Space Gray' %}select-first{% endif %}"
+        aria-label="{{ option }}"
+        id="{% if template == "list-collections" %}{{ collection.handle }}-{% endif %}{{ option_handle }}-{{ product.id }}"
+      />
+
+      <label for="{% if template == "list-collections" %}{{ collection.handle }}-{% endif %}{{ option_handle }}-{{ product.id }}"
+        data-option="{{ option }}"
+        class="inline-block line-height-0 margin-horizontal-1 link cursor-pointer border 
+        {% if swatch_prefix == 'color-' %}border-{% if option == 'White' %}light-grey{% else %}transparent{% endif %} border-radius-circle {% else %}border-secondary border-radius-2 {% endif %}
+        {% if forloop.first %}active{% endif %}">
+        <span class="{{ swatch_prefix }}swatch {% if is_color %}{{ swatch_prefix }}swatch-styling{% endif %} {{ swatch_prefix }}swatch-{{ option | handle }} 
+          block line-height-solid text-center 
+          {% if swatch_prefix != 'color-' %}font-size-xs text-grey text-uppercase padding-2"
+          style="min-width: 5rem;{% endif %}">
+          <span{% if color_dark %} class="text-white"{% endif %}>{{ option }}</span>
+        </span>
+      </label>
+       
+    {%- endfor -%}
+
+    {%- if product_page_form == true and option_title == 'Color' -%}
+      <span class="absolute right-0 position-center-vertical font-size-2 text-medium-grey js-color-label"></span>
+    {%- endif -%}
+  </fieldset>
+{%- endfor -%}

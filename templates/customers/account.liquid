@@ -1,0 +1,11 @@
+<div class="account-content container">
+  {% section "account-navigation" %}
+
+  <div class="js-view-container {% if template.name == 'order' %}hide{% endif %}">
+    {% section "account-overview" %}
+  </div>
+
+  <div class="js-view-container {% unless template.name == 'order' %}hide{% endunless %}">
+    {% section "account-orders" %}
+  </div>
+</div>

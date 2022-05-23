@@ -1,0 +1,96 @@
+{% include "attribute-search-title" %}
+
+{% include "breadcrumb" %}
+
+<div class="padding-vertical-4">
+  <div class="container">
+
+    {% include "search-form" %}
+
+    {% assign column_count_desktop = section.settings.column_limit_desktop %}
+    {% assign column_count_mobile = section.settings.column_limit_mobile %}
+
+    {% if search.performed and search.results_count > 0 %}
+
+      <h1 class="font-size-6">{{ search_title }}</h1>
+
+      {% paginate search.results by section.settings.pagination_limit %}
+        <div class="grid grid-gap-4 columns-{{ column_count_mobile }} large--columns-{{ column_count_desktop }}">
+          {% for product in search.results %}
+            {% include "attribute-product-search-excluded" %}
+
+            {%- if product_search_excluded -%}
+              {% continue %}
+            {%- endif -%}
+
+            {% include "product-thumbnail" %}
+          {% endfor %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+          <div class="text-center">
+            {% include "pagination-custom" %}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+
+    {% else %}
+      {% include "search-empty" %}
+    {% endif %}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product layout"
+    },
+    {
+      "type": "number",
+      "id": "pagination_limit",
+      "label": "Products per page",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "column_limit_desktop",
+      "label": "Products per row (desktop)",
+      "default": 3
+    },
+    {
+      "type": "number",
+      "id": "column_limit_mobile",
+      "label": "Products per row (mobile)",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "textarea",
+      "id": "title_no_search",
+      "label": "Title for no search",
+      "default": "Search for products on our site"
+    },
+    {
+      "type": "textarea",
+      "id": "title_results",
+      "label": "Title for results",
+      "default": "Search results for \"{{ search_terms }}\"",
+      "info":
+        "Use placeholder {{ search_terms }} for the keyword or phrase that the customer searched for"
+    },
+    {
+      "type": "textarea",
+      "id": "title_no_results",
+      "label": "Title for no results",
+      "default": "Your search for \"{{ search_terms }}\" did not yield any results."
+    }
+  ]
+}
+{% endschema %}

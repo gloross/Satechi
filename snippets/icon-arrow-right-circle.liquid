@@ -1,0 +1,5 @@
+{%- unless icon_arrow_color -%}
+  {%- assign icon_arrow_color = "primary" -%}
+{%- endunless -%}
+
+<span class="relative inline-block margin-left-1 font-size-0 width-2 height-2 border border-{{ icon_arrow_color }} border-radius-circle"><span class="absolute position-center font-size-2 text-{{ icon_arrow_color }}">&rarr;</span></span>

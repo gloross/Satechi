@@ -1,0 +1,43 @@
+{% assign product_gallery_variant_ids = false %}
+
+{%- comment %}
+	Allows multiple images to be associated with variant IDs
+  (with some additional javascript)
+{% endcomment -%}
+
+{% for image in product.images %}
+  {% include "attribute-image-should-include-in-gallery" %}
+
+  {% unless image_should_include_in_gallery %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign variant_id = false %}
+
+  {% if image.variants %}
+    {% assign variant_id = image.variants.first.id %}
+  {% endif %}
+
+  {%- unless variant_id -%}
+    {% if image.alt and image.alt contains "Variant: " %}
+      {% assign option1_name_handle = image.alt | split: "Variant: " | last | handle %}
+      {%- for variant in product.variants -%}
+        {% assign option1_handle = variant.option1 | handle %}
+        {%- if option1_name_handle == option1_handle -%}
+          {% assign variant_id = variant.id %}
+          {% break %}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endif %}
+  {%- endunless -%}
+
+  {% if product_gallery_variant_ids %}
+    {% assign product_gallery_variant_ids = product_gallery_variant_ids | append: "  " | append: variant_id %}
+  {% else %}
+    {% assign product_gallery_variant_ids = variant_id %}
+  {% endif %}
+{% endfor %}
+
+{% if product_gallery_variant_ids %}
+  {% assign product_gallery_variant_ids = product_gallery_variant_ids | split: "  " %}
+{% endif %}

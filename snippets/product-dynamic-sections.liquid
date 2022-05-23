@@ -1,0 +1,30 @@
+{%- assign custom_color_scheme = product.metafields.custom_fields["custom_color_scheme"] -%}
+
+{%- assign custom_hero_subtitle = product.metafields.custom_fields["custom_hero_subtitle"] -%}
+{%- assign custom_hero_title = product.metafields.custom_fields["custom_hero_title"] -%}
+{%- assign custom_hero_description = product.metafields.custom_fields["custom_hero_description"] -%}
+{%- assign custom_hero_image = product.metafields.custom_fields["custom_hero_image"] -%}
+{%- assign custom_hero_image_mobile = product.metafields.custom_fields["custom_hero_image_mobile"] -%}
+{%- assign hero_image_full_width = product.metafields.custom_fields["hero_image_full_width"] -%}
+{%- assign custom_hero_video = product.metafields.custom_fields["custom_hero_video"] -%}
+{%- assign custom_hero_video_type = product.metafields.custom_fields["custom_hero_video_type"] -%}
+
+{%- assign custom_full_width_image = product.metafields.custom_fields["custom_full_width_image"] -%}
+{%- assign custom_full_width_image_mobile = product.metafields.custom_fields["custom_full_width_image_mobile"] -%}
+{%- assign custom_full_width_video =  product.metafields.custom_fields["custom_full_width_video"] -%}
+{%- assign custom_full_width_video_type =  product.metafields.custom_fields["custom_full_width_video_type"] -%}
+
+{%- assign no_text = false -%}
+
+{%- if custom_hero_subtitle == blank and custom_hero_title == blank and custom_hero_description == blank -%}
+  {%- assign no_text = true -%}
+{%- endif -%}
+
+<div class="product-dynamic-sections {% if custom_color_scheme != blank and custom_color_scheme != 'Dark' %}style-light{% endif %}">
+
+  {% include "product-dynamic-sections-hero" %}
+
+  {% include "product-dynamic-sections-text-image-modules" %}
+
+  {% include "product-dynamic-sections-full-width" %}
+</div>

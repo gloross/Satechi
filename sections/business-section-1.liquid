@@ -1,0 +1,93 @@
+{% include 'object-param-load', section_name: "business-section-1" %}
+
+{%- assign about        = section.settings -%}
+{%- assign label        = about.label -%}
+{%- assign title        = about.title -%}
+{%- assign description  = about.description -%}
+{%- assign image        = about.image -%}
+{%- assign image_mobile = about.image_mobile -%}
+
+<div class="relative padding-top-8 large--padding-top-16 large--padding-bottom-8">
+  <div class="relative z-index-2 padding-vertical-16">
+    {% include "about-section-1" %}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="large--padding-bottom-16">
+        {%- for block in section.blocks -%}
+          {%- assign about       = block.settings -%}
+          {%- assign label       = about.label -%}
+          {%- assign title       = about.title -%}
+          {%- assign description = about.description -%}
+          {%- assign image       = about.image -%}
+
+          {% include "about-row" %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <aside class="block absolute top-0 left-0 right-0 z-index-1 about-section-1-bg"></aside>
+</div>
+
+{% schema %}
+{
+  "name": "Business - Section 1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    { 
+      "type": "richtext", 
+      "id": "description", 
+      "label": "Description"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image", 
+      "info": "Suggested size: 2560 x 1230px"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image", 
+      "info": "Suggested size: 1024 x 1146px"
+    }
+  ], 
+  "blocks": [ 
+    {
+      "type": "module",
+      "name": "Image + text module",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        { 
+          "type": "richtext", 
+          "id": "description", 
+          "label": "Description"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,64 @@
+{% assign each_line = shortcodes | newline_to_br | split: "<br />" %}
+
+{% for html in each_line %}
+  {% if html contains "[br]" %}
+    {{ html | replace: "[br]", "<br />" }}
+    {% continue %}
+  {% endif %}
+
+  {% assign shortcode = false %}
+
+  {% if html contains "[" and html contains "]" %}
+    {% unless html contains "[[" and html contains "]]" %}
+      {% assign shortcode = html | strip_html %}
+    {% endunless %}
+  {% endif %}
+
+  {% if shortcode %}
+    {% assign start = true %}
+    {% assign end = false %}
+
+    {% assign shortcode_name = shortcode | split: " " | first | replace: "[", "" | replace: "]", "" %}
+
+    {% if shortcode_name contains "/" %}
+      {% assign start = false %}
+      {% assign end = true %}
+
+      {% assign shortcode_name = shortcode_name | remove: "/" %}
+    {% endif %}
+
+    {% assign shortcode_snippet = "shortcode-" | append: shortcode_name %}
+
+    {% assign attribute_titles = "" | split: "" %}
+    {% assign attribute_values = "" | split: "" %}
+
+    {% assign shortcode = shortcode | replace: "[", "" | replace: "]", "" %}
+    {% assign shortcode = shortcode | split: " " %}
+    {% assign shortcode = shortcode | slice: 1, shortcode.size | join: " " %}
+    {% assign shortcode = shortcode | split: '" ' %}
+
+    {% for attribute in shortcode %}
+      {% assign title = attribute | split: '="' | first | split: "  " %}
+      {% assign value = attribute | split: '="' | last | replace: '"', "" | split: "  " %}
+
+      {% assign attribute_titles = attribute_titles | concat: title %}
+      {% assign attribute_values = attribute_values | concat: value %}
+    {% endfor %}
+
+    {% if html contains 'href="' %}
+      {% assign shortcode_href = html | split: 'href="' | last | split: '"' | first %}
+    {% else %}
+      {% assign shortcode_href = false %}
+    {% endif %}
+
+    {% capture shortcode %}
+      {% include shortcode_snippet %}
+    {% endcapture %}
+
+    {% unless shortcode contains "Liquid error" %}
+      {{ shortcode }}
+    {% endunless %}
+  {% else %}
+    {{ html | replace: "[[", "[" | replace: "]]", "]" }}
+  {% endif %}
+{% endfor %}

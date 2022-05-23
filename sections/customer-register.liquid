@@ -1,0 +1,108 @@
+{%- assign register_form = section.settings -%}
+
+{%- assign title = register_form.title | default: "Sign Up" -%}
+{%- assign description = register_form.description -%}
+{%- assign call_to_action = register_form.call_to_action | default: "Sign Up" -%}
+{%- assign back_to_login_prompt = register_form.back_to_login | default: "Already have an account?" -%}
+{%- assign login_call_to_action = register_form.login_link_label | default: "Log In" -%}
+
+<div class="container padding-vertical-16">
+
+  <div class="measure-narrow center">
+    {% comment %} Common section heading {% endcomment %}
+    <div class="margin-bottom-3 text-center">
+      {% include 'section-heading', title: title, description: description, tag: 'h1' %}
+    </div>
+
+    {% form "create_customer" %}
+
+      {%- comment -%}
+      {% include "object-register-tags" %}
+
+      {% if register_tags != empty %}
+        <input type="hidden" name="customer[tags]" value="{{ register_tags | join: "," }}" />
+      {% endif %}
+      {%-endcomment -%}
+
+      {% if form.errors %}
+        <div class="rte margin-vertical-6" role="alert">
+          The following errors were found when the form was submitted:<br/>
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="input-group">
+        <label for="register-first-name">First Name</label>
+        <input type="text" id="register-first-name" class="input" name="customer[first_name]" placeholder="{{ settings.placeholder_first_name }}" value="" autocapitalize="words" autofocus required />
+      </div>
+
+      <div class="input-group margin-top-3">
+        <label for="register-last-name">Last Name</label>
+        <input type="text" id="register-last-name" class="input" name="customer[last_name]" placeholder="{{ settings.placeholder_last_name }}" value="" autocapitalize="words" required />
+      </div>
+
+      <div class="input-group margin-top-3">
+        <label for="register-email">Email Address</label>
+        <input type="email" id="register-email" class="input" name="customer[email]" placeholder="{{ settings.placeholder_email }}" value="" autocorrect="off" autocapitalize="off" required />
+      </div>
+
+      <div class="input-group margin-top-3">
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" class="input" name="customer[password]" placeholder="{{ settings.placeholder_password }}" value="" required />
+      </div>
+
+      <div class="padding-top-6 input-group input-checkbox">
+        <input type="checkbox" id="CustomerRegisterTermsConditions">
+        <label for="CustomerRegisterTermsConditions">
+          <span class="font-family-primary font-size-3 font-weight-4 text-grey text-regular-case letter-spacing--1">
+            I agree to the <a target="_blank" class="text-grey text-default-hover" href="/pages/terms-conditions">terms and conditions</a>
+          </span>
+        </label>
+      </div>
+
+      <button type="submit" class="button background-default background-primary-hover width-100 margin-top-4 font-size-2" disabled>{{ call_to_action }}</button>
+    {% endform %}
+
+    <p class="margin-top-4 font-size-1">
+      {{ back_to_login_prompt }} <a href="/account/login" class="text-inherit">{{ login_call_to_action }}</a>
+    </p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Register form",
+  "class": "register-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Sign up"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Sign up"
+    },
+    {
+      "type": "text",
+      "id": "back_to_login",
+      "label": "Back to login prompt",
+      "default": "Already have an account?"
+    },
+    {
+      "type": "text",
+      "id": "login_link_label",
+      "label": "Login link label",
+      "default": "Log In"
+    }
+  ]
+}
+{% endschema %}

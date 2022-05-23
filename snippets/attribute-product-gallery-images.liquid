@@ -1,0 +1,18 @@
+{% assign product_gallery_images = false %}
+{% assign product_gallery_indexes = "" | split: "" %}
+{% assign product_gallery_image_urls = "" | split: "" %}
+
+{% for image in product.images %}
+  {% include "attribute-image-should-include-in-gallery" %}
+
+  {% unless image_should_include_in_gallery %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign index = forloop.index0 | append: "  " | split: "  " %}
+  {% assign image_url = image.src | img_url: "1024x" | append: "  " | split: "  " %}
+
+  {% assign product_gallery_images = true %}
+  {% assign product_gallery_indexes = product_gallery_indexes | concat: index %}
+  {% assign product_gallery_image_urls = product_gallery_image_urls | concat: image_url %}
+{% endfor %}

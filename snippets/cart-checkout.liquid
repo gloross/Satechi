@@ -1,0 +1,20 @@
+<div class="{% if cart-checkout == 'cart_template' %}padding-4 large--padding-5 border border-light-grey background-off-white {% else %}margin-top-4 border-top border-grey padding-top-4 large--margin-0 large--border-none large--padding-0{% endif %}">
+  <p class="flex justify-between margin-top-0 margin-bottom-3 {% if cart-checkout == 'cart_template' %}font-size-3 large--font-size-4{% else %}font-size-1 large--font-size-2{% endif %}">
+    <span class="margin-right-3">Subtotal</span>
+    <span class="font-weight-7">{{ cart.total_price | money }}</span>
+  </p>
+
+  <button type="submit" name="checkout" class="button {% if cart-checkout == 'cart_template' %}background-primary background-default-hover{% endif %} width-100 font-size-1">{{ checkout_button_text }}</button>
+
+  {%- if checkout_shipping -%}
+    <p class="margin-top-3 margin-bottom-0 font-size-1 text-center">
+      {{ checkout_shipping }}
+    </p>
+  {%- endif -%}
+
+  {%- if checkout_help -%}
+    <div class="rte-simple rte-center margin-top-4 font-size-1 text-center medium--font-size-2">
+      {{ checkout_help }}
+    </div>
+  {%- endif -%}
+</div>

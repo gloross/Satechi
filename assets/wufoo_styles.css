@@ -1,0 +1,116 @@
+#header,
+.ltr.redesigned-theme-2018 .buttons a {
+    display: none;
+}
+
+#saveForm {
+    background-color: #db3901;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+    border-color: #db3901;
+    font-size: 13px;
+    border-radius: 0;
+    margin-bottom: 15px;
+    height: 50px;
+    border: 0;
+    color: #FFF;
+    width: 100%;
+    padding: 0 45px;
+    transition: all .35s ease;
+}
+
+#saveForm:hover {
+    background-color: #222021;
+}
+
+.redesigned-theme-2018 .wufoo ul li {
+    padding: 0 16px 16px!important;
+}
+
+.ltr.redesigned-theme-2018 .wufoo li label.desc, 
+.ltr.redesigned-theme-2018 .wufoo legend.desc{
+    color: #222021;
+    text-transform: uppercase;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+}
+
+.wufoo label.desc, 
+.wufoo legend.desc, .likert caption {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: .0375em;
+    font-size: 12px !important;
+}
+
+.safari .wufoo select.select {
+    -webkit-appearance: none;
+}
+
+.select-style {
+    position: relative;
+}
+
+.select-style:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #000;
+    display: block;
+    position: absolute;
+    right: 30px;
+    top: calc(50% + 10px);
+    z-index: 9999;
+    visibility: visible;
+}
+
+.safari .wufoo select.select,
+.wufoo .field.text.medium,
+.wufoo li .wufoo-dropdown .field.select.wufoo-dropdown-control {
+    background: #FFF;
+    height: 56px;
+    border-radius: 0;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #d3d3d2;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-size: .9375rem !important;
+    font-family: Arial !important;
+}
+
+input::placeholder {
+    font-size: .9375rem !important;
+}
+
+form span.req {
+    display: none !important;
+}
+
+.wufoo input.text, .wufoo textarea.textarea, .wufoo input.file {
+    border: 1px solid #d3d3d2;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.wufoo textarea.field.textarea:focus,
+.safari .wufoo select.select:focus,
+.wufoo input.text:focus, 
+.wufoo textarea.textarea:focus,
+.wufoo .field.text.medium:focus {
+    border: 1px solid #ff4708;
+    outline: none;
+}
+
+.redesigned-theme-2018 .wufoo textarea.textarea:focus
+.redesigned-theme-2018 .wufoo .wufoo-dropdown-control.open, 
+.redesigned-theme-2018 .wufoo .wufoo-dropdown-control:hover,
+.redesigned-theme-2018 .wufoo .wufoo-dropdown-menu,
+.redesigned-theme-2018 .wufoo input.text:hover,
+.redesigned-theme-2018 .wufoo input.text:focus {
+    border: 1px solid #db3901;
+}

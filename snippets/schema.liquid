@@ -1,0 +1,10 @@
+{% include "schema-organization" %}
+{% include "schema-website" %}
+{% include "schema-breadcrumb" %}
+
+{% case template.name %}
+  {% when "product" %}
+    {% include "schema-product" %}
+  {% when "article" %}
+    {% include "schema-article" %}
+{% endcase %}

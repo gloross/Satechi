@@ -1,0 +1,20 @@
+{% for rte_fragment in rte_fragments %}
+  {% if rte_fragment_headings[forloop.index0] == rte-fragment %}
+    {% assign rte = rte_fragment %}
+    {% break %}
+  {% else %}
+    {% assign rte = "" %}
+  {% endif %}
+{% else %}
+  {% assign rte = "" %}
+{% endfor %}
+
+{% include "attribute-rte-blockquote" %}
+{% include "attribute-rte-content-without-images" %}
+{% include "attribute-rte-content" %}
+{% include "attribute-rte-headings" %}
+{% include "attribute-rte-images" %}
+{% include "attribute-rte-links" %}
+{% include "attribute-rte-list-items" %}
+{% include "attribute-rte-paragraphs" %}
+{% include "attribute-rte-table" %}

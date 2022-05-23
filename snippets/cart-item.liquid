@@ -1,0 +1,71 @@
+{% assign product = item.product %}
+{% assign current_variant = item.variant %}
+
+<div class="cart-item flex margin-bottom-5 border-bottom border-off-white padding-bottom-5">
+  <a class="cart-item-image block width-100 margin-right-4">
+    <div class="aspect-ratio-1x1 {% if item.image == blank %}background-grey{% endif %}">
+      {%- unless item.image == blank -%}
+        <picture>
+          <source srcset="{{ item | img_url: '192x' }} 1x,
+                          {{ item | img_url: '384x' }} 2x"
+          />
+          <img src="{{ item | img_url: '192x' }}" 
+            class="aspect-ratio-fill object-fit-contain" 
+            alt="{{ product.title }}" />
+        </picture>
+      {%- endunless -%}
+    </div>
+  </a>
+
+  <div class="flex-item-1 flex flex-column">
+    <div class="flex margin-bottom-5">
+      <div class="flex-item-1">
+        <h2 class="margin-0 padding-0 font-size-4">
+          <a href="{{ item.variant.url }}" class="block padding-right-4 font-weight-5 line-height-title text-inherit text-no-decoration">
+            {{ product.title }}
+          </a>
+        </h2>
+
+        {%- unless item.variant.title contains 'Default' -%}
+          <small class="margin-top-0 margin-bottom-1 font-size-1 text-grey">
+            {{ item.variant.title }}
+          </small>
+        {%- endunless -%}
+
+        <p class="font-size-1 margin-top-1 margin-bottom-3 font-weight-5">
+          {{ item.variant.price | money }}
+        </p>
+      </div>
+
+      <div>
+        <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="font-size-1 text-inherit">
+          {% include "svg-close" %}
+        </a>
+      </div>
+    </div>
+
+    <div class="flex items-center margin-top-auto">
+      <div class="flex-item-1 flex items-center font-size-1">
+        <label for="cart_quantity_{{ forloop.index }}" class="hide font-weight-5 margin-right-3 medium--inline">Qty:</label>
+        <div class="js-number-input number-input">
+          <button data-behavior="decrement">{% include "svg-minus" %}</button>
+          <input name="updates[]" 
+            id="updates_{{ item.id }}" 
+            type="number" 
+            min="0" 
+            max="999" 
+            step="1" 
+            value="{{ item.quantity }}" 
+            aria-label="Quantity" />
+          <button data-behavior="increment">{% include "svg-plus" %}</button>
+        </div>
+      </div>
+
+      <div>
+        <p class="margin-vertical-0 font-size-1">
+          {{ item.line_price | money }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="hide">
+  {% form 'currency' %}
+    {{ form | currency_selector | replace: 'name="currency"', 'name="currency" aria-label="currency"' }}
+  {% endform %}
+</div>

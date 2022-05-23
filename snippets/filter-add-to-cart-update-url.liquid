@@ -1,0 +1,62 @@
+{%- comment %}
+	Few notes...
+
+  <!-- doesn't work -->
+  https://subdomain.myshopify.com/cart/add?id[0]=38836099986&quantity[0]=1&id[1]=38836101906&quantity[1]=5
+
+  <!-- adds the correct products but doesn't add the correct quantities -->
+  https://subdomain.myshopify.com/cart/add?id[]=38836099986&quantity[]=1&id[]=38836101906&quantity[]=5
+
+  <!-- works! we're trying to generate something like this -->
+  https://subdomain.myshopify.com/cart/update?updates[38836099986]=1&updates[38836101906]=5
+
+  --------------
+
+  Every attribute / object that uses this should include this at the bottom:
+  {% include "filter-clean-cart-update-url" input: variable_you_were_working_with %}
+
+  We can't add it here because if we're doing multiple loops, we can't clean it until the end.
+
+  --------------
+
+  cart attributes get saved, almost like a cookie. available anywhere. can be added to this URL
+  ?attributes[handle] gets saved to {{ cart.attributes }} when redirected here.
+  {% assign order_cart_url = order_cart_url | append: "&attributes[handle]=" | append: collection.handle %}
+{% endcomment -%}
+
+{% assign output = false %}
+{%- if variant_id and quantity and input -%}
+  {% assign quantity = quantity | times: 1 %}
+
+  {% assign substring_to_remove = false %}
+  {% assign new_quantity = false %}
+
+  {%- if input contains variant_id -%}
+    {% assign previous_quantity = input | split: variant_id | last | split: '&' | first | remove: ']=' | times: 1 %}
+    {% assign new_quantity = previous_quantity | plus: quantity %}
+    {%- comment %}
+      Need the additional '&' at the end so we don't get bad substrings.  We may want to remove ]=10 but if we feed it ]=1 it'll
+      erroneously remove that.  Need the '&' for context.  We're doing the math to add them together here, so one needs to be removed.
+    {% endcomment -%}
+    {% assign substring_to_remove = "updates[" | append: variant_id | append: ']=' | append: previous_quantity | append: '&' %}
+  {%- endif -%}
+
+  {%- if new_quantity -%}
+    {% assign quantity_to_append = new_quantity %}
+  {%- else -%}
+    {% assign quantity_to_append = quantity %}
+  {%- endif -%}
+
+  {% assign variant_id_quantity_string = "updates[" | append: variant_id | append: ']=' | append: quantity_to_append %}
+
+  {% assign output = input | append: variant_id_quantity_string %}
+
+  {%- if substring_to_remove -%}
+    {% assign output = output | remove: substring_to_remove | append: '&' %}
+  {%- endif -%}
+
+  {%- comment %}
+    Don't worry about forloop.last, we take care of this later.
+  {% endcomment -%}
+  {% assign output = output | append: '&' %}
+{%- endif -%}

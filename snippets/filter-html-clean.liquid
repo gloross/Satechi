@@ -1,0 +1,17 @@
+{% assign html = input | replace: " ", " " %}
+
+{% assign html_lines = html | newline_to_br | split: "<br />" %}
+
+{% assign output = "" %}
+
+{% for line in html_lines %}
+  {% assign text = line | strip_html | strip %}
+
+  {% if text == blank %}
+    {% unless line contains "<img" or line contains "<ul" or line contains "</ul>" or line contains "<ol" or line contains "</ol>" or line contains "</iframe>" or line contains "<blockquote" or line contains "</blockquote>" or line contains "<table" or line contains "</table>" or line contains "<thead" or line contains "</thead>" or line contains "<tbody" or line contains "</tbody>" or line contains "<tr" or line contains "</tr>" or line contains "<td" or line contains "</td>" %}
+      {% continue %}
+    {% endunless %}
+  {% endif %}
+
+  {% assign output = output | append: line %}
+{% endfor %}

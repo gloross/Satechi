@@ -1,0 +1,40 @@
+<div class="collection-hero background-accent text-white flex flex-column justify-end relative">
+  <div class="container relative z-index-2">
+    <h1 class="collection-hero-title font-family-heading text-uppercase font-weight-5 margin-bottom-4 small--margin-bottom-6 large--margin-bottom-8">
+      {% include "break-last-word" with "All Collections" %}
+    </h1>
+  </div>
+
+  {%- if collection_list_image -%}
+    <div class="absolute absolute-fill z-index-1 background-center background-cover background-no-repeat"
+      data-src="{{ collection_list_image | img_url: '2048x' }}"></div>
+  {%- endif -%}
+</div>
+
+{%- assign desktop_min_height = section.settings.hero_min_height -%}
+{%- assign mobile_min_height = section.settings.hero_min_height_mobile -%}
+
+<style type="text/css">
+  .collection-hero-title { 
+    font-size: 1.3125rem;
+  }
+
+  {%- if mobile_min_height != blank -%}
+    .collection-hero { 
+      min-height: {{ mobile_min_height }}px; 
+    }
+  {%- endif -%}
+
+  /* breakpoint large: */ 
+  @media (min-width: 60em) { 
+    .collection-hero-title { 
+      font-size: 1.875rem;
+    }
+
+    {%- if desktop_min_height != blank -%}
+      .collection-hero { 
+        min-height: {{ desktop_min_height }}px; 
+      }
+    {%- endif -%}
+  }
+</style>

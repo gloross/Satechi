@@ -1,0 +1,17 @@
+{%- comment %}
+	Leveraged for apps that use "Admin links" (often links embedded in a "More actions" dropdown on a product page, etc, admin)
+  These admin links always pass along an ID of some sort (whether it's product, collection, customer, order, or other)
+{% endcomment -%}
+
+{%- include "object-current-params" -%}
+
+{%- assign current_params_id = false -%}
+
+{%- for key in current_param_keys -%}
+  {%- assign key_decoded = key | url_decode -%}
+
+  {%- if key_decoded == "id" -%}
+    {%- assign current_params_id = current_param_values[forloop.index0] | downcase | url_decode | split: "," -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}

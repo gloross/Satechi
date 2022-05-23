@@ -1,0 +1,35 @@
+ <script type="text/javascript">
+  $(document).ready(function() {
+    
+    email = "";
+    var customerEmail = null;
+    var checkoutEmail = "{{checkout.email}}";
+    var email = null;
+    {% if customer %}
+    customerEmail = "{{customer.email}}";
+    {% endif %}
+    if(checkoutEmail && checkoutEmail.length > 0 && checkoutEmail.indexOf("@") >= 0){
+    email = checkoutEmail;
+    }
+    if(email === null && customerEmail !== null){
+    email = customerEmail;
+    }
+    $(".swell-referral").data("customer-email", email);
+  });
+</script>
+
+
+{% if checkout.order.created_at %}
+
+<div class="sr_wrapper_main">
+  <div class="swell-referral-post-checkout">
+        <div class="sr_wrap">
+          <div class="back-link-holder">
+            <div class="swell-referral-back-link"></div>
+          </div>
+          <div class="swell-referral" data-customer-email=""></div>
+        </div>
+  </div>
+</div>
+
+{% endif %}

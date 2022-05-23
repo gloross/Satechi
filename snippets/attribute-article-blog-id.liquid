@@ -1,0 +1,4 @@
+{% assign article_blog_id = article | json %}
+{% assign article_blog_id = article_blog_id | split: '"blog_id":' | last %}
+{% assign article_blog_id = article_blog_id | split: ',' | first %}
+{% assign article_blog_id = article_blog_id | times: 1 %}

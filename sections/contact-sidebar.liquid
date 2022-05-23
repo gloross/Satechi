@@ -1,0 +1,121 @@
+{%- assign sidebar = section.settings -%}
+{%- assign contact_title = sidebar.contact_title -%}
+{%- assign contact_email = sidebar.contact_email -%}
+{%- assign contact_phone = sidebar.contact_phone -%}
+{%- assign contact_fax = sidebar.contact_fax -%}
+{%- assign contact_hours = sidebar.contact_hours -%}
+{%- assign location_title = sidebar.location_title -%}
+{%- assign location_address = sidebar.location_address -%}
+{%- assign location_google_maps_url = sidebar.location_google_maps_url -%}
+
+{%- assign sidebar_heading_class = "text-uppercase font-weight-7 letter-spacing-1 padding-top-4" -%}
+{%- assign sidebar_body_attrs = ' class="font-weight-4 text-grey" style="font-size: 0.875rem;"' -%}
+
+<h2 class="{{ sidebar_heading_class }}">
+  {{ contact_title }}
+</h2>
+
+<div {{ sidebar_body_attrs }}>
+  <p class="margin-vertical-6">
+    <a href="mailto:{{ contact_email }}"
+      class="text-primary-dark text-no-decoration-hover"
+      title="Email {{ contact_email }}">
+      {{ contact_email }}
+    </a>
+  </p>
+
+  <p class="margin-vertical-6">
+    {{ contact_phone }}<br/>
+    {{ contact_fax }}
+  </p>
+
+  <p class="margin-vertical-6">{{ contact_hours | newline_to_br }}</p>
+</div>
+
+<h3 class="{{ sidebar_heading_class }}">
+  {{ location_title }} <i class="far fa-directions"></i>
+</h3>
+
+<div {{ sidebar_body_attrs }}>
+  <p class="margin-vertical-6">
+    {{ location_address | newline_to_br }}
+  </p>
+
+  <p class="margin-vertical-6">
+    <a href="{{ location_google_maps_url }}"
+      class="text-grey text-no-decoration-hover"
+      title="Google Maps"
+      target="_blank">
+      Google Maps
+    </a>
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "Contact sidebar",
+  "settings": [
+    { 
+      "type": "header", 
+      "content": "Contact info"
+    }, 
+    { 
+      "type": "paragraph", 
+      "content": "Phone, email, hours"
+    }, 
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Title",
+      "default": "Talk to us"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email address",
+      "default": "support@satechi.net"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Phone number",
+      "default": "+1(858) 268 - 1800"
+    },
+    {
+      "type": "text",
+      "id": "contact_fax",
+      "label": "Fax number",
+      "default": "+1(858) 268 - 1801"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_hours",
+      "label": "Hours"
+    },
+    { 
+      "type": "header", 
+      "content": "Location info"
+    }, 
+    { 
+      "type": "paragraph", 
+      "content": "Physical address, Google Maps link"
+    }, 
+    {
+      "type": "text",
+      "id": "location_title",
+      "label": "Title",
+      "default": "Find us"
+    },
+    {
+      "type": "textarea",
+      "id": "location_address",
+      "label": "Address"
+    }, 
+    {
+      "type": "url",
+      "id": "location_google_maps_url",
+      "label": "Google Maps URL"
+    }
+  ]
+}
+{% endschema %}

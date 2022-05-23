@@ -1,0 +1,37 @@
+{% include "blog-hero" %}
+
+<div class="container">
+  <div class="margin-horizontal--4 small--margin-horizontal--6 large--margin-horizontal-0 padding-vertical-4 small--padding-vertical-6 large--padding-vertical-16">
+    <h2 class="hide large--block font-family-primary font-size-7 font-weight-5 margin-bottom-8 letter-spacing--1">
+      {{ section.settings.blog_title }}
+    </h2>
+
+    {%- assign pagination_amount = 13 | plus: 0 -%}
+
+    {%- paginate blog.articles by pagination_amount -%}
+      {%- if paginate.current_page == 1 -%}
+        {%- assign blog_offset = 1 | plus: 0 -%}
+      {%- else -%}
+        {%- assign blog_offset = 0 | plus: 0 -%}
+      {%- endif -%}
+
+      <div id="LoadMore" 
+        {% unless paginate.next %}data-one-page{% endunless %}
+        data-pagination-amount="{{ pagination_amount }}"
+        data-page="1" 
+        data-total-pages="{{ paginate.pages }}"
+        class="large--grid large--grid-gap-6 large--columns-3 large--padding-bottom-8">
+        {%- for article in blog.articles offset: blog_offset -%}
+          {% include "article-thumbnail" %}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="padding-top-10 padding-bottom-6 small--padding-bottom-4 large--padding-bottom-0 large--padding-top-12">
+          {% include "pagination-custom" with section.settings.article_thumbnail_load_more %}
+        </div>
+      {%- endif -%}
+
+    {%- endpaginate -%}
+  </div>
+</div>

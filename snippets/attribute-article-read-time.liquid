@@ -1,0 +1,11 @@
+{% include "attribute-article-word-count" %}
+
+{% assign article_read_time = article_word_count | divided_by: 275.0 %}
+
+{% if article_read_time > 1 %}
+  {% assign article_read_time = article_read_time | round %}
+{% else %}
+  {% assign article_read_time = 1 %}
+{% endif %}
+
+{% capture article_read_time %}{{ article_read_time }} min read{% endcapture %}

@@ -1,0 +1,7 @@
+{%- assign customer_tags_string = '' -%}
+{%- for tag in customer.tags -%}
+  {%- assign customer_tags_string = customer_tags_string | append: tag -%}
+  {%- unless forloop.last -%}
+    {%- assign customer_tags_string = customer_tags_string | append: ", " -%}
+  {%- endunless -%}
+{%- endfor -%}

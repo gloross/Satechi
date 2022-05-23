@@ -1,0 +1,19 @@
+{%- comment %}
+	Can be used for logged in customers in conjunction with currency converters to avoid geolocation
+{% endcomment -%}
+
+{% assign country_code = customer.default_address.country_code %}
+
+{% assign eu_country_codes = "AT BE BG CY CZ DE DK EE ES FI FR GB GR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK" | split: " " %}
+
+{%- if country_code == "US" -%}
+  {% assign customer_default_currency_code = "USD" %}
+{%- elsif country_code == "CA" -%}
+  {% assign customer_default_currency_code = "CAD" %}
+{%- elsif country_code == "AU" -%}
+  {% assign customer_default_currency_code = "AUD" %}
+{%- elsif country_code == "GB" -%}
+  {% assign customer_default_currency_code = "GBP" %}
+{%- elsif eu_country_codes contains country_code -%}
+  {% assign customer_default_currency_code = "EUR" %}
+{%- endif -%}

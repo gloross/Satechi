@@ -1,0 +1,18 @@
+{% comment %}
+  Articles are automatically treated as fragments when the
+  blog template is `blog.fragment`.
+
+  The default article template is located at: `snippets/template-article.liquid`.
+
+  Alternate article templates are located at: `snippets/template-article-BLOG-TEMPLATE-SUFFIX.liquid`.
+{% endcomment %}
+
+{% case blog.template_suffix %}
+  {% when blank %}
+    {% include "template-article" %}
+  {% when "fragment" %}
+    {% layout "fragment" %}
+  {% else %}
+    {% capture article_template %}template-article-{{ blog.template_suffix }}{% endcapture %}
+    {% include article_template %}
+{% endcase %}

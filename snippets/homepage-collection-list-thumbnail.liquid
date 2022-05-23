@@ -1,0 +1,30 @@
+<div class="padding-horizontal-2">
+  <a href="{{ cta_url }}"
+    class="homepage-collection-list-thumbnail block link text-primary-hover text-center">
+    <div class="center"
+      style="width: 6rem;">
+      <div class="aspect-ratio-1x1 relative margin-bottom-2">
+        <div class="absolute top-2 left-2 right-2 bottom-2">
+          {%- if cta_image == 'view_all' -%}
+            {% include "homepage-collection-list-view-all" %}
+          {%- else -%}
+            <img class="block object-fit-cover object-position-center"
+              data-src="{{ cta_image | img_url: '200x200', crop: 'center' }}"
+              alt="{{ cta_title }}" />
+          {%- endif -%}
+        </div>
+
+        {%- if cta_badge != blank -%}
+          <span class="inline-block background-primary text-white padding-vertical-1 padding-horizontal-2 absolute top-0 right-0 font-family-heading font-weight-6 line-height-solid"
+            style="font-size: 0.5rem;">
+            {{ cta_badge }}
+          </span>
+        {%- endif -%}
+      </div>
+
+      <span class="block font-family-heading font-weight-6 font-size-xs text-uppercase letter-spacing-1">
+        {{ cta_title }}
+      </span>
+    </div>
+  </a>
+</div>

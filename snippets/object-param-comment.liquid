@@ -1,0 +1,12 @@
+{% unless current_params %}
+  {% include "object-current-params" %}
+{% endunless %}
+
+{% assign param_comment = false %}
+
+{% for param in current_param_keys %}
+  {% if param == "comment" %}
+    {% assign param_comment = current_param_values[forloop.index0] %}
+    {% break %}
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,121 @@
+{% include 'object-param-load', section_name: "homepage-testimonials" %}
+
+{%- assign autoplay_slides = section.settings.enable_autoplay -%}
+{%- assign autoplay_speed = section.settings.autoplay_speed | default: 5 -%}
+
+{%- if section.blocks.size > 0 -%}
+  <div class="background-white padding-vertical-10 large--padding-vertical-12 overflow-hidden">
+    <div class="container">
+      <div class="testimonials-container background-no-repeat padding-bottom-8">
+
+        <div class="center" 
+          style="max-width: 42rem;">
+          <div class="js-testimonial-slides padding-vertical-8 medium--padding-vertical-12"
+            data-autoplay="{{ autoplay_slides }}"
+            data-autoplay-speed="{{ autoplay_speed | times: 1000 }}">
+            {%- for block in section.blocks -%}
+              {%- assign label = block.settings.label -%}
+              {%- assign description = block.settings.description -%}
+              {%- assign name = block.settings.testimonial_name -%}
+              <div class="text-center">
+                {% comment %}
+                  Mobile - quotation marks for styling
+                {% endcomment %}
+
+                <span class="block large--hide text-primary font-family-heading font-weight-6 line-height-copy"
+                  style="font-size: 3.1875rem;">
+                  &ldquo;
+                </span>
+
+                {%- if label != blank -%}
+                  <span class="block font-family-heading font-size-1 large--font-size-2 font-weight-6 letter-spacing-2 margin-bottom-8">{{ label }}</span>
+                {%- endif -%}
+
+                <div class="relative padding-horizontal-14">
+                  <div class="cursor-pointer"
+                    data-behavior="js-next-slide">
+                    <div class="font-family-heading font-weight-5 font-size-5 large--font-size-8 large--font-weight-4 margin-bottom-2 large--margin-bottom-6 line-height-double large--line-height-title">
+                      {{ description | replace: '<p', '<span' | replace: '/p>', '/span>' }}
+                    </div>
+                  </div>
+
+                  {% comment %}
+                    Desktop - quotation marks for styling
+                  {% endcomment %}
+
+                  <span class="hide large--block text-primary font-family-heading font-weight-6 line-height-solid absolute top--4 left-0"
+                    style="font-size: 3.1875rem;">
+                    &ldquo;
+                  </span>
+
+                  <span class="hide large--block text-primary font-family-heading font-weight-6 line-height-solid absolute bottom--6 right-0"
+                    style="font-size: 3.1875rem;">
+                    &rdquo;
+                  </span>
+                </div>
+
+                <div class="testimonial-author">
+                  <span class="inline-block text-grey margin-left-3 margin-top-6">
+                    {{ name }}
+                  </span>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "settings": [ 
+      { 
+        "type": "checkbox", 
+        "id": "enable_autoplay", 
+        "label": "Autoplay slides?", 
+        "default": true, 
+        "info": "If checked, slides will automatically change"
+      }, 
+      { 
+        "type": "text", 
+        "id": "autoplay_speed", 
+        "label": "Slide speed (in seconds)", 
+        "default": "5"
+      }
+    ], 
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          { 
+            "type": "text", 
+            "id": "label", 
+            "label": "Label", 
+            "default": "IN THE PRESS"
+          }, 
+          {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "text",
+            "id": "testimonial_name",
+            "label": "Name"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonials",
+        "category": "Rosewood"
+      }
+    ]
+  }
+{% endschema %}

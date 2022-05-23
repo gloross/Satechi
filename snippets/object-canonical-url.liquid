@@ -1,0 +1,20 @@
+{% assign default_canonical_url = canonical_url %}
+
+{% capture canonical_url %}
+  {% case template.name %}
+    {% when "collection" %}
+      {{ shop.secure_url }}{{ collection.url }}
+    {% when "blog" %}
+      {% if current_tags %}
+        {{ shop.secure_url }}{{ blog.url }}/tagged/{{ current_tags | join: "+" }}
+      {% else %}
+        {{ shop.secure_url }}{{ blog.url }}
+      {% endif %}
+    {% when "search" %}
+      {{ shop.secure_url }}/search
+    {% else %}
+      {{ default_canonical_url }}
+  {% endcase %}
+{% endcapture %}
+
+{% assign canonical_url = canonical_url | strip %}

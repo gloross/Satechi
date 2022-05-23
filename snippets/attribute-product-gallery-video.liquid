@@ -1,0 +1,21 @@
+{% assign product_gallery_video = false %}
+{% assign product_gallery_video_id = false %}
+{% assign product_gallery_video_image = false %}
+
+{%- for image in product.images -%}
+  {%- include "attribute-image-is-video" -%}
+
+  {%- unless image_video -%}
+    {% continue %}
+  {%- endunless -%}
+
+  {% assign product_gallery_video = true %}
+
+  {%- if image.alt contains "?v=" -%}
+    {% assign product_gallery_video_id = image.alt | split: "?v=" | last | split: "&" | first %}
+  {%- elsif image.alt contains ".be/" -%}
+    {% assign product_gallery_video_id = image.alt | split: ".be/" | last | split: "&" | first %}
+  {%- endif -%}
+
+  {% assign product_gallery_video_image = image %}
+{%- endfor -%}

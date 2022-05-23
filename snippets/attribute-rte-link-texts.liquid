@@ -1,0 +1,13 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_link_texts = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</a>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign link_text = line | strip_html | strip | split: "-<-@" %}
+
+  {% assign rte_link_texts = rte_link_texts | concat: link_text %}
+{% endfor %}

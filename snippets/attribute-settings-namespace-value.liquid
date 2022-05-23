@@ -1,0 +1,34 @@
+{%- comment %}
+
+  Allows for something to be easily duplicated in theme settings.
+  Can copy and paste a whole section, and just change the "namespace".
+
+  EXAMPLE
+  ==============================================================================
+  @param namespace: "checkout"
+  @param key: "exit_intent_popup_step_1_banner"
+  @param default: "exit-intent" (optional)
+  ==============================================================================
+  Usage:
+  {% include "attribute-settings-namespace-value" namespace: "checkout", key: "exit_intent_popup_step_1_banner" %}
+
+  Result:
+  {% assign settings_key = namespace | append: "_" | append: key | handle %}
+  {% assign settings_key = "checkout" | append: "_" | append: "exit_intent_popup_step_1_banner" | handle%}
+  {% assign settings_key = "checkout_exit_intent_popup_step_1_banner" %}
+
+  ==============================================================================
+
+  If we needed to add another different exit intent to the cart,
+  - copy / paste appropriate settings_schema.json section
+  - in new section, change "checkout_" to "cart_" in settings_schema.json
+  - {% assign namespace = "cart" %} instead of {% assign namespace = "checkout" %}
+  - {% include "attribute-settings-namespace-value" namespace: "cart", key: "exit_intent_popup_step_1_banner" %}
+
+{% endcomment -%}
+
+{% assign settings_namespace_value = false %}
+{% assign default = default | default: false %}
+
+{% assign settings_key = namespace | append: "_" | append: key | handle %}
+{% assign settings_namespace_value = settings[settings_key] | default: default %}

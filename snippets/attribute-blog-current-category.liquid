@@ -1,0 +1,12 @@
+{% unless blog_categories %}
+  {% include "attribute-blog-categories" %}
+{% endunless %}
+
+{% assign blog_current_category = false %}
+
+{% for link in blog_categories %}
+  {% if current_tags contains link.title %}
+    {% assign blog_current_category = link.title %}
+    {% break %}
+  {% endif %}
+{% endfor %}

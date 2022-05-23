@@ -1,0 +1,19 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_paragraphs = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</p>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign text = line | strip_html | strip %}
+
+  {% if text == blank %}
+    {% continue %}
+  {% endif %}
+
+  {% assign paragraph = line | split: "-<-@" %}
+
+  {% assign rte_paragraphs = rte_paragraphs | concat: paragraph %}
+{% endfor %}

@@ -1,0 +1,8 @@
+{% assign variant_color = nil %}
+
+{% for option in product.options %}
+  {% if option == "Color" %}
+    {% assign color_option = "option" | append: forloop.index %}
+    {% assign variant_color = variant[color_option] %}
+  {% endif %}
+{% endfor %}

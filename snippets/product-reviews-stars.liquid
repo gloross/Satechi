@@ -1,0 +1,21 @@
+<a class="product-yotpo-review-stars white-space-nowrap inline-block link"
+  href="#Reviews"
+  >
+  <div class="yotpo bottomLine inline-block align-middle overflow-hidden"
+    data-appkey="z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH"
+    data-domain="{{shop.permanent_domain | escape }}"
+    data-product-id="{{ product.id }}"
+    data-product-models="{{ product.id }}"
+    data-name="{{ product.title | escape }}"
+    data-url="{{ shop.url }}{{ product.url }}"
+    data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+    data-description="{{ product.description | escape }}"
+    data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+  </div>
+
+  {%- if product.metafields.yotpo.reviews_count != blank -%}
+    <span class="font-size-2 font-weight-4 text-medium-grey">({{ product.metafields.yotpo.reviews_count }})</span>
+  {%- endif -%}
+
+  <span class="invisible">Reviews</span>
+</a>

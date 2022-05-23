@@ -1,0 +1,30 @@
+<nav role="navigation"
+  class="height-100">
+  <ul class="main-menu list-reset height-100">
+    {%- for link in shop_main_menu.links -%}
+      {%- assign link_handle = link.title | handle -%}
+
+      {%- assign has_second_level_links = false -%}
+
+      {%- if link.links.size > 0 -%}
+        {%- assign has_second_level_links = true -%}
+        {%- assign second_level_links = link.links -%}
+      {%- endif -%}
+
+      <li class="main-menu-item height-100 inline-block text-default margin-horizontal-5 border-top border-width-1 border-transparent">
+        <a
+          title="{{ link.title }}" 
+          class="block height-100 flex flex-column justify-center link text-primary-hover border-bottom border-width-1 border-transparent border-primary-hover js-main-menu-link"
+          href="{{ link.url }}">
+          <span class="font-family-heading font-size-3 font-weight-6 letter-spacing-2 text-uppercase">
+            {{ link.title }}
+          </span>
+        </a>
+        {%- if has_second_level_links -%}
+          {% include "attribute-main-menu-dropdown-content" with { link_title: link.title } %}
+          {% include "main-menu-dropdown" %}
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

@@ -1,0 +1,31 @@
+{% comment %}
+  DO NOT MODIFY THIS FILE DIRECTLY. THIS FILE WILL BE OVERWRITTEN.
+  YOU CAN MODIFY THE LIQUID CODE FOR THIS CUSTOM FIELD HERE:
+  https://customfields.bonify.io/dashboard/satechi.myshopify.com/products/configure/163383/edit
+{% endcomment %}
+{% if product.metafields.custom_fields["text_image_modules"] != blank %}
+  <div class="custom-field custom-field__text-image-modules custom-field__type--field-collection">
+    <h3 class="custom-field--title">Custom Content: Text + Image modules</h3>
+    <div class="custom-field--value">
+      {% assign separator = "|###|" %}
+      {% assign module_heading_array = product.metafields.custom_fields["module_heading"] | split: separator %}
+      {% assign module_text_array = product.metafields.custom_fields["module_text"] | split: separator %}
+      {% assign module_image_array = product.metafields.custom_fields["module_image"] | split: separator %}
+      {% assign fc_keys = product.metafields.custom_fields["text_image_modules"] | split: "," %}
+      {% for i in fc_keys %}
+        {% assign index = i | plus: 0 %}
+        <div class="fc-item fc-item--module fc-index--{{ index }}">
+          <div class="fc-field field__module-heading">
+            {{ module_heading_array[index] }}
+          </div>
+          <div class="fc-field field__module-text">
+            {{ module_text_array[index] }}
+          </div>
+          <div class="fc-field field__module-image">
+            {{ module_image_array[index] }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

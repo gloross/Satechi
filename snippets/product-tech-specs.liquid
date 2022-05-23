@@ -1,0 +1,74 @@
+{%- assign compatibility = product.metafields.technical-specs.compatibility -%}
+{%- assign connector_type = product.metafields.technical-specs.connector_type -%}
+{%- assign dimensions = product.metafields.technical-specs.dimensions -%}
+{%- assign weight = product.metafields.technical-specs.weight -%}
+{%- assign model_no = product.metafields.technical-specs.model_no -%}
+{%- assign speed = product.metafields.technical-specs.speed -%}
+{%- assign guarantee = product.metafields.technical-specs.guarantee -%}
+{%- assign quick_guide = product.metafields.video_next.quick_guide -%}
+{%- assign faq_link = product.metafields.technical-specs.faq_link -%}
+
+<ul class="list-reset">
+  {%- if compatibility != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Compatible Devices</span>
+    <p class="{{ value_class }}">{{ compatibility }}</p>
+  </li>
+  {%- endif -%}
+  {%- if connector_type != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Connector Type</span>
+    <p class="{{ value_class }}">{{ connector_type }}</p>
+  </li>
+  {%- endif -%}
+  {%- if dimensions != blank or weight != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Dimensions & Weight</span>
+    <p class="{{ value_class }}">{{ dimensions }}, {{ weight }}</p>
+  </li>
+  {%- endif -%}
+  {%- if model_no != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Model NO / UPC</span>
+    <p class="{{ value_class }}">{{ model_no }}</p>
+  </li>
+  {%- endif -%}
+  {%- if speed != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Speed</span>
+    <p class="{{ value_class }}">{{ speed }}</p>
+  </li>
+  {%- endif -%}
+  {%- if guarantee != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Guarantee</span>
+    <p class="{{ value_class }}">{{ guarantee }}</p>
+  </li>
+  {%- endif -%}
+  {%- if quick_guide != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Quick Guide</span>
+    <a href="{{ quick_guide }}" target="_blank">
+      <p class="{{ value_class }}">Download</p>
+    </a>
+  </li>
+  {%- endif -%}
+
+  {%- if faq_link != blank -%}
+    <li>
+      <span class="{{ feature_class }}">Frequently asked Questions</span>
+      <a href="{{ faq_link }}" target="_blank">
+        <p class="{{ value_class }}">FAQ</p>
+      </a>
+    </li>
+  {%- else -%}
+    <li>
+      <span class="{{ feature_class }}">Frequently asked Questions</span>
+      <a href="https://support.satechi.com/hc/en-us" target="_blank">
+        <p class="{{ value_class }}">FAQ</p>
+      </a>
+    </li>
+  {%- endif -%}
+
+  {% include "product-details-prop-65" %}
+</ul>

@@ -1,0 +1,115 @@
+{% include 'object-param-load', section_name: "homepage-collection-list" %}
+
+{%- assign collection_list = section.settings -%}
+{%- assign show_view_all_thumbnail = collection_list.show_view_all_thumbnail -%}
+{%- assign view_all_thumbnail_label = collection_list.view_all_thumbnail_label -%}
+{%- assign view_all_thumbnail_url = collection_list.view_all_thumbnail_url -%}
+
+{%- assign collection_blocks = section.blocks -%}
+
+{%- if collection_blocks.size > 0 -%}
+  <div class="width-100 max-width-8 center large--padding-vertical-1">
+    <div class="homepage-collection-list width-100 padding-6 large--padding-horizontal-0 overflow-auto">
+      <div class="flex flex-row justify-between">
+
+        {%- for block in collection_blocks -%}
+          {%- assign cta = block.settings -%}
+          {%- assign cta_title = cta.title -%}
+          {%- assign cta_image = cta.image -%}
+          {%- assign cta_url   = cta.url -%}
+          {%- assign cta_badge = cta.badge -%}
+          {%- if cta_title != blank and cta_image != blank and cta_url != blank -%}
+            {% include "homepage-collection-list-thumbnail" %}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if show_view_all_thumbnail -%}
+          {% capture view_all_thumbnail_image %}{% include "homepage-collection-list-view-all" %}{% endcapture %}
+
+          {% include "homepage-collection-list-thumbnail" with { 
+            cta_title: view_all_thumbnail_label, 
+            cta_url: view_all_thumbnail_url, 
+            cta_image: 'view_all', 
+            cta_badge: ''
+          } %}
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+  <style type="text/css">
+    .homepage-collection-list-thumbnail { 
+      width: 8rem; 
+    }
+
+    @media (min-width: 60em) { 
+      .homepage-collection-list-thumbnail { 
+        width: 10rem; 
+      }
+    }
+  </style>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Collection mini-CTAs",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_view_all_thumbnail",
+        "label": "Show 'view all' thumbnail",
+        "default": true
+      },
+      { 
+        "type": "text", 
+        "id": "view_all_thumbnail_label", 
+        "label": "View All label", 
+        "default": "Show me everything"
+      }, 
+      { 
+        "type": "url", 
+        "id": "view_all_thumbnail_url", 
+        "label": "View All URL", 
+        "default": "/collections/all"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "limit": 5, 
+        "settings": [
+          { 
+            "type": "text", 
+            "id": "title", 
+            "label": "Title"
+          }, 
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image", 
+            "info": "Recommended size: 200 x 200px"
+          }, 
+          {
+            "type": "url",
+            "id": "url",
+            "label": "URL"
+          }, 
+          { 
+            "type": "text", 
+            "id": "badge", 
+            "label": "Badge", 
+            "info": "optional, e.g. NEW, SALE"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection mini-CTAs",
+        "category": "Rosewood"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,95 @@
+<!-- sections/product-color-swatches.liquid -->
+
+<style type="text/css">
+    .color-swatch-styling {
+        position:relative;
+    }
+    .color-swatch-styling::before {
+        content: '';
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        bottom: 0;  
+        z-index: 2; 
+        display:none;
+
+        background: -moz-linear-gradient(45deg,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 23%, rgba(255,255,255,0.36) 43%, rgba(255,255,255,0.15) 63%, rgba(255,255,255,0) 100%);
+        background: -webkit-linear-gradient(45deg,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.15) 23%,rgba(255,255,255,0.36) 43%,rgba(255,255,255,0.15) 63%,rgba(255,255,255,0) 100%);
+        background: linear-gradient(45deg,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.15) 23%,rgba(255,255,255,0.36) 43%,rgba(255,255,255,0.15) 63%,rgba(255,255,255,0) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+    }
+
+    {%- for block in section.blocks -%}
+        {% assign data = block.settings %}
+
+        {% if data.color != blank %}
+            .color-swatch-{{ data.title | handle }} {
+                {% if data.split %}
+                    background: linear-gradient(90deg, {{ data.color }} 50%, {{ data.color_2 }} 50%);
+                {% else %}
+                    background-color: {{ data.color }};
+                {% endif %}
+            }
+
+            {% if data.metallic %}
+                .color-swatch-{{ data.title | handle }}.color-swatch-styling::before {
+                    display:block;
+                }
+            {% endif %}
+        {% endif %}
+
+    {%- endfor -%}
+  </style>
+
+{% schema %}
+{
+  "name": "Color Swatches",
+  "blocks": [
+      {
+        "type": "color_swatch",
+        "name": "Color Swatch",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Color Title",
+                "info": "Must match product color name exactly. If setting the swatch as a two-tone image, the title also needs to match exactly. For example, 'Silver + White'."
+            },
+            {
+                "type": "color",
+                "id": "color",
+                "label": "Color",
+                "info": "If setting the swatch as two-tone, this will be the first color shown in the swatch."
+            },
+            {
+                "type": "header",
+                "content": "Metallic"
+            },
+            {
+                "type": "checkbox",
+                "id": "metallic",
+                "label": "Make swatch appear metallic",
+                "info": "If checked, color swatch will have a gradient applied in order to look metallic",
+                "default": false
+            },
+            {
+                "type": "header",
+                "content": "Two-Tone"
+            },
+            {
+                "type": "checkbox",
+                "id": "split",
+                "label": "Show as a two-color swatch",
+                "default": false
+            },
+            {
+                "type": "color",
+                "id": "color_2",
+                "label": "Second Color"
+            }
+        ]
+      }
+  ]
+}
+{% endschema %}

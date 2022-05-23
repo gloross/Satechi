@@ -1,0 +1,15 @@
+{% assign item_variants_string = false %}
+
+{% if item.product.options != empty %}
+  {% assign item_variants_string = "" %}
+
+  {% for option in item.product.options %}
+    {% assign option_name = "variant[" | append: option | append: "]" | url_encode %}
+
+    {% assign option_value = item.variant.options[forloop.index0] | url_encode %}
+
+    {% assign item_variants_string = item_variants_string | append: "&" | append: option_name | append: "=" | append: item.variant.options[forloop.index0] %}
+  {% endfor %}
+
+  {% assign item_variants_string = item_variants_string | remove_first: "&" %}
+{% endif %}

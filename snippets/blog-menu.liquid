@@ -1,0 +1,11 @@
+{% if blog_category_links %}
+  <ul class="flex justify-between list-style-none padding-top-3 text-center">
+    {% for link in blog_category_links %}
+      <li>
+        <a href="{{ blog.url }}/tagged/{{ link.handle }}">
+          {{ link.title }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

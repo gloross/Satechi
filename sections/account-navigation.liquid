@@ -1,0 +1,97 @@
+{% assign navigation = section.settings %}
+
+{%- assign title = navigation.header -%}
+
+{%- capture delimiter -%}
+  <span class="margin-horizontal-1">/</span>
+{%- endcapture -%}
+
+<div class="account-navigation border-bottom border-off-white padding-vertical-8 large--padding-vertical-16 large--padding-right-8 text-center large--border-bottom-none large--border-right large--text-right">
+  <div class="account-breadcrumb font-size-1 large--margin-top-1">
+    <a href="/">Home</a>
+
+    {{ delimiter }}
+
+    {%- if template.name == "account" -%}
+      <span>{{ title }}</span>
+    {%- else -%}
+      <a href="/account">{{ title }}</a>
+
+      {%- if template.name == "order" -%}
+        {{ delimiter }}
+
+        <span>Order Details</span>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  <h1 class="font-family-heading text-uppercase margin-vertical-6 font-size-4 font-weight-7">
+    {{ title }}
+  </h1>
+
+  <nav>
+    <ul class="list-reset font-size-4">
+      <li class="inline-block margin-right-3 border-right padding-right-3 large--block large--margin-right-0 large--margin-bottom-2 large--border-right-none large--padding-right-0">
+        {%- if template.name != "account" -%}
+          <a href="/account#orders" class="text-inherit text-no-decoration text-underline-hover {% if template.name == 'order' %}font-weight-7{% endif %}">{{ navigation.orders_link_label }}</a>
+        {%- else -%}
+          <button class="js-view-link button-reset text-underline-hover" data-behavior="toggle-view">{{ navigation.orders_link_label }}</button>
+        {%- endif -%}
+      </li>
+
+      <li class="inline-block margin-right-3 border-right padding-right-3 large--block large--margin-right-0 large--margin-bottom-2 large--border-right-none large--padding-right-0">
+        {%- if template.name != "account" -%}
+          <a href="/account" class="text-inherit text-no-decoration text-underline-hover {% if template.name == 'addresses' %}font-weight-7{% endif %}">{{ navigation.profile_link_label }}</a>
+        {%- else -%}
+          <button class="js-view-link button-reset text-underline-hover {% unless template.name == 'order' %}font-weight-7{% endunless %}" data-behavior="toggle-view">{{ navigation.profile_link_label }}</button>
+        {%- endif -%}
+      </li>
+
+      <li class="inline-block margin-right-3 border-right padding-right-3 large--block large--margin-right-0 large--margin-bottom-2 large--border-right-none large--padding-right-0">
+        <a href="/pages/rewards" class="text-inherit text-no-decoration text-underline-hover">
+          Rewards
+        </a>
+      </li>
+
+      <li class="inline-block large--block">
+        <a href="/account/logout" class="text-inherit text-no-decoration text-underline-hover">{{ navigation.log_out_link_label }}</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+{% schema %}
+{
+  "name": "Navigation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header",
+      "default": "Account"
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "text",
+      "id": "orders_link_label",
+      "label": "Orders link label",
+      "default": "Orders"
+    },
+    {
+      "type": "text",
+      "id": "profile_link_label",
+      "label": "Profile link label",
+      "default": "Profile"
+    },
+    {
+      "type": "text",
+      "id": "log_out_link_label",
+      "label": "Log Out link label",
+      "default": "Log Out"
+    }
+  ]
+}
+{% endschema %}

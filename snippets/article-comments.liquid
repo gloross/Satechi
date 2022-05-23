@@ -1,0 +1,21 @@
+{% paginate article.comments by 50 %}
+  <div id="comments" class="padding-vertical-8 large--padding-vertical-12">
+    {% include 'section-heading', title: "Leave a Comment", description: false, tag: 'h2' %}
+
+    {% section "article-comment-form" %}
+
+    {% if comment.status == "unapproved" %}
+      {% include "article-comment" %}
+    {% endif %}
+
+    {% for comment in article.comments %}
+      {% include "article-comment" %}
+    {% endfor %}
+
+    {% if paginate.pages > 1 %}
+      <div class="text-center">
+        {% include "pagination-custom" %}
+      </div>
+    {% endif %}
+  </div>
+{% endpaginate %}

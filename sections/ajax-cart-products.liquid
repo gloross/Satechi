@@ -1,0 +1,92 @@
+{%- assign amount = section.blocks | size | plus: 0 -%}
+
+{%- unless section.blocks == empty -%}
+  {%- capture block_content -%}
+    {%- for block in section.blocks -%}
+      {%- assign product = all_products[block.settings.product] -%}
+
+      {%- if product == empty -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- assign variant = product.first_available_variant -%}
+      {%- if block.settings.variant_id != blank -%}
+        {%- assign variant_id = block.settings.variant_id | plus: 0 -%}
+
+        {%- for product_variant in product.variants -%}
+          {%- if product_variant.id == variant_id -%}
+            {%- assign variant = product_variant -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- assign title = block.settings.title | default: product.title -%}
+
+      <div class="ajax-cart-box flex flex-column items-center padding-vertical-3 padding-horizontal-4">
+        <picture>
+          <source srcset="{{ product.featured_image | img_url: '128x' }} 1x,
+                          {{ product.featured_image | img_url: '256x' }} 2x"
+          />
+          <img src="{{ product.featured_image | img_url: '128x' }}" class="block width-100" style="max-width: 12rem;" />
+        </picture>
+
+        <a href="{{ product.url }}/?variant={{ variant.id }}" class="margin-top-3 margin-bottom-1 font-size-3 font-weight-7 link">
+          {% include "unwidow" with title %}
+        </a>
+
+        <span class="font-size-2 font-weight-3">{{ variant.price | money_without_trailing_zeros }}</span>
+
+        <button data-behavior="ajax-cart-button" data-variant-id="{{ variant.id }}" class="ghost-button margin-top-2 font-size-2">
+          Add to Cart
+        </button>
+      </div>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  <div class="margin-top-4">
+    {%- case amount -%}
+      {%- when 1 -%}
+        {{ block_content }}
+
+      {%- when 2 -%}
+        <div class="grid grid-gap-4 medium--columns-2">
+          {{ block_content }}
+        </div>
+    {%- endcase -%}
+  </div>
+{%- endunless -%}
+
+{% schema %}
+
+  {
+    "name": "AJAX Cart Products",
+    "max_blocks": 2,
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "variant_id",
+            "label": "Variant ID",
+            "info": "By default, the first available variant will be used. If this field matches a variant ID of the selected product, that variant will be used instead."
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "info": "Defaults to the product's title"
+          }
+        ]
+      }
+    ]
+  }
+
+{% endschema %}

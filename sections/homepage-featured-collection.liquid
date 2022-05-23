@@ -1,0 +1,108 @@
+{% include 'object-param-load', section_name: "homepage-featured-collection" %}
+
+{%- assign featured_collection = section.settings -%}
+{%- assign collection = collections[featured_collection.handle] -%}
+{%- assign title = featured_collection.title | default: false | default: collection.title -%}
+{%- assign more_button = featured_collection.show_more_button -%}
+{%- assign button_text = featured_collection.show_more_text | default: "View More" -%}
+{%- assign button_url = featured_collection.button_url | default: collection.url -%}
+{%- assign product_limit = featured_collection.product_limit -%}
+
+{%- capture featured_collection_products -%}
+  {%- for product in collection.products limit: product_limit -%}
+    <div class="margin-1 small--margin-2">
+      {% include "product-thumbnail" %}
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if section.settings.featured_collection_type == 'collection' -%}
+  {% include "featured-collection" %}
+{%- else -%}
+  {% include "featured-collection-widget" %}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title", 
+        "info": "e.g. Trending Now, Best Sellers"
+      }, 
+      { 
+        "type": "select", 
+        "id": "featured_collection_type", 
+        "label": "Section type", 
+        "options": [ 
+          { 
+            "value": "collection", 
+            "label": "Shopify Collection"
+          }, 
+          { 
+            "value": "widget", 
+            "label": "App widget"
+          }
+        ], 
+        "default": "collection"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Shopify collection"
+      }, 
+      {
+        "type": "collection",
+        "id": "handle",
+        "label": "Collection"
+      }, 
+      {
+        "type": "number",
+        "id": "product_limit",
+        "label": "Product limit",
+        "default": 6, 
+        "info": "If type is Shopify collection"
+      }, 
+      { 
+        "type": "header", 
+        "content": "App widget"
+      }, 
+      { 
+        "type": "textarea", 
+        "id": "featured_products_widget", 
+        "label": "Widget code", 
+        "info": "If type is App widget, paste code here"
+      }, 
+      { 
+        "type": "header", 
+        "content": "View More button"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_more_button",
+        "label": "Show View More Button?",
+        "default": false,
+        "info": "If checked, and there are more products in the collection than shown here, there will be a button which goes to the collection"
+      },
+      {
+        "type": "url",
+        "id": "collection_url",
+        "label": "Optional Button URL ",
+        "info": "If you want to have the view more button go to a different URL, then enter it here."
+      },
+      {
+        "type": "text",
+        "id": "show_more_text",
+        "label": "More Button Text",
+        "default": "View More"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collection",
+        "category": "Rosewood"
+      }
+    ]
+  }
+{% endschema %}

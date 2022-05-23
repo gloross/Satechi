@@ -1,0 +1,135 @@
+{%- assign call_to_action = section.settings.call_to_action -%}
+{%- assign success = section.settings.success -%}
+
+{%- assign form_input_group_class = "input-group margin-bottom-5" -%}
+{%- assign form_subject_label = section.settings.form_subject_label -%}
+{%- assign form_subject_list = section.settings.form_subject_list | newline_to_br | split: "<br />" -%}
+{%- assign wufoo =  section.settings.wufoo -%}
+
+{% if wufoo != blank %}
+  {{ wufoo }}
+{% else %}
+  {% form "contact" %}
+    {% if form.posted_successfully? %}
+      <p>{{ success }}</p>
+    {% endif %}
+
+    {% if form.errors %}
+      <div class="rte margin-vertical-6" role="alert">
+        The following errors were found when the form was submitted:<br/>
+        {{ form.errors | default_errors }}
+      </div>
+    {% endif %}
+
+    <div class="{{ form_input_group_class }}">
+      <label for="contact-subject">{{ form_subject_label }}</label>
+      <div class="input-select">
+        <select id="contact-subject" name="contact[subject]">
+          {%- for form_subject in form_subject_list -%}
+            <option value="{{ form_subject }}">{{ form_subject }}</option>
+          {%- endfor -%}
+        </select>
+
+        <div class="input-select-icon">
+          {% include "svg-caret-down" %}
+        </div>
+      </div>
+    </div>
+
+    <div class="{{ form_input_group_class }}">
+      <label for="contact-name">Name</label>
+      <input type="text" id="contact-name" class="input" name="contact[name]" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" required />
+    </div>
+
+    <div class="{{ form_input_group_class }}">
+      <label for="contact-email">Email</label>
+      <input type="email" id="contact-email" class="input" name="contact[email]" placeholder="yourself@gmail.com" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" required />
+    </div>
+
+    <div class="{{ form_input_group_class }}">
+      <label for="contact-body">Message</label>
+      <textarea id="contact-body" class="input" name="contact[body]" rows="10" required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+    </div>
+
+    {% comment %} <div class="{{ form_input_group_class }}">
+      <div class="uploadcare-container">
+        <input type="hidden" role="uploadcare-uploader" name="contact[Attachments]" data-multiple="true" />
+      </div>
+    </div> {% endcomment %}
+
+    <div class="{{ form_input_group_class }}">
+      <input type="submit" class="button background-primary background-default-hover padding-horizontal-12" value="{{ call_to_action }}" />
+    </div>
+  {% endform %}
+{% endif %}
+
+
+{% comment %}
+  UPLOADCARE SNIPPET
+  If the project needs attachment uploads, then just comment this out, and the .uploadcare-container
+  div from the form above. Then, just add the public key obtained from uploadcare
+{% endcomment %}
+
+{% comment %} <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'UPLOAD_CARE_PUBLIC_KEY';
+
+  UPLOADCARE_LOCALE_TRANSLATIONS = {
+    buttons: {
+      choose: {
+        files: {
+          one: 'Add Attachment',
+          other: 'Add Attachments'
+        },
+        images: {
+          one: 'Add Attachment',
+          other: 'Add Attachments'
+        }
+      }
+    }
+  };
+</script> {% endcomment %}
+
+
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { 
+      "type": "text", 
+      "id": "form_subject_label", 
+      "label": "Subject label", 
+      "default": "What’s it about?"
+    }, 
+    { 
+      "type": "textarea", 
+      "id": "form_subject_list", 
+      "label": "Subject options", 
+      "info": "Separate options by line"
+    }, 
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Submit"
+    },
+    {
+      "type": "textarea",
+      "id": "success",
+      "label": "Success",
+      "default":
+        "Thanks for contacting us! We'll get back to you as soon as possible."
+    },
+    {
+      "type": "header",
+      "content": "Wufoo Form"
+    },
+    {
+      "type": "textarea",
+      "id": "wufoo",
+      "label": "Wufoo Code",
+      "info": "If empty, we will use the Shopify contact form instead"
+    }
+  ]
+}
+{% endschema %}

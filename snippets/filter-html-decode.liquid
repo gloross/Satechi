@@ -1,0 +1,6 @@
+{% assign output = input %}
+{% assign output = output | replace: "&amp;", "&" %}
+{% assign output = output | replace: "&lt;", "<" %}
+{% assign output = output | replace: "&gt;", ">" %}
+{% assign output = output | replace: '&quot;', '"' %}
+{% assign output = output | replace: "&#039;", "'" %}

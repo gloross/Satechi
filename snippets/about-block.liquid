@@ -1,0 +1,27 @@
+{%- assign image_url = image | img_url: "1024x" -%}
+
+<div class="background-accent text-white aspect-ratio-4x5 large--aspect-ratio-6x7">
+
+  <div class="absolute absolute-fill z-index-2">
+    <div class="width-100 height-100 flex flex-column justify-end align-center items-center text-center">
+      <div class="padding-horizontal-12 padding-vertical-10 large--padding-horizontal-16 large--padding-vertical-12">
+        <h3 class="font-family-heading font-size-4 letter-spacing-1 text-uppercase margin-bottom-2">
+          {{ title | newline_to_br }}
+        </h3>
+
+        {%- if description != blank -%}
+          <div class="font-size-3">
+            {{ description }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute absolute-fill z-index-1">
+    <img class="block object-fit-cover object-position-center" 
+      data-src="{{ image_url }}" 
+      alt="{{ title }}" />
+  </div>
+
+</div>

@@ -1,0 +1,33 @@
+<nav class="flex flex-row items-center justify-end">
+  <div class="hide large--block large--flex-item-2 large--margin-horizontal-2"
+    style="max-width: 14.5rem;">
+    <div class="padding-vertical-4">
+      {% include "search-form" with { location: "desktop" } %}
+    </div>
+  </div>
+
+  {%- if shop.customer_accounts_enabled -%}
+    <span class="block">
+      <a href="/account" 
+        title="Account"
+        aria-label="Account"
+        class="link text-primary-hover margin-horizontal-2"
+        style="font-size: 1.075rem;">
+        <i class="far fa-user"></i>
+      </a>
+    </span>
+  {%- endif -%}
+
+  <a href="#" 
+    data-behavior="toggle-cart" 
+    title="Shopping Cart"
+    aria-label="Shopping Cart"
+    class="js-cart-icon link text-primary-hover margin-left-2 padding-left-1{% if cart.item_count > 0 %} has-cart-items{% endif %}"
+    style="font-size: 1.1rem;">
+    <span class="inline-block relative">
+      <i class="far fa-shopping-bag"></i>
+      <span class="js-cart-indicator hide border-radius-circle background-primary absolute top-0 right--1"
+        style="width: 0.375rem; height: 0.375rem;"></span>
+    </span>
+  </a>
+</nav>

@@ -1,0 +1,33 @@
+{%- assign related_products = product.metafields.custom_fields["related_products"] -%}
+
+{%- assign title = product.metafields.custom_fields["related_products_title"] -%}
+
+{%- assign show_related_products_cta = product.metafields.custom_fields["show_related_products_cta"] -%}
+{%- if show_related_products_cta == 1 -%}
+  {%- assign more_button = true -%}
+{%- else -%}
+  {%- assign more_button = false -%}
+{%- endif -%}
+
+{%- assign button_url = product.metafields.custom_fields["related_products_cta_url"] -%}
+{%- assign button_text = product.metafields.custom_fields["related_products_cta_text"] -%}
+
+{%- assign arrow_classes = "inline-block absolute position-center-vertical z-index-2 cursor-pointer background-white border-radius-circle font-size-4 text-primary overflow-hidden" -%}
+
+{%- if related_products != blank -%}
+  {%- assign product_refs = related_products | split: "|" -%}
+  {%- capture featured_collection_products -%}
+    {%- for product_handle in product_refs -%}
+      {%- assign product = all_products[product_handle] -%}
+      {%- if product != blank -%}
+        <div class="padding-horizontal-1 small--padding-horizontal-2">
+          {% include "product-thumbnail" %}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {% include "featured-collection" %}
+{%- endif -%}
+
+{%- assign product = current_product -%}

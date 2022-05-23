@@ -1,0 +1,69 @@
+<div class="max-width-7 center padding-horizontal-3 padding-bottom-4 small--padding-horizontal-4">
+
+  {%- for block in section.blocks -%}
+    <div class="margin-vertical-5">
+      {%- case block.type -%}
+        {%- when "heading" -%}
+          <h2 class="{% if forloop.first %}margin-top-5 {% else %}margin-top-15{% endif %} margin-bottom-2 font-size-4 font-weight-7 large--font-size-5 border-bottom border-light-grey padding-bottom-5 text-default">
+            {% include "unwidow" with block.settings.title %}
+          </h2>
+
+        {%- when "question" -%}
+          {%- assign q = block.settings.question -%}
+          {%- assign a = block.settings.answer -%}
+
+          {%- if article != empty -%}
+            <details class="accordion" data-behavior="accordion" class="padding-5">
+
+              {% comment %} question {% endcomment %}
+              <summary>
+                <span class="font-size-3 font-family-secondary text-dark-grey">{{ q }}</span>
+                <div class="accordion-icon font-size-6"></div>
+              </summary>
+
+              {% comment %} answer {% endcomment %}
+              <div class="accordion-content rte text-default">{{ a }}</div>
+              
+            </details>
+          {%- endif -%}
+      {%- endcase -%}
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+
+  {
+    "name": "FAQ Page Content",
+    "blocks": [
+      {
+        "type": "heading",
+        "name": "Heading",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading Content"
+          }
+        ]
+      },
+      {
+        "type": "question",
+        "name": "Question",
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "question",
+            "label": "Question"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer"
+          }
+        ]
+      }
+    ]
+  }
+
+{% endschema %}

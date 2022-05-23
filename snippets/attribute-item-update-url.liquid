@@ -1,0 +1,9 @@
+{% include "attribute-item-url" %}
+
+{% assign cart_item_update_url = cart_item_url %}
+
+{% if cart_item_update_url contains "?" %}
+  {% assign cart_item_update_url = cart_item_update_url | append: "&" | append: "q[update]=true" %}
+{% else %}
+  {% assign cart_item_update_url = cart_item_update_url | append: "?" | append: "q[update]=true" %}
+{% endif %}

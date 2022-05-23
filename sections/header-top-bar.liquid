@@ -1,0 +1,31 @@
+{% include 'object-param-load', section_name: "header-top-bar" %}
+
+{%- if param_load and param_load != "false" -%}
+  <header id="HeaderPromoBar" class="background-default text-white padding-vertical-1 large--padding-vertical-2 relative z-index-9">
+    <div class="container">
+      <div class="flex items-center relative justify-center">
+        {% include 'header-top-bar-message', message: section.settings %}
+      </div>
+    </div>
+  </header>
+
+  <style type="text/css">
+    #HeaderPromoBar a { 
+      color: inherit; 
+    }
+  </style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header promo bar",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "copy",
+      "label": "Copy",
+      "default": "<p>FREE SHIPPING on all orders over $XX</p>"
+    }
+  ]
+}
+{% endschema %}

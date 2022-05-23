@@ -1,0 +1,37 @@
+{% capture index_cycle %}{% cycle 'odd', 'even' %}{% endcapture %}
+{%- assign image_url = image | img_url: "2048x" -%}
+{%- assign content_class = "width-100 padding-vertical-6 large--padding-vertical-0 large--column-span-6" -%}
+
+<div class="container">
+  <div class="flex flex-column large--grid large--columns-12 large--grid-gap-4 large--padding-vertical-15 relative z-index-2 large--background-white">
+    
+    <div class="{{ content_class }} {% if index_cycle == 'even' %}large--order-2{% endif %}">
+      {%- if image != blank -%}
+        <img class="block {% if index_cycle == 'even' %}image-breakout-right{% else %}image-breakout-left large--width-100 margin-left--8 large--margin-left-0{% endif %}" 
+          data-src="{{ image_url }}" 
+          alt="{{ title }}" />
+      {%- endif -%}
+    </div>
+
+    <div class="{{ content_class }} {% if index_cycle == 'even' %}large--order-1{% endif %}">
+      <div class="width-100 height-100 flex flex-column justify-center">
+        <div class="large--grid large--columns-6 large--grid-gap-4">
+          <div class="large--column-start-2 large--column-end--1 large--padding-right-12">
+            {%- if label != blank -%}
+              <p class="font-family-heading font-size-1 large--font-size-2 font-weight-6 text-uppercase letter-spacing-1 text-default margin-top-0 margin-bottom-3">{{ label }}</p>
+            {%- endif -%}
+
+            <h3 class="font-family-primary font-size-7 small--font-size-8 large--font-size-9 font-weight-4 margin-bottom-2 text-default letter-spacing--1">
+              {{ title | newline_to_br }}
+            </h3>
+
+            {%- if description != blank -%}
+              {{ description }}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,43 @@
+{%- assign image_url = image | img_url: "1680x807", crop: "center" -%}
+
+{%- if image_mobile == blank -%}
+  {%- assign image_url_mobile = image | img_url: "1024x1146", crop: "center" -%}
+{%- else -%}
+  {%- assign image_url_mobile = image_mobile | img_url: "1024x1146", crop: "center" -%}
+{%- endif -%}
+
+<div class="container large--padding-top-16">
+  <div class="large--grid large--grid-gap-2 large--columns-12">
+    <div class="large--column-start-2 large--column-end-9">
+      {%- if label != blank -%}
+        <p class="font-family-heading font-size-1 large--font-size-2 font-weight-6 text-uppercase letter-spacing-1 margin-top-0 margin-bottom-3 large--margin-bottom-4">
+          {{ label }}
+        </p>
+      {%- endif -%}
+
+      {%- if title != blank -%}
+        <h2 class="hero-title-text margin-bottom-10 large--margin-bottom-15">
+          {{ title | newline_to_br }}
+        </h2>
+      {%- endif -%}
+
+      {%- if description != blank -%}
+        <div class="about-paragraph margin-top--4 margin-bottom-8 large--margin-bottom-15 text-secondary">
+          {{ description }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- if image != blank -%}
+  <div class="padding-vertical-10 large--padding-vertical-12">
+    <img class="image-breakout hide large--block width-auto" 
+        data-src="{{ image_url }}" 
+        alt="{{ title }}" />
+
+    <img class="width-100 block large--hide" 
+        data-src="{{ image_url_mobile }}" 
+        alt="{{ title }}" />
+  </div>
+{%- endif -%}

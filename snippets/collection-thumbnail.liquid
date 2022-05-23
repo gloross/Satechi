@@ -1,0 +1,31 @@
+{%- assign current_collection = collection -%}
+
+{% include "attribute-collection-image" %}
+
+{%- if block.settings.image != blank -%}
+  {%- assign collection_image = block.settings.image -%}
+{%- endif -%}
+
+<div class="collection-thumbnail zoom-on-hover overflow-visible">
+  <a class="aspect-ratio-4x5 small--aspect-ratio-6x7 block relative background-accent text-white text-no-decoration"
+    href="{{ current_collection.url }}"
+    title="{{ current_collection.title }}">
+    <div class="absolute absolute-fill z-index-1 zoom-target">
+      <img src="{{ collection_image | img_url: '100x125' }}"
+        data-src="{{ collection_image | img_url: '450x563', crop: 'center', scale: 2 }}"
+        class="block object-fit-cover object-position-center"
+        alt="{{ current_collection.title }}" 
+        style="opacity: 0.5;"/>
+    </div>
+
+    <div class="padding-top-4 padding-horizontal-4 large--padding-top-8 large--padding-horizontal-10 text-left relative z-index-2">
+      <h3 class="font-family-primary font-weight-4 font-size-4 large--font-size-6 letter-spacing--1">
+        {% include "break-last-word" with current_collection.title %}
+      </h3>
+    </div>
+
+    <div class="collection-thumbnail-arrow absolute z-index-2 bottom-4 right-4 large--bottom-8 large--right-10">
+      {% include "icon-arrow-right-circle" with icon_arrow_color: "white" %}
+    </div>
+  </a>
+</div>

@@ -1,0 +1,7 @@
+{% assign copy = message.copy | remove: "<p>" | remove: "</p>" %}
+
+<div class="text-center">
+  <span class="font-size-1 font-weight-1 font-family-heading letter-spacing-1">
+    {{ copy }}
+  </span>
+</div>

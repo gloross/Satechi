@@ -1,0 +1,404 @@
+!function(factory){"use strict";"function"==typeof define&&define.amd?define(["jquery"],factory):jQuery&&!jQuery.fn.hoverIntent&&factory(jQuery)}(function($){"use strict";var cX,cY,_cfg={interval:100,sensitivity:6,timeout:0},INSTANCE_COUNT=0,track=function(ev){cX=ev.pageX,cY=ev.pageY},compare=function(ev,$el,s,cfg){if(Math.sqrt((s.pX-cX)*(s.pX-cX)+(s.pY-cY)*(s.pY-cY))<cfg.sensitivity)return $el.off(s.event,track),delete s.timeoutId,s.isActive=!0,ev.pageX=cX,ev.pageY=cY,delete s.pX,delete s.pY,cfg.over.apply($el[0],[ev]);s.pX=cX,s.pY=cY,s.timeoutId=setTimeout(function(){compare(ev,$el,s,cfg)},cfg.interval)},delay=function(ev,$el,s,out){return delete $el.data("hoverIntent")[s.id],out.apply($el[0],[ev])};$.fn.hoverIntent=function(handlerIn,handlerOut,selector){var instanceId=INSTANCE_COUNT++,cfg=$.extend({},_cfg);$.isPlainObject(handlerIn)?(cfg=$.extend(cfg,handlerIn),$.isFunction(cfg.out)||(cfg.out=cfg.over)):cfg=$.isFunction(handlerOut)?$.extend(cfg,{over:handlerIn,out:handlerOut,selector:selector}):$.extend(cfg,{over:handlerIn,out:handlerIn,selector:handlerOut});var handleHover=function(e){var ev=$.extend({},e),$el=$(this),hoverIntentData=$el.data("hoverIntent");hoverIntentData||$el.data("hoverIntent",hoverIntentData={});var state=hoverIntentData[instanceId];state||(hoverIntentData[instanceId]=state={id:instanceId}),state.timeoutId&&(state.timeoutId=clearTimeout(state.timeoutId));var mousemove=state.event="mousemove.hoverIntent.hoverIntent"+instanceId;if("mouseenter"===e.type){if(state.isActive)return;state.pX=ev.pageX,state.pY=ev.pageY,$el.off(mousemove,track).on(mousemove,track),state.timeoutId=setTimeout(function(){compare(ev,$el,state,cfg)},cfg.interval)}else{if(!state.isActive)return;$el.off(mousemove,track),state.timeoutId=setTimeout(function(){delay(ev,$el,state,cfg.out)},cfg.timeout)}};return this.on({"mouseenter.hoverIntent":handleHover,"mouseleave.hoverIntent":handleHover},cfg.selector)}});
+
+// initializing 
+(function() {
+  $(document).ready(function() {
+    SwellConfig.Link.initializeLinks(".swell-link-login, .swell-link-register");
+    SwellConfig.LocalStorage.initializeLocalStorage();
+
+    $(document).on("swell:setup", function() {
+      Swell.Campaign.initializeCampaigns(".swell-campaign-list", SwellConfig.Campaign.opts);
+      $(".swell-campaign:nth-child(4)").after('<li class="swell-campaign"> <div class="swell-campaign-content"> <div class="swell-campaign-icon"> <span class="swell-campaign-icon-content"><i class="swell-icon-rewardsuser-1"></i></span> </div> <div class="swell-campaign-type"> <span class="swell-campaign-type-content">Refer a Friend!</span> </div> <div class="swell-campaign-value"> <span class="swell-campaign-value-content">$10</span> </div> </div></li>');
+//       SwellConfig.Campaign.authenticate();
+      // Swell.Redemption.initializeProductRedemptions(".swell-redemption-option-list", SwellConfig.Redemption.opts);
+      SwellConfig.Referral.initializeReferral(".swell-referral");
+      SwellConfig.Customer.initializeHistory(".swell-history-link");
+      SwellConfig.Tier.initializeDummyTier();
+      SwellConfig.Tier.initializeTiers();
+      // SwellConfig.Redemptions.initializeSlider('.swell-redemption-option-list');
+      // SwellConfig.Redemptions.initializeProducts();
+
+      $(".swell-referral-loader").hide();
+      
+      setupReferrals();
+
+      $( document ).on('click',"#swell-referral-register-submit", function() {
+        setTimeout(function(){
+          if(spapi.customer.referral_receipts) {
+            setupReferrals();
+            if(spapi.customer.email) {
+              $(".swell-referral-content-main").addClass("refer-step");
+            }
+          } else {
+            setTimeout(function(){
+              setupReferrals();
+              if(spapi.customer.email) {
+                $(".swell-referral-content-main").addClass("refer-step");
+              }
+            },1000)
+          }
+        },1000)
+      });
+
+      $(document).on("swell:referral:success", function() {
+        swellAPI.refreshCustomerDetails(function(){
+          var customerDetails = swellAPI.getCustomerDetails();
+          referrals = customerDetails.referrals;
+
+          $(".redeem-holder").show();
+
+          $(".swell-referral-table tbody").html("");
+
+          referrals.forEach(function(referral) {
+            status = null;
+
+            if(referral.completedAt){ 
+              status = "Purchased(" + spapi.activeReferralCampaign.reward_text + " earned)";
+            } else {
+              status = "Invited";
+            }
+
+            $(".swell-referral-table tbody").append('<tr> <td>' +  referral.email + '</td><td>' + status +'</td></tr>');
+          });
+        });
+      });
+
+      $(document).on("swell:referral:error", function(jqXHR, textStatus, errorThrown) { 
+        if(textStatus && textStatus === "EMAILS_ALREADY_PURCHASED"){
+          $(".refer-customer-error").remove();
+          $(".swell-referral-form-body").prepend('<p class="refer-customer-error">Sorry! Looks like this person has already made a purchase. Try referring another friend.</p>');
+          $("#swell-referral-refer-emails").addClass("error-border");
+        }
+
+        if(textStatus && textStatus === "Please enter a valid email address"){
+            $(".refer-customer-error").remove();
+            $(".swell-referral-form-body").prepend('<p class="refer-customer-error">Please enter valid email addresses seperated with commas</p>');
+            $("#swell-referral-refer-emails").addClass("error-border");
+          }
+      });
+    });
+  });
+}).call(this);
+
+function setupReferrals (){
+  if(spapi.customer.email) {
+    if(spapi.customer.referral_receipts.length > 0) {
+      $(".redeem-holder").show();
+
+      referrals = spapi.customer.referral_receipts;
+
+      referrals.forEach(function(referral) {
+        status = null;
+
+        if(referral.completed_at){ 
+          status = "Purchased(" + spapi.activeReferralCampaign.reward_text + " earned)";
+        } else {
+          status = "Invited";
+        }
+
+        $(".swell-referral-table tbody").append('<tr> <td>' +  referral.email + '</td><td>' + status +'</td></tr>');
+      });  
+    }
+  }
+}
+
+// campaigns
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Campaign = {
+    opts: {
+      templates: {
+        campaign: '<li class="swell-campaign"> <div    class="swell-campaign-content"    data-display-mode="modal"   data-campaign-id="<%= campaign.id %>">   <div class="swell-campaign-icon">      <span class="swell-campaign-icon-content"><i class="fa <%= campaign.icon %>"></i></span>    </div>       <div class="swell-campaign-type">      <span class="swell-campaign-type-content"><%= campaign.title %></span>    </div>  <div class="swell-campaign-value">      <span class="swell-campaign-value-content"><%= campaign.reward_text %></span>    </div> </div></li>',
+        campaignHover: '<div class="swell-campaign-hover">  <div class="swell-campaign-hover-content">    <ul class="swell-link-list">      <li class="swell-link">        <a href="/account/login" class="swell-link-login">Sign In</a>      </li>      <li class="swell-link">        <a href="/account/register" class="swell-link-register">Sign Up</a>      </li>    </ul>  </div></div>'
+      }
+    },
+    authenticate: function() {
+      if (!spapi.authenticated) {
+        spapi.$(document).off("click", ".swell-campaign-content");
+        $(".swell-campaign").addClass("swell-campaign-login");
+        return $(".swell-campaign-content").hover(function() {
+          return $(this).append(SwellConfig.Campaign.opts.templates.campaignHover);
+        }, function() {
+          return $(this).find(".swell-campaign-hover").remove();
+        });
+      }
+    }
+  };
+}).call(this);
+
+// history popup
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Customer = {
+    initializeHistory: function(containerSelector) {
+      return $(containerSelector).click(function() {
+        return swellAPI.showPopupByType("HistoryPopup");
+      });
+    }
+  };
+}).call(this);
+
+// links
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Link = {
+    initializeLinks: function(containerSelector) {
+      return $(document).on("click", containerSelector, function(e) {
+        var href;
+        e.preventDefault();
+        href = $(this).attr("href");
+        localStorage.setItem("swell-location", "/pages/rewards");
+        return window.location = href;
+      });
+    }
+  };
+}).call(this);
+
+// local storage
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.LocalStorage = {
+    initializeLocalStorage: function() {
+      var location;
+      location = localStorage.getItem("swell-location");
+      if (location && window.location.pathname === '/account') {
+        localStorage.removeItem("swell-location");
+        return window.location = location;
+      }
+    }
+  };
+}).call(this);
+
+// redemption
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Redemption = {
+    opts: {
+      templates: {
+        redemptionOptionProduct: '<li class="text-center swell-redemption-option"> <div class="swell-redemption-option-content" data-redemption-option-id="<%= redemption.id %>" data-variant-id="<%= redemption.applies_to_id %>" > <div class="rdm_sld_img"> <img src="<%= redemption.background_image_url %>" alt=""> </div> <div class="rdm_sld_info"> <h5><%= redemption.name %></h5> <p class="price">Credit : <%= redemption.cost_text %></p> </div> </div> </li>'
+      }
+    }
+  };
+}).call(this);
+
+
+SwellConfig.Redemptions = {
+  initializeSlider: function(containerSelector){
+    $('.swell-redemption-option-list').slick({
+        arrows: true,
+        prevArrow:"<div class=\"slider-arrows\"><div class=\"left-arrow\"><i class=\"swell-icon-rewardsarrow-left2\"></i></div></div>",
+        nextArrow:"<div class=\"slider-arrows right-arrow-box\"><div class=\"right-arrow\"><i class=\"swell-icon-rewardsarrow-right2\"></i></div></div>",
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 1,
+              infinite: true,
+              dots: true
+            }
+          },
+          {
+            breakpoint: 900,
+            settings: {
+              slidesToShow: 3
+            }
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 2
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1
+            }
+          }
+       ]
+      });
+    },
+    initializeProducts: function(){
+      // if (spapi.authenticated) {
+        $(".swell-redemption-option-content").addClass("swell-buy-product-btn");
+        return spapi.setupBuyProductWithPointsHelper();
+      // }
+    }
+};
+
+
+// referral
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Referral = {
+    opts: {
+      localization: {
+        referralSidebarDetailsAction: "Refer a Friend",
+        referralSidebarDetailsReward: "",
+
+        referralRegisterHeading: "Give <%= referralCampaign.reward_text %>, Get <%= referralCampaign.reward_text %>",
+        referralRegisterFormDetails: "Share a referral link via email",
+        referralRegisterFormEmail: "your email address",
+        referralRegisterFormSubmit: "Next",
+        referralRegisterDetails: "<%= referralCampaign.details %>",
+
+        referralReferHeading: "Give <%= referralCampaign.reward_text %>, Get <%= referralCampaign.reward_text %>",
+        referralReferFormEmails: "Enter comma-separated email addresses",
+        referralReferFormSubmit: "Send",
+        referralReferFormDetails: "Share a referral link via email",
+        referralReferFormEmailsDetails: "",
+        referralReferDetails: "<%= referralCampaign.details %>",
+
+        referralReferMediaDetails: "Share your referral link with friends",
+
+        referralShareFacebook: "Share",
+        referralShareTwitter: "Twitter",
+        referralShareCopy: "Copy Link",
+        referralShareMessenger: "Messenger",
+        referralShareSMS: "SMS",
+
+        referralFacebookIcon: "swell-icon-rewardsFacebook",
+        referralTwitterIcon: "swell-icon-rewardsTwitter",
+        referralLinkIcon: "swell-icon-rewardsCopy-link",
+        referralMessengerIcon: "swell-icon-rewardsMessage",
+        referralSMSIcon: "swell-icon-rewardsSMS",
+
+        referralThanksHeading: "Thanks for Referring!",
+        referralThanksDetails: "Remind your friends to check their emails.",
+
+        referralCopyHeading: "",
+        referralCopyButton: "Copy Link",
+        referralCopyDetails: "Copy and share link with your friends"
+      },
+      templates: {
+        referralRegister: '<div class="swell-referral-register"> <h2 class="swell-referral-heading"><%= localization.referralRegisterHeading %></h2> <p class="swell-referral-details"><%= localization.referralRegisterDetails %></p> <div class="swell-referral-border"></div> <div class="swell-referral-form-wrapper"> <form name="swell-referral-register-form" id="swell-referral-register-form" method="POST" action="."> <div class="swell-referral-form-header"> <p class="swell-referral-form-header-details"><%= localization.referralRegisterFormDetails %></p> </div> <div class="swell-referral-form-body"> <ul class="swell-referral-form-list"> <li class="swell-referral-form-list-field"> <input class="swell-referral-form-list-field-input" type="email" name="swell-referral-register-email" id="swell-referral-register-email" required="required" placeholder="<%= localization.referralRegisterFormEmail %>"> <input class="swell-referral-form-list-submit" type="submit" name="swell-referral-register-submit" id="swell-referral-register-submit" value="<%= localization.referralRegisterFormSubmit %>"> </li> </ul> </div> </form> </div> </div>',
+        referralRefer: '<div class="swell-referral-refer"> <h2 class="swell-referral-heading"><%= localization.referralReferHeading %></h2> <p class="swell-referral-details"><%= localization.referralReferDetails %></p> <div class="swell-referral-form-wrapper"> <form class="swell-referral-form" name="swell-referral-refer-form" id="swell-referral-refer-form" method="POST" action="."> <div class="swell-referral-form-header"> <p class="swell-referral-form-header-details"><%= localization.referralReferFormDetails %></p> </div> <div class="swell-referral-form-body"> <ul class="swell-referral-form-list"> <li class="swell-referral-form-list-field"> <input class="swell-referral-form-list-field-input" type="text" name="swell-referral-refer-emails" id="swell-referral-refer-emails" required="required" placeholder="<%= localization.referralReferFormEmails %>"> <span class="swell-referral-form-field-details"><%= localization.referralReferFormEmailsDetails %></span><div class="swell-referral-form-footer"> <input class="swell-referral-form-list-submit" type="submit" name="swell-referral-refer-submit" id="swell-referral-refer-submit" value="<%= localization.referralReferFormSubmit %>"> </div> </li> </ul> </div> </form> </div> <div class="swell-referral-media-wrapper"> <p class="swell-referral-media-details"><%= localization.referralReferMediaDetails %></p> <ul class="swell-referral-media-list"> <li class="swell-referral-medium swell-share-referral-facebook"> <div class="swell-referral-medium-content"> <i class="swell-referral-media-icon <%= localization.referralFacebookIcon %>" aria-hidden="true"></i>&nbsp;<%= localization.referralShareFacebook %> </div> </li> <li class="swell-referral-medium swell-share-referral-twitter"> <div class="swell-referral-medium-content"> <i class="swell-referral-media-icon <%= localization.referralTwitterIcon %>" aria-hidden="true"></i>&nbsp;<%= localization.referralShareTwitter %> </div> </li> <li class="swell-referral-medium swell-share-referral-messenger"> <div class="swell-referral-medium-content"> <i class="swell-referral-media-icon <%= localization.referralMessengerIcon %>" aria-hidden="true"> <span class="path1"></span> <span class="path2"></span> </i> &nbsp; <span><%= localization.referralShareMessenger %> </span> </div> </li> <li class="swell-referral-medium swell-share-referral-sms"> <div class="swell-referral-medium-content"> <i class="swell-referral-media-icon <%= localization.referralSMSIcon %>" aria-hidden="true"></i>&nbsp;<%= localization.referralShareSMS%> </div> </li> <li class="swell-referral-medium swell-share-referral-copy"> <div class="swell-referral-medium-content"> <i class="swell-referral-media-icon <%= localization.referralLinkIcon %>" aria-hidden="true"></i>&nbsp;<%= localization.referralShareCopy %> </div> </li> </ul> </div> </div>'
+      }
+    },
+    initializeReferral: function(containerSelector) {
+      var email = $(containerSelector).data("customer-email");
+      if (email) {
+        spapi.storage.setItem("referrer_email", email);
+        spapi.customer.email = email;
+      }
+      Swell.Referral.initializeReferral(".swell-referral", SwellConfig.Referral.opts);
+    }
+  };
+}).call(this);
+
+
+
+// tiers
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+
+  SwellConfig.Tier = {
+    getCustomerTierId: function() {
+      var customer_tier, intro_tier, tiers;
+      customer_tier = spapi.customer.vip_tier;
+      tiers = spapi.activeVipTiers;
+      if (customer_tier) {
+        return customer_tier.id;
+      } else {
+        intro_tier = $.grep(tiers, function(e) {
+          return e.swellrequiredAmountSpent === "$0" && e.swellrequiredAmountSpentCents === 0 && e.swellrequiredPointsEarned === 0 && e.swellrequiredPurchasesMade === 0 && e.swellrequiredReferralsCompleted === 0;
+        });
+        if (intro_tier.length > 0) {
+          return intro_tier[0].id;
+        } else {
+          return null;
+        }
+      }
+    },
+    getCustomerTierRank: function() {
+      var customer_tier, intro_tier, rank, tiers;
+      customer_tier = spapi.customer.vip_tier;
+      tiers = spapi.activeVipTiers;
+      if (customer_tier && customer_tier.id) {
+        rank = $.grep(tiers, function(e) {
+          return e.id === customer_tier.id;
+        })[0].rank;
+        return rank;
+      } else {
+        intro_tier = $.grep(tiers, function(e) {
+          return e.swellrequiredAmountSpent === "$0" && e.swellrequiredAmountSpentCents === 0 && e.swellrequiredPointsEarned === 0 && e.swellrequiredPurchasesMade === 0 && e.swellrequiredReferralsCompleted === 0;
+        });
+        if (intro_tier.length > 0) {
+          return intro_tier[0].rank;
+        } else {
+          return null;
+        }
+      }
+    },
+    getTierByRank: function(rank) {
+      var tiers;
+      tiers = spapi.activeVipTiers;
+      return $.grep(tiers, function(e) {
+        return e.rank === rank;
+      })[0];
+    },
+    setupCustomerTierStatus: function() {
+      var $tierStatusRow, $tierValueRow, col, columnLength, customer_tier_id, customer_tier_rank, data_id, dollar_difference, encouragement, index, k, l, next_tier, ref, ref1;
+      customer_tier_id = SwellConfig.Tier.getCustomerTierId();
+      customer_tier_rank = SwellConfig.Tier.getCustomerTierRank();
+      next_tier = SwellConfig.Tier.getTierByRank(customer_tier_rank + 1);
+
+      $(".status-holder[data-tier-id=" + customer_tier_id +"]").text("Current Status");
+      if(next_tier) {
+        next_tier_id = next_tier.id;
+        if(spapi.customer.vip_tier_stats) {
+          dollar_difference = (next_tier.amount_spent_cents - spapi.customer.vip_tier_stats.amount_spent_cents) / 100;
+        } else {
+          dollar_difference = (next_tier.amount_spent_cents - 0) / 100;
+        }
+        $(".status-holder[data-tier-id=" + next_tier_id +"]").text("Spend $" + dollar_difference +" more for Pro Member");
+      }
+
+      if(spapi.authenticated) {
+        if(customer_tier_rank == 0) {
+          $(".swell-campaign-content[data-campaign-id=456553]").parent().remove();
+        } else {
+          $(".swell-campaign-content[data-campaign-id=442911] .swell-campaign-value-content").html("$1 Per $20.00");
+          $(".swell-campaign-content[data-campaign-id=454893]").parent().remove();
+        }
+      }
+    },
+    initializeDummyTier: function() {
+      var k, len, tier, tiers;
+      tiers = spapi.activeVipTiers;
+      for (k = 0, len = tiers.length; k < len; k++) {
+        tier = tiers[k];
+        tier.rank += 1;
+      }
+      return tiers.unshift({
+        id: -1,
+        rank: 0,
+        name: "iMember",
+        swellrequiredAmountSpent: "$0",
+        swellrequiredAmountSpentCents: 0,
+        swellrequiredPointsEarned: 0,
+        swellrequiredPurchasesMade: 0,
+        swellrequiredReferralsCompleted: 0
+      });
+    },
+    initializeTiers: function() {
+      if (spapi.authenticated) {
+        SwellConfig.Tier.setupCustomerTierStatus();
+      } else {
+        $(".swell-campaign-content[data-campaign-id=456553]").parent().remove();
+      }
+    }
+  };
+}).call(this);
+

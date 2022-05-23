@@ -1,0 +1,127 @@
+<!-- snippets/lazyload-by-event.liquid -->
+
+<script>
+  function initializeBrowserUpdate() {
+    // http://browser-update.org/
+    var $buoop = {c:2};
+    function $buo_f(){
+    var e = document.createElement("script");
+    e.src = "//browser-update.org/update.js";
+    document.body.appendChild(e);
+    };
+    try { $buo_f() }
+    catch(e){window.attachEvent("onload", $buo_f)}
+  }
+
+  function initializeLazyImages() { 
+    for (const lazyImage of document.querySelectorAll('.js-load-on-event')) { 
+      let lazySrc = lazyImage.getAttribute('data-src'); 
+      let lazySizes = ['large', 'medium', 'small']; 
+
+      if (lazySrc && lazySrc != '') { 
+        if (lazyImage.nodeName == "IMG") { 
+          lazyImage.setAttribute('src', lazySrc); 
+        } else { 
+          lazyImage.style.backgroundImage = "url(" + lazySrc + ")";
+        }
+      } 
+      
+      for (const lzSize of lazySizes) { 
+        lazySrc = lazyImage.getAttribute('data-src-' + lzSize); 
+
+        if (lazySrc && lazySizes != '') { 
+          if (lazyImage.nodeName == "IMG") { 
+            lazyImage.setAttribute('src', lazySrc); 
+          } else { 
+            lazyImage.style.backgroundImage = "url(" + lazySrc + ")";
+          }
+
+          break; 
+        }
+      }
+      
+      lazyImage.classList.add('loaded'); 
+    }
+  }
+
+  function initializePinterest() { 
+    !function(e){if(!window.pintrk){window.pintrk=function()
+    {window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+    n=window.pintrk;n.queue=[],n.version="3.0";var
+    t=document.createElement("script");t.async=!0,t.src=e;var
+    r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}
+    ("https://s.pinimg.com/ct/core.js"); 
+
+    pintrk('load','2619228801255', { em: '{{ customer.email }}', });
+    pintrk('page');
+  }
+
+  function initializeReddit() { 
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init','t2_23c0mrrz');
+    rdt('track', 'PageVisit'); 
+  }
+
+  function initializeYotpo() { 
+    (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+  }
+
+  function initializeZendesk() { 
+    window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","56d664c0-113a-4fc6-a06c-6bc2994db903");
+
+    if (window.innerWidth > 500) {
+      zE(function() {
+        zE.setHelpCenterSuggestions({ labels: ['top3_widget'] });
+      });
+
+      window.zESettings = {
+        webWidget: {          
+          helpCenter: {
+            title: {
+              '*': 'Help'
+            },
+            searchPlaceholder: {
+              '*': 'Search our Help Center'
+            }
+          },      
+          launcher: {
+            label: {
+              '*': 'Help'
+            }
+          },
+        }
+      };
+    }
+  }
+
+  function activity(eventName){
+    initializeBrowserUpdate()
+
+    initializeLazyImages(); 
+
+    initializePinterest(); 
+
+    initializeReddit(); 
+
+    initializeYotpo(); 
+
+    initializeZendesk(); 
+    
+    activityEvents.forEach(function(eventName) {
+      // Now that we've initialized the functions, we don't need to listen for events anymore
+      document.removeEventListener(eventName, activity, true);
+    })
+  }
+  
+  // An array of DOM events that should be interpreted as user activity.
+  var activityEvents = [
+    'mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'
+  ];
+  
+  window.addEventListener('load', function() {  
+    // Add these events to the document. Register the activity function as the listener parameter.
+    activityEvents.forEach(function(eventName) {
+    document.addEventListener(eventName, activity, true);
+    });
+  }); 
+</script>

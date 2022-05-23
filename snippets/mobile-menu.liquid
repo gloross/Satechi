@@ -1,0 +1,113 @@
+{%- assign main_menu = section.settings.menu -%}
+{%- assign customer_service_menu = section.settings.customer_service_menu -%}
+{%- assign customer_service_menu_title = section.settings.customer_service_menu_title -%}
+{%- assign menu_link_class = "block link font-family-heading font-weight-6 letter-spacing-1 relative text-default text-uppercase padding-vertical-5 padding-horizontal-7" -%}
+
+{% comment %}Header z-index is 9, this should be below that{% endcomment %}
+<div class="hide js-mobile-menu fixed absolute-fill z-index-8 background-white text-default padding-vertical-12 overflow-auto">
+  <div class="flex flex-column width-100 justify-between"
+    style="min-height: 100%;">
+    <div>
+      <div class="border-bottom border-light-grey padding-vertical-2 padding-horizontal-3">
+        {% include "search-form" %}
+      </div>
+      <div>
+        <ul class="list-reset">
+          {%- for link in linklists[main_menu].links -%}
+            {%- assign link_handle = link.title | handle -%}
+            {%- assign has_second_level_links = false -%}
+
+            {%- if link.links.size > 0 -%}
+              {%- assign has_second_level_links = true -%}
+              {%- assign second_level_links = link.links -%}
+            {%- endif -%}
+
+            <li class="block">
+              <a
+                class="menu-level-1 {{ menu_link_class }} font-size-3 border-bottom border-light-grey"
+                href="{{ link.url }}"
+                title="{{ link.title }}"
+                {% if has_second_level_links %}data-behavior="toggle-submenu"{% endif %}>
+                {{ link.title }}
+
+                {%- if has_second_level_links -%}
+                  <span class="absolute right-5 position-center-vertical z-index-2 font-size-4">
+                    <span class="custom-icon-plus"></span>
+                  </span>
+                {%- endif -%}
+              </a>
+              
+              {%- if has_second_level_links -%}
+                {% comment %}
+                  Second level mobile links
+                {% endcomment %}
+                <ul class="hide list-reset background-off-white padding-top-1">
+                  {% for second_level_link in second_level_links %}
+                    {%- assign has_third_level_links = false -%}
+
+                    {%- if second_level_link.links.size > 0 -%}
+                      {%- assign has_third_level_links = true -%}
+                      {%- assign third_level_links = second_level_link.links -%}
+                    {%- endif -%}
+
+                    <li class="block">
+                      <a class="menu-level-2 {{ menu_link_class }} font-size-2" 
+                        href="{{ second_level_link.url }}" 
+                        title="{{ second_level_link.title }}"
+                        {% if has_third_level_links %}data-behavior="toggle-submenu"{% endif %}>
+                        {{ second_level_link.title }}
+
+                        {%- if has_third_level_links -%}
+                          <span class="absolute right-5 position-center-vertical z-index-2 font-size-4">
+                            <span class="custom-icon-plus"></span>
+                          </span>
+                        {%- endif -%}
+                      </a>
+
+                      {%- if has_third_level_links -%}
+                        {% comment %}
+                          Third level mobile links
+                        {% endcomment %}
+                        <ul class="hide list-reset margin-vertical-2 margin-left-7 padding-bottom-5">
+                          {% for third_level_link in third_level_links %}
+                            <li class="block border-left border-secondary">
+                              <a class="menu-level-3 block link font-size-3 padding-left-5
+                                {% if forloop.first %}padding-bottom-3{% elsif forloop.last %}padding-top-3{% else %}padding-vertical-3{% endif %}" 
+                                href="{{ third_level_link.url }}"
+                                title="{{ third_level_link.title }}">
+                                {{ third_level_link.title }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {%- endif -%}
+                    </li>
+                  {% endfor %}
+
+                  {% comment %}
+                  Top level link collections (optional)
+                {% endcomment %}
+
+                  {% include "attribute-main-menu-dropdown-content" with { link_title: link.title } %}
+                  {%- if dropdown_content_type == "image_grid" -%}              
+                    <li class="block padding-horizontal-7 padding-top-5 padding-bottom-12">
+                      {% include "mobile-menu-images" %}
+                    </li>
+                  {%- endif -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      {%- if customer_service_menu != blank -%}
+        {% include 'mobile-menu-customer-service' %}
+      {%- endif -%}
+    </div>
+
+    <div class="text-center">
+      {% include 'social-links' %}
+    </div>
+  </div>
+</div>

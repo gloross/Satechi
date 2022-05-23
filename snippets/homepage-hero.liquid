@@ -1,0 +1,119 @@
+<div class="relative background-{% if text_color == 'white' %}default{% else %}secondary{% endif %} overflow-hidden {% if hero_settings.overlay_activate %}has-overlay{% endif %}">
+  {% comment %}
+    Background images
+  {% endcomment %}
+  <div class="hero-image-container relative large--hide box-ratio-inline" style="padding-bottom: {{ 
+    image_mobile_ratio_percentage }}%">
+    {%- assign image_mobile_preview = image_mobile | img_url: '50x' -%}
+    {%- assign image_mobile = image_mobile | img_url: 'master' -%}
+    {%- if image_mobile_alt_text == blank -%}
+      {%- assign image_mobile_alt_text = shop.name -%}
+    {%- endif -%}
+    {%- unless image_mobile contains "no-image" -%}
+      <div class="absolute absolute-fill">
+        <img class="block object-fit-cover object-position-center"
+          src="{{ image_mobile_preview }}"
+          data-src="{{ image_mobile }}"
+          alt="{{ image_mobile_alt_text }}"
+        />
+      </div>
+    {%- endunless -%}
+  </div>
+  <div class="hero-image-container relative hide large--block box-ratio-inline" style="padding-bottom: {{ image_desktop_ratio_percentage }}%">
+    {%- assign image_desktop_preview = image_desktop | img_url: '400x' -%}
+    {%- assign image_desktop = image_desktop | img_url: 'master' -%}
+    {%- if image_desktop_alt_text == blank -%}
+      {%- assign image_desktop_alt_text = shop.name -%}
+    {%- endif -%}
+    {%- unless image_desktop contains "no-image" -%}
+      <div class="absolute absolute-fill">
+        <img class="block object-fit-cover object-position-center"
+          src="{{ image_desktop_preview }}"
+          data-src="{{ image_desktop }}"
+          alt="{{ image_desktop_alt_text }}"
+        />
+      </div>
+    {%- endunless -%}
+  </div>
+
+  <div class="aspect-ratio-fill z-index-2">
+    <div class="height-100 padding-vertical-9 container">
+      {% comment %}
+        Flex container. First child is vertical (Y) alignment, inner child element is horizontal (X)
+      {% endcomment %}
+      <div class="height-100 flex flex-column justify-{{ mobile_block_alignment_y }} large--justify-{{ block_alignment_y }}">
+
+        <div class="width-100 flex flex-row justify-{{ mobile_block_alignment_x }} large--justify-{{ block_alignment_x }}">
+
+          <div class="hero-text-container text-{{ text_color }} text-{{ mobile_text_alignment }} large--text-{{ text_alignment }}">
+            <div class="large--padding-2">
+              {% for block in section.blocks %}
+                {% case block.type %}
+                  {% when "title" %}
+                    <h2 class="hero-title font-family-heading padding-vertical-2 margin-0 line-height-solid letter-spacing-3">
+                      {{ block.settings.text }}
+                    </h2>
+                  {% when "subtitle" %}
+                    <h3 class="font-size-4 font-weight-1 padding-vertical-2 margin-0 letter-spacing-2">
+                      {%- assign subtitle_text = block.settings.text | remove: '<p>' | remove: '</p>' | replace: '<i', '<span class="text-primary"' | replace: '</i>', '</span>' | replace: '<em', '<span class="text-primary"' | replace: '</em>', '</span>' -%}
+                      {{ subtitle_text }}
+                    </h3>
+                  {% when "button" %}
+                    <div class="margin-top-4">
+                      <a href="{{ block.settings.link }}" 
+                        class="absolute block bottom-0 left-0 right-0 large--inline-block large--static button padding-horizontal-4 large--padding-horizontal-8 padding-vertical-5 large--padding-vertical-4 background-default text-white large--background-white large--text-default background-primary-hover text-white-hover"
+                        title="{{ block.settings.text }}">
+                        {{ block.settings.text }}
+                      </a>
+                    </div>
+                {% endcase %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% if hero_settings.overlay_activate %}
+    <div class="absolute absolute-fill z-index-1" style="background-color: {{ hero_settings.overlay_color }}; opacity: {{ hero_settings.overlay_opacity | divided_by: 100.00 }}"></div>
+  {% endif %}
+</div>
+
+<style type="text/css">
+  .hero-title { 
+    font-size: 2.625rem; 
+  }
+
+  {%- if mobile_min_height != blank -%}
+    .hero-image-container { 
+      min-height: {{ mobile_min_height }}px; 
+    }
+  {%- endif -%}
+
+  {%- if mobile_block_max_width != blank -%}
+    .hero-text-container { 
+      max-width: {{ mobile_block_max_width }}px; 
+    }
+  {%- endif -%}
+
+  /* breakpoint large: */ 
+  @media (min-width: 60em) { 
+    .hero-title { 
+      font-size: 3.75rem; 
+    }
+
+    {%- if block_max_width != blank -%}
+    .hero-text-container { 
+      max-width: {{ block_max_width }}px; 
+    }
+    {%- endif -%}
+
+    {%- if desktop_min_height != blank -%}
+      .hero-image-container { 
+        min-height: {{ desktop_min_height }}px; 
+      }
+    {%- endif -%}
+  }
+</style>

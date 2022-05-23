@@ -1,0 +1,772 @@
+{% include 'object-param-load', section_name: "homepage-image-blocks" %}
+{%- assign image_blocks = section.settings -%}
+
+{%- assign image_1                    = image_blocks.image_1 -%}
+{%- assign image_1_alt_text           = image_blocks.image_1_alt_text -%}
+{%- assign url_1                      = image_blocks.url_1 -%}
+{%- assign overlay_activate_1         = image_blocks.overlay_activate_1 -%}
+{%- assign overlay_color_1            = image_blocks.overlay_color_1 -%}
+{%- assign overlay_opacity_1          = image_blocks.overlay_opacity_1 -%}
+{%- assign title_1                    = image_blocks.title_1 -%}
+{%- assign text_color_1               = image_blocks.text_color_1 -%}
+{%- assign subtitle_1                 = image_blocks.subtitle_1 -%}
+{%- assign subtitle_text_color_1      = image_blocks.subtitle_text_color_1 -%}
+{%- assign text_alignment_1           = image_blocks.text_alignment_1 -%}
+{%- assign text_alignment_1_mobile    = image_blocks.text_alignment_1_mobile -%}
+{%- assign block_alignment_y_1        = image_blocks.block_alignment_y_1 -%}
+{%- assign block_alignment_y_1_mobile = image_blocks.block_alignment_y_1_mobile -%}
+
+{%- assign image_2                    = image_blocks.image_2 -%}
+{%- assign image_2_alt_text           = image_blocks.image_2_alt_text -%}
+{%- assign image_2_mobile             = image_blocks.image_2_mobile -%}
+{%- assign image_2_mobile_alt_text    = image_blocks.image_2_mobile_alt_text -%}
+{%- assign url_2                      = image_blocks.url_2 -%}
+{%- assign overlay_activate_2         = image_blocks.overlay_activate_2 -%}
+{%- assign overlay_color_2            = image_blocks.overlay_color_2 -%}
+{%- assign overlay_opacity_2          = image_blocks.overlay_opacity_2 -%}
+{%- assign title_2                    = image_blocks.title_2 -%}
+{%- assign text_color_2               = image_blocks.text_color_2 -%}
+{%- assign subtitle_2                 = image_blocks.subtitle_2 -%}
+{%- assign subtitle_text_color_2      = image_blocks.subtitle_text_color_2 -%}
+{%- assign text_alignment_2           = image_blocks.text_alignment_2 -%}
+{%- assign text_alignment_2_mobile    = image_blocks.text_alignment_2_mobile -%}
+{%- assign block_alignment_x_2        = image_blocks.block_alignment_x_2 -%}
+{%- assign block_alignment_x_2_mobile = image_blocks.block_alignment_x_2_mobile -%}
+{%- assign block_alignment_y_2        = image_blocks.block_alignment_y_2 -%}
+{%- assign block_alignment_y_2_mobile = image_blocks.block_alignment_y_2_mobile -%}
+
+{%- assign image_3                    = image_blocks.image_3 -%}
+{%- assign image_3_alt_text           = image_blocks.image_3_alt_text -%}
+{%- assign image_3_mobile             = image_blocks.image_3_mobile -%}
+{%- assign image_3_mobile_alt_text    = image_blocks.image_3_mobile_alt_text -%}
+{%- assign url_3                      = image_blocks.url_3 -%}
+{%- assign overlay_activate_3         = image_blocks.overlay_activate_3 -%}
+{%- assign overlay_color_3            = image_blocks.overlay_color_3 -%}
+{%- assign overlay_opacity_3          = image_blocks.overlay_opacity_3 -%}
+{%- assign title_3                    = image_blocks.title_3 -%}
+{%- assign text_color_3               = image_blocks.text_color_3 -%}
+{%- assign subtitle_3                 = image_blocks.subtitle_3 -%}
+{%- assign subtitle_text_color_3      = image_blocks.subtitle_text_color_3 -%}
+{%- assign text_alignment_3           = image_blocks.text_alignment_3 -%}
+{%- assign text_alignment_3_mobile    = image_blocks.text_alignment_3_mobile -%}
+{%- assign block_alignment_x_3        = image_blocks.block_alignment_x_3 -%}
+{%- assign block_alignment_x_3_mobile = image_blocks.block_alignment_x_3_mobile -%}
+{%- assign block_alignment_y_3        = image_blocks.block_alignment_y_3 -%}
+{%- assign block_alignment_y_3_mobile = image_blocks.block_alignment_y_3_mobile -%}
+
+<div class="background-light-grey text-default padding-vertical-16">
+  <div class="container">
+    <div class="grid grid-gap-4 columns-12">
+      {% include "homepage-image-block-1" %}
+      {% include "homepage-image-block-2" %}
+      {% include "homepage-image-block-3" %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image blocks",
+    "settings": [
+      { 
+        "type": "header", 
+        "content": "Image block 1 - Large image"
+      }, 
+      { 
+        "label": "Image", 
+        "id": "image_1", 
+        "type": "image_picker", 
+        "info": "Suggested size: 1104 x 1168px"
+      }, 
+      { 
+        "label": "Image alt text", 
+        "id": "image_1_alt_text", 
+        "type": "text", 
+        "info": "If blank, will use the shop name"
+      }, 
+      {
+        "label": "Link",
+        "id": "url_1",
+        "type": "url"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Overlay"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "overlay_activate_1",
+        "label": "Enable?"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color_1",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity_1",
+        "label": "Opacity",
+        "default": 0,
+        "max": 100,
+        "min": 0,
+        "unit": "%"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Title"
+      }, 
+      {
+        "label": "Title",
+        "id": "title_1",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "text_color_1",
+        "label": "Title color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "secondary",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Subtitle"
+      }, 
+      {
+        "label": "Subtitle",
+        "id": "subtitle_1",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "subtitle_text_color_1",
+        "label": "Subtitle color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "secondary",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Text Alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_1",
+        "label": "Text alignment - desktop",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_1_mobile",
+        "label": "Text alignment - mobile",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Block Alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "block_alignment_y_1",
+        "label": "Vertical block alignment - desktop",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }, 
+          {
+            "value": "between",
+            "label": "Full height"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_y_1_mobile",
+        "label": "Vertical block alignment - mobile",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }, 
+          {
+            "value": "between",
+            "label": "Full height"
+          }
+        ],
+        "default": "center"
+      },
+      { 
+        "type": "header", 
+        "content": "Image block 2"
+      }, 
+      { 
+        "type": "paragraph", 
+        "content": "Square on mobile, landscape rectangle on desktop"
+      }, 
+      { 
+        "label": "Image - desktop", 
+        "id": "image_2", 
+        "type": "image_picker", 
+        "info": "Suggested size: 1102 x 668px"
+      }, 
+      { 
+        "label": "Image - desktop alt text", 
+        "id": "image_2_alt_text", 
+        "type": "text", 
+        "info": "If blank, will use the shop name"
+      }, 
+      { 
+        "label": "Image - mobile", 
+        "id": "image_2_mobile", 
+        "type": "image_picker", 
+        "info": "Suggested size: 750 x 750px"
+      }, 
+      { 
+        "label": "Image - mobile alt text", 
+        "id": "image_2_mobile_alt_text", 
+        "type": "text", 
+        "info": "If blank, will use the shop name"
+      }, 
+      {
+        "label": "Link",
+        "id": "url_2",
+        "type": "url"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Overlay"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "overlay_activate_2",
+        "label": "Enable?"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color_2",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity_2",
+        "label": "Opacity",
+        "default": 0,
+        "max": 100,
+        "min": 0,
+        "unit": "%"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Title"
+      }, 
+      {
+        "label": "Title",
+        "id": "title_2",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "text_color_2",
+        "label": "Title color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "secondary",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Subtitle"
+      }, 
+      {
+        "label": "Subtitle",
+        "id": "subtitle_2",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "subtitle_text_color_2",
+        "label": "Subtitle color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "secondary",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Text alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_2",
+        "label": "Text alignment - desktop",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_2_mobile",
+        "label": "Text alignment - mobile",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Block alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "block_alignment_x_2",
+        "label": "Horizontal block alignment - desktop",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_x_2_mobile",
+        "label": "Horizontal block alignment - mobile",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_y_2",
+        "label": "Vertical block alignment - desktop",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_y_2_mobile",
+        "label": "Vertical block alignment - mobile",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      },
+      { 
+        "type": "header", 
+        "content": "Image block 3"
+      }, 
+      { 
+        "type": "paragraph", 
+        "content": "Square on mobile, landscape rectangle on desktop"
+      }, 
+      { 
+        "label": "Image - desktop", 
+        "id": "image_3", 
+        "type": "image_picker", 
+        "info": "Suggested size: 1102 x 668px"
+      }, 
+      { 
+        "label": "Image - desktop alt text", 
+        "id": "image_3_alt_text", 
+        "type": "text", 
+        "info": "If blank, will use the shop name"
+      }, 
+      { 
+        "label": "Image - mobile", 
+        "id": "image_3_mobile", 
+        "type": "image_picker", 
+        "info": "Suggested size: 750 x 750px"
+      }, 
+      { 
+        "label": "Image - mobile alt text", 
+        "id": "image_3_mobile_alt_text", 
+        "type": "text", 
+        "info": "If blank, will use the shop name"
+      }, 
+      {
+        "label": "Link",
+        "id": "url_3",
+        "type": "url"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Overlay"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "overlay_activate_3",
+        "label": "Enable?"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color_3",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity_3",
+        "label": "Opacity",
+        "default": 0,
+        "max": 100,
+        "min": 0,
+        "unit": "%"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Title"
+      }, 
+      {
+        "label": "Title",
+        "id": "title_3",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "text_color_3",
+        "label": "Title color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "secondary",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Subtitle"
+      }, 
+      {
+        "label": "Subtitle",
+        "id": "subtitle_3",
+        "type": "textarea"
+      }, 
+      {
+        "type": "select",
+        "id": "subtitle_text_color_3",
+        "label": "Subtitle color",
+        "options": [
+          {
+            "value": "default",
+            "label": "Black"
+          },
+          {
+            "value": "medium-grey",
+            "label": "Grey"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
+        "default": "white"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Text alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_3",
+        "label": "Text alignment - desktop",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      {
+        "type": "select",
+        "id": "text_alignment_3_mobile",
+        "label": "Text alignment - mobile",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, 
+      { 
+        "type": "header", 
+        "content": "Block alignment"
+      }, 
+      {
+        "type": "select",
+        "id": "block_alignment_x_3",
+        "label": "Horizontal block alignment - desktop",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_x_3_mobile",
+        "label": "Horizontal block alignment - mobile",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_y_3",
+        "label": "Vertical block alignment - desktop",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "block_alignment_y_3_mobile",
+        "label": "Vertical block alignment - mobile",
+        "options": [
+          {
+            "value": "start",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image blocks",
+        "category": "Rosewood"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,12 @@
+{% assign color = "red" %}
+{% assign passed = false %}
+
+{% if fail_count == 0 %}
+  {% assign passed = true %}
+  {% assign color = "green" %}
+{% endif %}
+
+<p style="color: {{ color }};">
+  {% if passed %}&#10003;{% endif %}
+  {{ test_count }} {{ test_count | pluralize: "test", "tests" }}, {{ fail_count }} failed
+</p>

@@ -1,0 +1,5 @@
+{% unless article_category %}
+  {% include "attribute-article-category" %}
+{% endunless %}
+
+{% assign article_category_url = article_category | handle | prepend: "/tagged/" | prepend: blog.url %}

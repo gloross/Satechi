@@ -1,0 +1,10 @@
+<div class="article-pagination">
+    <a class="padding-bottom-4 width-50 font-family-heading font-weight-6 font-size-1 large--font-size-2 letter-spacing-1 text-uppercase link float-left {% if blog.previous_article != blank %}block{% else %}hide{% endif %}" href="{{ blog.previous_article }}">
+        <span class="padding-bottom-2">← Previous Post</span>
+        <span class="block font-size-3 large--font-size-5 padding-left-3 large--padding-right-12">{{ blog.previous_article.title }}</span>
+    </a>
+    <a class="padding-bottom-4 width-50 font-family-heading font-weight-6 font-size-1 large--font-size-2 letter-spacing-1 text-uppercase link float-right text-right {% if blog.next_article != blank %}block{% else %}hide{% endif %}" href="{{ blog.next_article }}">
+        <span class="padding-bottom-2">Next Post →</span>
+        <span class="block font-size-3 large--font-size-5 padding-left-3 large--padding-left-12">{{ blog.next_article.title }}</span>
+    </a>
+</div>

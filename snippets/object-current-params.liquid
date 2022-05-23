@@ -1,0 +1,22 @@
+{% assign url = content_for_header | split: '"pageurl":"' | last | split: '"' | first | split: ".myshopify.com" | last | replace: "\/", "/" | replace: "%20", " " | replace: "\u0026", "&" %}
+
+{% assign current_params = false %}
+
+{% if url contains "?" %}
+  {% assign current_params = url | split: "?" | last %}
+
+  {% assign current_param_parts = current_params | replace: "&amp;", "&" | split: "&" %}
+
+  {% assign current_param_keys = "" %}
+  {% assign current_param_values = "" %}
+
+  {% for param in current_param_parts %}
+    {% assign param_key = param | split: "=" | first %}
+    {% assign param_value = param | split: "=" | last %}
+    {% assign current_param_keys = current_param_keys | append: "  " | append: param_key %}
+    {% assign current_param_values = current_param_values | append: "  " | append: param_value %}
+  {% endfor %}
+
+  {% assign current_param_keys = current_param_keys | strip | split: "  " %}
+  {% assign current_param_values = current_param_values | strip | split: "  " %}
+{% endif %}

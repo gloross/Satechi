@@ -1,0 +1,27 @@
+{% assign gutter_scale = "--up-1" %}
+
+{% for attribute_title in attribute_titles %}
+  {% if attribute_title == "gutter" %}
+    {% assign scale_value = attribute_values[forloop.index0] %}
+
+    {% if scale_value contains "-" %}
+      {% assign scale_direction = "down" %}
+    {% else %}
+      {% assign scale_direction = "up" %}
+    {% endif %}
+
+    {% assign gutter_scale = "--DIRECTION-VALUE" %}
+    {% assign gutter_scale = gutter_scale | replace: "DIRECTION", scale_direction %}
+    {% assign gutter_scale = gutter_scale | replace: "VALUE", scale_value %}
+
+    {% if scale_value == 0 %}
+      {% assign gutter_scale = "--0" %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if start %}
+  <div class="grid{{ gutter_scale }}">
+{% else %}
+  </div>
+{% endif %}

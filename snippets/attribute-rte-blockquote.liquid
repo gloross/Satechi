@@ -1,0 +1,22 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_blockquote = false %}
+
+{% assign rte_blockquote_start_index = false %}
+
+{% assign rte_blockquote_length = false %}
+
+{% for line in rte_lines %}
+  {% if line contains "<blockquote" %}
+    {% assign rte_blockquote_start_index = forloop.index0 %}
+  {% endif %}
+
+  {% if line contains "</blockquote>" %}
+    {% assign rte_blockquote_length = forloop.index | minus: rte_blockquote_start_index %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if rte_blockquote_start_index and rte_blockquote_length %}
+  {% assign rte_blockquote = rte_lines | slice: rte_blockquote_start_index, rte_blockquote_length | join: "" %}
+{% endif %}

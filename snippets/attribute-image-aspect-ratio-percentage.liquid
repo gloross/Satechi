@@ -1,0 +1,14 @@
+{% assign image_height = image.height | times: 1 | times: 100.00 %}
+{% assign image_width = image.width | times: 1 | times: 100.00 %}
+
+{% assign image_aspect_ratio_percentage = image_height | divided_by: image_width | times: 100.00 %}
+
+{% comment %}
+Usage:
+{% assign image = settings.image %}
+{% include "attribute-image-aspect-ratio-percentage" %}
+
+<div class="box-ratio--inline box-placeholder" style="padding-bottom: {{ image_aspect_ratio_percentage }}%;">
+  <img data-src="{{ image | img_url: 'grande' }}" alt="" />
+</div>
+{% endcomment %}

@@ -1,0 +1,27 @@
+{% include "template-blog" %}
+
+{% schema %}
+{
+  "name": "Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "blog_title", 
+      "label": "Blog title", 
+      "default": "Latest Posts"
+    },
+    {
+      "type": "text",
+      "id": "article_thumbnail_call_to_action",
+      "label": "Article call to action",
+      "default": "Read more"
+    }, 
+    {
+      "type": "text",
+      "id": "article_thumbnail_load_more",
+      "label": "View more button text",
+      "default": "Load more"
+    }
+  ]
+}
+{% endschema %}

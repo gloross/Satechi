@@ -1,0 +1,43 @@
+{%- unless break-last-word == blank -%}
+  {%- comment -%} split provided text by lines, to prevent widows on each {%- endcomment -%}
+  {%- assign lines = break-last-word | strip | replace: "<br>", "<br />" | split: "<br />" -%}
+
+  {%- comment -%} create a blank array for later use {%- endcomment -%}
+  {%- assign return_text = "" | split: "" -%}
+
+  {%- for line in lines -%}
+    {%- comment -%} split each line into words {%- endcomment -%}
+    {%- assign line_array = line | strip | split: " " -%}
+    {%- assign word_count = line_array | size -%}
+
+    {%- comment -%} don't break short strings (2 or fewer words) {%- endcomment -%}
+    {%- if word_count < 2 -%}
+      {%- assign return_text = return_text | concat: line_array -%}
+    {%- else -%}
+      {%- comment -%} get last two words and join with a break {%- endcomment -%}
+      {%- assign position = line_array | size | minus: 2 -%}
+      {%- assign widow = line_array[position] | append: "<br />" | append: line_array.last | split: "-<-@" -%}
+
+      {%- comment -%} advance the position, so we can get every word _except_ the last two {%- endcomment -%}
+      {%- assign position = position | minus: 1 -%}
+
+      {%- comment -%} add each word to return array {%- endcomment -%}
+      {%- for pos in (0..position) -%}
+        {%- assign word = line_array[pos] | split: "-<-@" -%}
+        {%- assign return_text = return_text | concat: word -%}
+      {%- endfor -%}
+      {%- assign return_text = return_text | concat: widow -%}
+    {%- endif -%}
+
+    {%- comment -%} add breaks back in between each line {%- endcomment -%}
+    {%- unless forloop.last -%}
+      {%- assign break = "<br />" | split: "-<-@" -%}
+      {%- assign return_text = return_text | concat: break -%}
+    {%- endunless -%}
+  {%- endfor -%}
+
+  {%- comment -%}
+    join all words back into a string
+  {%- endcomment -%}
+  {{ return_text | join: " " }}
+{%- endunless -%}

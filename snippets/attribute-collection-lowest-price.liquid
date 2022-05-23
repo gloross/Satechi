@@ -1,0 +1,19 @@
+{%- comment %}
+	So a collection can be advertised on the homepage or in some other manner,
+  with language that says something like "Starting at [collection_lowest_price]"
+{% endcomment -%}
+
+{%- assign collection_lowest_price = false -%}
+
+{%- assign default_collection_lowest_price_operator = 999999999999 -%}
+{%- assign collection_lowest_price_operator = default_collection_lowest_price_operator -%}
+
+{%- for product in collection.products -%}
+  {%- if product.price < collection_lowest_price_operator -%}
+    {%- assign collection_lowest_price_operator = product_price -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- unless collection_lowest_price_operator == default_collection_lowest_price_operator -%}
+  {%- assign collection_lowest_price = collection_lowest_price_operator -%}
+{%- endunless -%}

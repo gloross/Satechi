@@ -1,0 +1,19 @@
+{%- assign free_shipping_threshold = settings.cart_free_shipping_threshold | plus: 0 | times: 100 -%}
+{%- assign amount_to_free_shipping = free_shipping_threshold | minus: cart.items_subtotal_price -%}
+{%- assign free_shipping_width_percentage = 100 -%}
+
+<div class="ajax-cart-shipping-bar relative text-center"
+  data-free-shipping-threshold="{{ free_shipping_threshold }}">
+  <div class="ajax-cart-shipping-bar-message relative z-index-2 padding-2 font-size-3 font-weight-5">
+    {%- if amount_to_free_shipping > 0 -%}
+      {%- assign free_shipping_width_percentage = amount_to_free_shipping | times: 100 | divided_by: free_shipping_threshold -%}
+      Spend {{ amount_to_free_shipping | money_without_trailing_zeros }} more for FREE USA SHIPPING
+      {% comment %}| divided_by: 100 | ceil | times: 100{% endcomment %}
+    {%- else -%}
+      <i class="far fa-check"></i> Congrats! You get FREE USA Shipping
+    {%- endif -%}
+  </div>
+
+  <div class="absolute top-0 left-0 bottom-0 ajax-cart-shipping-bar-progress"
+    style="width: {{ free_shipping_width_percentage }}%;"></div>
+</div>

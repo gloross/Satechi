@@ -1,0 +1,94 @@
+@font-face { 
+  font-family: 'Inter-Regular';
+  src: url('Inter-Regular.otf') format('opentype'); 
+  src:  url('Inter-Regular.woff2') format('woff2'), url('Inter-Regular.woff') format('woff'), url('Inter-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face { 
+  font-family: 'Gotham-Regular';
+  src: url('Gotham-Book.otf') format('opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face { 
+  font-family: 'Gotham-Medium';
+  src: url('Gotham-Medium.otf') format('opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face { 
+  font-family: 'Gotham-Bold';
+  src: url('Gotham-Bold.otf') format('opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+
+#klaviyo-bis-modal {
+	max-width: 574px;
+}
+
+#klaviyo-bis-modal #container {
+  max-width: none !important;
+  padding: 68px;
+  max-width: 476px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#klaviyo-bis-modal .modal-title {
+  font-family: 'Gotham-Medium', sans-serif;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+#klaviyo-bis-modal p {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+}
+
+#klaviyo-bis-modal .modal-product-title {
+  font-family: 'Gotham-Medium', sans-serif;
+  display: block;
+  margin-top: 16px;
+  color: #000;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+#klaviyo-bis-modal .form-control {
+	position: relative;
+	-webkit-appearance: none;
+	appearance: none;
+	font-family: 'Gotham-Regular', sans-serif;
+  	text-transform: uppercase;
+  	background-color: transparent;
+}
+
+#klaviyo-bis-modal #variant_select {
+	position: relative;
+}
+
+#klaviyo-bis-modal #variant_select::before {
+	content: url('svg-angle-down.svg');
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: 16px;
+	transform: translateY(-50%);
+	width: 10px;
+	height: 15px;
+}
+
+#klaviyo-bis-modal .alert {
+	margin: 0;
+    padding: 16px;
+    font-family: 'Gotham-Regular', sans-serif;
+  	text-transform: uppercase;
+  	text-align: center;
+}
+

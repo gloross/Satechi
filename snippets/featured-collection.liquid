@@ -1,0 +1,53 @@
+{%- if featured_collection_products != blank -%}
+  {%- assign arrow_classes = "inline-block absolute position-center-vertical z-index-2 cursor-pointer background-white border-radius-circle font-size-4 text-primary-dark overflow-hidden" -%}
+
+  <div id="FeaturedCollection" class="padding-bottom-8 medium--padding-bottom-16 margin-vertical-6 large--margin-bottom-0 overflow-hidden">
+    <div class="container">
+      <div class="text-center margin-bottom-5 max-width-5 center medium--max-width-100">
+        <h2 class="font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy">
+          {{ title }}
+        </h2>
+      </div>
+
+      <div class="margin-horizontal--4 small--margin-horizontal--6 
+        large--margin-horizontal-0">
+        <div class="relative overflow-visible">
+          {% comment %}
+            Carousel
+          {% endcomment %}
+          <div class="relative featured-collection-outer overflow-hidden">
+            <div class="margin-horizontal--1">
+              <div class="featured-collection">
+                {{ featured_collection_products }}
+              </div>
+            </div>
+          </div>
+
+          {% comment %}
+            Custom arrows
+          {% endcomment %}
+          <span class="left--6 arrow-left slick-disabled {{ arrow_classes }}"
+            style="width: 3rem; height: 3rem;">
+            <span class="absolute position-center">&larr;</span>
+          </span>
+
+          <span class="right--6 arrow-right slick-disabled {{ arrow_classes }}"
+            style="width: 3rem; height: 3rem;">
+            <span class="absolute position-center">&rarr;</span>
+          </span>
+
+        </div>
+      </div>
+
+      {%- if more_button -%}
+        <div class="text-center padding-top-12">
+          <a href="{{ button_url }}"
+            class="button border border-secondary background-transparent text-default border-default-hover background-default-hover text-white-hover"
+            title="{{ button_text }}">
+            {{ button_text }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

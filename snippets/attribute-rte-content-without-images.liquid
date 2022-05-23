@@ -1,0 +1,15 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_content_without_images = "" %}
+
+{% for line in rte_lines %}
+  {% if line contains "<img" %}
+    {% continue %}
+  {% endif %}
+
+  {% if line contains "</h5>" %}
+    {% break %}
+  {% endif %}
+
+  {% assign rte_content_without_images = rte_content_without_images | append: line %}
+{% endfor %}

@@ -1,0 +1,25 @@
+<div id="Reviews" class="product-review-section padding-top-16">
+  <div class="container" style="max-width: 50em;">
+    <div class="reviews-heading pointers-none">
+      <div class="yotpo bottomLine inline-block align-middle overflow-hidden"
+        data-appkey="z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH"
+        data-domain="{{shop.permanent_domain | escape }}"
+        data-product-id="{{ product.id }}"
+        data-product-models="{{ product.id }}"
+        data-name="{{ product.title | escape }}"
+        data-url="{{ shop.url }}{{ product.url }}"
+        data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+        data-description="{{ product.description | escape }}"
+        data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+      </div>
+    </div>
+    
+    <div class="yotpo yotpo-main-widget"
+      data-product-id="{{ product.id }}"
+      data-name="{{ product.title | escape }}"
+      data-url="{{ shop.url }}{{ product.url }}"
+      data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}"
+      data-description="{{ product.description | escape }}">
+    </div>
+  </div>
+</div>

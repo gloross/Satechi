@@ -1,0 +1,82 @@
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-T83VZ5P');</script>
+    <!-- End Google Tag Manager -->  
+    
+    <!-- Google Code for Remarketing Tag -->
+    <!--------------------------------------------------
+    Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+    --------------------------------------------------->
+    <script>
+      var ecomm_prodid;
+      var ecomm_pagetype = 'other';
+      var ecomm_totalvalue = 0;
+      
+      {% assign base_template = template | replace: '.', ' ' | truncatewords: 1, '' | handle %}
+      {% assign enable_tagmanager = false %}
+      {% if base_template == "index" %}{% assign ecomm_pagetype = "home" %}{% endif %}
+      
+      {% if base_template == "search" %}
+        ecomm_pagetype = "searchresults";
+        ecomm_prodid = [];
+        {% for product in search.results %}
+          ecomm_prodid.push('{{product.variants.first.id}}');
+      ecomm_totalvalue += {{ product.price_min | money_without_currency | remove: ',' }};                          
+        {% endfor %}
+        {% assign enable_tagmanager = true %}
+      {% endif %}
+      {% if base_template == "collection" %}
+        ecomm_pagetype = "category";
+        ecomm_prodid = [];
+        {% for product in collection.products %}
+      ecomm_prodid.push('{{product.variants.first.id}}');
+      ecomm_totalvalue += {{ product.price_min | money_without_currency | remove: ',' }};                          
+      {% endfor %}
+        {% assign enable_tagmanager = true %}
+      {% endif %}
+      {% if base_template == "product" %}
+        ecomm_pagetype = "product";
+        ecomm_prodid = '{{product.variants.first.id}}';
+        ecomm_totalvalue += {{ product.price_min | money_without_currency | remove: ',' }};                          
+        {% assign enable_tagmanager = true %}
+      {% endif %}
+      {% if base_template == "cart" %}
+        ecomm_pagetype = "cart";
+        ecomm_prodid = [];
+        {% for item in cart.items %}
+      ecomm_prodid.push('{{item.variant_id}}');
+          ecomm_totalvalue += {{ item.price | money_without_currency | remove: ',' }} * {{ item.quantity }};                          
+      {% endfor %}
+        {% assign enable_tagmanager = true %}
+      {% endif %}
+      var google_tag_params = {
+      ecomm_prodid: ecomm_prodid,
+      ecomm_pagetype: ecomm_pagetype,
+      ecomm_totalvalue: ecomm_totalvalue
+      };
+    </script>
+    {% if enable_tagmanager %}
+    <script>
+      // <![CDATA[
+      var google_conversion_id = 1064840580;
+      var google_custom_params = window.google_tag_params;
+      var google_remarketing_only = true;
+      // ]]>
+    </script>
+    <script src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+      <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1064840580/?guid=ON&amp;script=0"/>
+      </div>
+    </noscript>
+    {% endif %}
+    <!-- End Google Code for Remarketing Tag -->
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T83VZ5P"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->

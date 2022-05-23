@@ -1,0 +1,42 @@
+{%- if article.image -%}
+  {%- assign image_url = article | img_url: "800x534", crop: "center" -%}
+  {%- assign image_url_small = article | img_url: "250x250", crop: "center", scale: 2 -%}
+{%- else -%}
+  {%- assign image_url = false -%}
+{%- endif -%}
+
+{%- assign call_to_action = section.settings.article_thumbnail_call_to_action -%}
+
+<div class="padding-vertical-6 padding-horizontal-4 small--padding-horizontal-6 border-bottom border-light-grey large--border-none large--padding-0 large--margin-bottom-1"
+  data-load-more-item>
+  <a href="{{ article.url }}" 
+    class="flex flex-row large--block link text-primary-dark-hover"
+    title="{{ article.title }}">
+
+    <div class="width-25 large--width-100">
+      <div class="relative aspect-ratio-1x1 large--aspect-ratio-3x2 large--margin-bottom-5">
+        <div class="absolute absolute-fill">
+          <img data-src="{% if image_url_small %}{{ image_url_small }}{% else %}{{ image_url }}{% endif %}"
+            {% if image_url_small %}data-src-large="{{ image_url }}"{% endif %}
+            class="block object-fit-cover object-position-center" 
+            alt="{{ article.title }}" />
+        </div>
+      </div>
+    </div>
+
+    <div class="width-75 large--width-100 padding-left-8 large--padding-left-0">
+      {%- if article.tags.size > 0 -%}
+        <p class="font-family-heading font-size-xs font-weight-4 text-uppercase letter-spacing-1 text-medium-grey margin-top-0 margin-bottom-1">{{ article.tags[0] }}</p>
+      {%- endif -%}
+
+      <h3 class="margin-top-0 margin-bottom-2 line-height-copy font-family-primary font-weight-5 letter-spacing--1">
+        {% include "unwidow" with article.title %}
+      </h3>
+
+      <span class="font-family-heading font-size-xs large--font-size-1 font-weight-6 text-uppercase letter-spacing-1 text-primary-dark text-no-decoration transition-all">
+        {{ call_to_action }}
+      </span>
+    </div>
+
+  </a>
+</div>

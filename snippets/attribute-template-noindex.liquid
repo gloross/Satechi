@@ -1,0 +1,9 @@
+{% assign template_noindex = false %}
+
+{% if product.tags contains "noindex" %}
+  {% assign template_noindex = true %}
+{% endif %}
+
+{% if shop.url contains "myshopify.com" %}
+  {% assign template_noindex = true %}
+{% endif %}

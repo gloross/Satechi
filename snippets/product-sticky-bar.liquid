@@ -1,0 +1,43 @@
+<div class="js-product-mobile-atc large--hide">
+  <div class="fixed bottom-0 z-index-max show-when-visible background-white border-top border-light-grey">
+    <div class="container">
+      <div class="flex flex-row items-center justify-between"
+        style="height: 5rem;">
+        <div class="flex flex-row items-start justify-start height-100">
+          {%- if product.images.size > 0 -%}
+            <img data-src="{{ product.images[0] | img_url: "100x", scale: 2 }}"
+              class="hide large--block height-100 width-auto"
+              alt="{{ product.title }}" />
+          {%- endif -%}
+
+          <div class="inline-flex flex-column justify-center height-100">
+            <div class="padding-right-4">
+              <a href="#"
+                title="Back to top"
+                class="link inline-block line-height-solid padding-vertical-4"
+                data-behavior="scroll-to-top">
+                <span class="font-family-heading font-weight-6 font-size-1 text-uppercase letter-spacing-1">{{ product.title }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-form-atc-mobile width-auto height-100">
+          <div class="flex flex-row items-center justify-end height-100">
+            <div class="inline-flex flex-column justify-center height-100">
+              <span class="hide large--block font-size-2 text-medium-grey js-color-label margin-right-4"></span>
+            </div>
+
+            <button class="js-add-to-cart-mobile button white-space-nowrap font-size-1">
+              {% if current_variant.available %}
+                Add {{ current_variant.price | money }}
+              {% else %}
+                Out of stock
+              {% endif %}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

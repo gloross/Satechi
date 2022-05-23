@@ -1,0 +1,27 @@
+<div class="inline-block relative align-middle">
+  <select class="select inline-block margin-bottom-0 width-auto js-collection-sort font-size-4 letter-spacing--1 padding-right-5"
+    aria-label="Sort collection">
+    {% for title in collection_sort_titles %}
+      {% assign show_option = "sort_enabled_" | append: forloop.index %}
+      {% assign show_option = section.settings[show_option] %}
+
+      {% assign value = collection_sort_values[forloop.index0] %}
+
+      {% assign selected = false %}
+
+      {% if value == collection_sort_by %}
+        {% assign selected = true %}
+      {% endif %}
+
+      {% if show_option %}
+        <option value="{{ value }}" {% if selected %}selected="selected"{% endif %}>
+          {{ title }}
+        </option>
+      {% endif %}
+    {% endfor %}
+  </select>
+
+  <div class="input-select-icon absolute right-1 position-center-vertical pointers-none">
+    <i class="far fa-angle-down"></i>
+  </div>
+</div>

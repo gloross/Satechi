@@ -1,0 +1,406 @@
+[
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "paragraph",
+        "content": "File is in theme assets directory"
+      },
+      {
+        "type": "number",
+        "id": "logo_width_desktop",
+        "label": "Width (desktop)",
+        "default": 150,
+        "info": "Amount in pixels"
+      },
+      {
+        "type": "number",
+        "id": "logo_width_mobile",
+        "label": "Width (mobile)",
+        "default": 100,
+        "info": "Amount in pixels"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#0000ff"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_background",
+        "label": "Primary (as background color)",
+        "default": "#0000ff",
+        "info": "This needs to be a certain darkness for ADA purposes"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary",
+        "default": "#dcdcdc"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#dcdcdc"
+      },
+      {
+        "type": "color",
+        "id": "color_default",
+        "label": "Default",
+        "default": "#2b2b2b",
+        "info": "Typically used for body copy"
+      },
+      {
+        "type": "color",
+        "id": "color_grey",
+        "label": "Grey",
+        "default": "#a5a5a5",
+        "info": "Typically used for borders or subtle contrast from default text"
+      },
+      {
+        "type": "color",
+        "id": "color_medium_grey",
+        "label": "Medium Grey",
+        "default": "#8c8c8c",
+        "info": "Typically used as higher contrast from default text"
+      },
+      {
+        "type": "color",
+        "id": "color_light_grey",
+        "label": "Light Grey",
+        "default": "#eeeeee",
+        "info": "Typically used for borders"
+      },
+      {
+        "type": "color",
+        "id": "color_off_white",
+        "label": "Off white",
+        "default": "#f8f8f8"
+      }
+    ]
+  },
+  {
+    "name": "Breadcrumbs",
+    "settings": [
+      {
+        "type": "checkbox",
+        "label": "Enable breadcrumbs?",
+        "id": "breadcrumbs_enabled",
+        "default": true
+      },
+      {
+        "type": "richtext",
+        "label": "Delimiter",
+        "id": "breadcrumbs_delimiter",
+        "default": "<p><span>&nbsp;&raquo;&nbsp;<\/span><\/p>"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "ajax_cart_enable",
+        "default": true,
+        "label": "Enable AJAX cart?"
+      },
+      {
+        "type": "header",
+        "content": "Free shipping bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_shipping_bar_enable",
+        "default": true,
+        "label": "Enable free shipping bar in cart?"
+      },
+      {
+        "type": "text",
+        "id": "cart_free_shipping_threshold",
+        "default": "40",
+        "label": "Free shipping threshold",
+        "info": "in dollars"
+      },
+      {
+        "type": "header",
+        "content": "Cart upsell"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_upsell_enable",
+        "label": "Enable cart upsell products?"
+      },
+      {
+        "type": "textarea",
+        "id": "cart_upsell_widget",
+        "label": "App widget code",
+        "info": "Code from Findify or other app"
+      }
+    ]
+  },
+  {
+    "name": "Form Placeholders",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Generic Inputs"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_first_name",
+        "label": "First Name"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_last_name",
+        "label": "Last Name"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_email",
+        "label": "Email"
+      },
+      {
+        "type": "header",
+        "content": "Account Inputs"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_password",
+        "label": "Password"
+      },
+      {
+        "type": "header",
+        "content": "Address Inputs"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_company",
+        "label": "Company"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_address_1",
+        "label": "Address 1"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_address_2",
+        "label": "Address 2"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_city",
+        "label": "City"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_zip_code",
+        "label": "ZIP Code"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_phone",
+        "label": "Phone"
+      }
+    ]
+  },
+  {
+    "name": "Gift Card Redeem Page",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "gift_card_image",
+        "label": "Gift card image"
+      }
+    ]
+  },
+  {
+    "name": "Klaviyo Info",
+    "settings": [
+      {
+        "type": "text",
+        "id": "klaviyo_api_key",
+        "label": "Klaviyo Public API key",
+        "info": "Found in Account > Settings > API Key. For tracking website users"
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_list_id",
+        "label": "Klaviyo Newsletter List ID"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter Popup",
+    "settings": [
+      {
+        "type": "text",
+        "id": "newsletter_popup_subheading",
+        "label": "Subheading",
+        "default": "Join the newsletter"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_heading",
+        "label": "Title",
+        "default": "Get 10% off"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_popup_description",
+        "label": "Description"
+      },
+      {
+        "type": "url",
+        "id": "newsletter_popup_terms_conditions_url",
+        "label": "Terms and conditions link"
+      }
+    ]
+  },
+  {
+    "name": "Product Shipping Text",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Accordion content"
+      },
+      {
+        "type": "richtext",
+        "id": "product_shipping_message",
+        "label": "Message",
+        "info": "Displayed on all product pages under Shipping & Returns accordion tab. Can be overridden on a per-product basis using metafields"
+      },
+      {
+        "type": "header",
+        "content": "Small text"
+      },
+      {
+        "type": "richtext",
+        "id": "product_shipping_message_small",
+        "label": "Text",
+        "info": "Displayed on all product pages below Add to Cart button",
+        "default": "<p>30-Day Trial  •  1-Year Guarantee  •  Free US Shipping & Returns<\/p>"
+      }
+    ]
+  },
+  {
+    "name": "Social Networks",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter",
+        "label": "Twitter"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest"
+      },
+      {
+        "type": "url",
+        "id": "social_linkedin",
+        "label": "LinkedIn"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "Youtube"
+      }
+    ]
+  },
+  {
+    "name": "Support",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "If you have any questions or concerns, please contact us at [support@fuelmade.com](mailto:support@fuelmade.com)"
+      }
+    ]
+  },
+  {
+    "name": "Twitter",
+    "settings": [
+      {
+        "type": "text",
+        "id": "twitter_username",
+        "label": "Username",
+        "info": "Example: @fuelmade"
+      },
+      {
+        "type": "header",
+        "content": "Cards"
+      },
+      {
+        "type": "checkbox",
+        "id": "twitter_cards_enabled",
+        "label": "Enable"
+      },
+      {
+        "type": "paragraph",
+        "content": "Twitter Cards allow photos and video to be attached to tweets when your site is shared on Twitter."
+      },
+      {
+        "type": "paragraph",
+        "content": "Note: must use the [validator tool](https:\/\/cards-dev.twitter.com\/validator) before cards are active."
+      },
+      {
+        "type": "paragraph",
+        "content": "[Learn more](https:\/\/dev.twitter.com\/cards\/overview)"
+      }
+    ]
+  },
+  {
+    "name": "Checkout Message",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "checkout_message_summary_enabled",
+        "label": "Display Message in order summary",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_message_summary_title",
+        "label": "Order summary message title"
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_message_summary_text",
+        "label": "Order summary message text"
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_message_left_enabled",
+        "label": "Display Message in left side",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_message_left_text",
+        "label": "Order summary message in left side"
+      }
+    ]
+  }
+]

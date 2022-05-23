@@ -1,0 +1,8 @@
+{% assign rte_list_items = false %}
+
+{% if rte contains "</li>" %}
+  {% assign rte_list_items = true %}
+{% endif %}
+
+{% include "attribute-rte-list-item-hrefs" %}
+{% include "attribute-rte-list-item-texts" %}

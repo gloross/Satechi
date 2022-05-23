@@ -1,0 +1,9 @@
+{% include "attribute-blog-category-titles" %}
+
+{% assign article_category = false %}
+
+{% for category in blog_category_titles %}
+  {% if article.tags contains category %}
+    {% assign article_category = category %}
+  {% endif %}
+{% endfor %}

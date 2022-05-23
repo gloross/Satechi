@@ -1,0 +1,6 @@
+{% assign variant_in_cart = false %}
+{% for item in cart.items %}
+  {% if item.variant_id == variant.id %}
+    {% assign variant_in_cart = true %}
+  {% endif %}
+{% endfor %}

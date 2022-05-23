@@ -1,0 +1,108 @@
+{% comment %} Empty State {% endcomment %}
+{%- assign empty_title = section.settings.empty_title | default: "Your Cart is Empty" -%}
+{%- assign empty_description = section.settings.empty_description | default: false -%}
+{%- assign empty_button_enable = section.settings.empty_button_enable -%}
+{%- assign empty_button_link = section.settings.empty_button_link | default: "/" -%}
+{%- assign empty_button_text = section.settings.empty_button_text | default: "Return to Store" -%}
+
+{% comment %} Checkout {% endcomment %}
+{%- assign checkout_button_text = section.settings.checkout_button_text | default: "Checkout" -%}
+{%- assign checkout_shipping = section.settings.checkout_shipping | default: false -%}
+{%- assign checkout_help = section.settings.checkout_help | default: false -%}
+
+<div class="border-bottom border-off-white padding-vertical-5">
+  <div class="container">
+    <h1 class="font-family-primary margin-vertical-0 font-size-4 font-weight-5">
+      {{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} in your cart
+    </h1>
+  </div>
+</div>
+
+<div class="container padding-vertical-5">
+  {%- if cart.item_count < 1 -%}
+    {% include "cart-empty" %}
+  {%- else -%}
+    <form action="/checkout" method="post" class="js-checkout-form" novalidate>
+      <div class="cart-content large--grid large--grid-gap-4 large--columns-12">
+        <div class="large--column-span-8">
+          {%- for item in cart.items -%}
+            {% include "cart-item" %}
+          {%- endfor -%}
+
+          <div class="padding-vertical-3">
+            <button type="submit" name="update" class="button font-size-1">Update Cart</button>
+          </div>
+        </div>
+
+        <div class="margin-vertical-8 large--margin-vertical-0 large--column-span-4 large--padding-left-12">
+          {% include "cart-checkout" with 'cart_template' %}
+        </div>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+
+  {
+    "name": "Page Content",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Empty Cart Content"
+      },
+      {
+        "type": "text",
+        "id": "empty_title",
+        "label": "Title",
+        "default": "Your Cart is Empty",
+        "info": "Default is \"Your Cart is Empty\""
+      },
+      {
+        "type": "richtext",
+        "id": "empty_description",
+        "label": "Description"
+      },
+      {
+        "type": "checkbox",
+        "id": "empty_button_enable",
+        "label": "Enable CTA Button"
+      },
+      {
+        "type": "url",
+        "id": "empty_button_link",
+        "label": "Button Link",
+        "info": "Default is the home page"
+      },
+      {
+        "type": "text",
+        "id": "empty_button_text",
+        "label": "Button Text",
+        "default": "Return to Store",
+        "info": "Default is \"Return to Store\""
+      },
+      {
+        "type": "header",
+        "content": "Checkout"
+      },
+      {
+        "type": "text",
+        "id": "checkout_button_text",
+        "label":  "Button Text",
+        "default": "Checkout",
+        "info": "Default is \"Checkout\""
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_shipping",
+        "label": "Shipping Disclaimer"
+      },
+      {
+        "type": "richtext",
+        "id": "checkout_help",
+        "label": "Help Text"
+      }
+    ]
+  }
+
+{% endschema %}

@@ -1,0 +1,26 @@
+{%- for variant in product.variants -%}
+  {%- assign variant_title = variant.title | remove: "/" | replace: "  ", " " %}
+  {%- assign variant_image_count = 0 -%}
+  <div class="js-product-variant-gallery product-variant-gallery width-100 {% if forloop.first %}active{% endif %}"
+    data-variant-id="{{ variant.id }}">
+
+    <div class="js-product-carousel product-carousel">
+      {%- for image in product.images -%}
+        {%- assign image_variant_title = image.alt | split: "Satechi" | last | strip -%}
+        {%- if image_variant_title == variant_title -%}
+        <div>
+          <div class="relative aspect-ratio-1x1">
+            <div class="absolute absolute-fill">
+              <img class="object-fit-contain object-position-center"
+                {% if variant_image_count == 0 %}src{% else %}data-src{% endif %}="{{ image | img_url: '1024x' }}"
+                alt="{{ image.alt | escape }}" />
+            </div>
+          </div>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {% include "product-gallery-navigation" %}
+  </div>
+{%- endfor -%}

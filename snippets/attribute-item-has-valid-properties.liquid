@@ -1,0 +1,22 @@
+{% assign item_has_valid_properties = false %}
+
+{% if item.properties == empty %}
+  {% assign item_has_valid_properties = false %}
+{% endif %}
+
+{% for p in item.properties %}
+  {% assign key_first_letter = p.first | slice: 0 %}
+  {% if key_first_letter == "_" %}{% comment %} apps tend to prefix line item properties that shouldn't be seen with _. Shopify actually respects that in checkout{% endcomment %}
+    {% continue %}
+
+  {% endif %}
+  {% if p.first contains "charge_" or p.first contains "number_charges_" or p.first contains "shipping_" or p.first contains "subscription_id" %}{% comment %} recharge {% endcomment %}
+    {% continue %}
+  {% endif %}
+
+  {% if p.last == blank %}
+    {% continue %}
+  {% endif %}
+
+  {% assign item_has_valid_properties = true %}
+{% endfor %}

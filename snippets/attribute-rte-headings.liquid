@@ -1,0 +1,19 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_headings = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</h1>" or line contains "</h2>" or line contains "</h3>" or line contains "</h4>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign text = line | strip_html | strip %}
+
+  {% if text == blank %}
+    {% continue %}
+  {% endif %}
+
+  {% assign heading = text | split: "-<-@" %}
+
+  {% assign rte_headings = rte_headings | concat: heading %}
+{% endfor %}

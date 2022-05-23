@@ -1,0 +1,29 @@
+{%- comment %}
+	Usage: when images are needed in a main navigation menu. Depends on the actual URL of the link.
+  Was discussed: seems more reliable than the label of the link as URLs are less likely to change.
+{% endcomment -%}
+
+{% assign link_image_desktop = false %}
+{% assign link_image_mobile = false %}
+
+{% if link %}
+  {% assign settings_prefix = "navigation_link_" %}
+  {% assign number = false %}
+  {% for i in (1..15) %}
+    {% assign settings_key = settings_prefix | append: "link_" | append: i | handle %}
+    {% assign link_url = settings[settings_key] | remove: shop.url %}
+    {% assign link_url_test = link.url | remove: shop.url %}
+    {% if link_url == link_url_test %}
+      {% assign number = i %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% if number %}
+    {% assign settings_key = settings_prefix | append: "image_" | append: number | handle %}
+    {% assign link_image_desktop = settings[settings_key] %}
+
+    {% assign settings_key = settings_prefix | append: "image_mobile_" | append: number | handle %}
+    {% assign link_image_mobile = settings[settings_key] | default: link_image_desktop %}
+  {% endif %}
+{% endif %}

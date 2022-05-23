@@ -1,0 +1,74 @@
+{%- assign title       = section.settings.title -%}
+{%- assign subtitle    = section.settings.subtitle -%}
+{%- assign description = section.settings.description -%}
+{%- assign image       = section.settings.image -%}
+{%- assign image_url   = image | img_url: '478x', scale: 2 -%}
+
+<div class="background-off-white">
+  <div class="container container-wide-gutters padding-vertical-8 large--padding-vertical-12">
+    <div class="large--margin-vertical-8 flex flex-row flex-wrap large--flex-nowrap justify-center relative z-index-2 items-stretch">
+
+      <div class="width-100 large--width-50 large--padding-15">
+        <div class="width-100 height-100 max-width-content center flex flex-column justify-center large--padding-6">
+          {%- if subtitle != blank -%}
+            <p class="font-family-heading font-size-1 large--font-size-2 font-weight-6 text-uppercase letter-spacing-1 margin-top-0 margin-bottom-3 large--margin-bottom-4">{{ subtitle }}</p>
+          {%- endif -%}
+
+          <h3 class="font-family-primary font-size-8 large--font-size-10 font-weight-4 margin-bottom-1 text-default letter-spacing--1">
+            {{ title | newline_to_br }}
+          </h3>
+
+          {%- if description != blank -%}
+            <div class="font-size-4">
+              {{ description }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="width-100 large--width-50 relative">
+        {%- if image != blank -%}
+          <div class="absolute absolute-fill">
+            <img class="block object-fit-contain object-position-center" 
+              data-src="{{ image_url }}" 
+              alt="{{ title }}" />
+          </div>
+
+          <div class="aspect-ratio-1x1"></div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Actions",
+  "settings": [
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle", 
+      "default": "Earn Rewards"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+      "default": "Take Actions, Get Rewards"
+    },
+    { 
+      "id": "description", 
+      "type": "richtext", 
+      "label": "Description"
+    }, 
+    { 
+      "id": "image", 
+      "type": "image_picker", 
+      "label": "Image",
+      "info": "Should be PNG with transparent background"
+    }
+  ]
+}
+{% endschema %}

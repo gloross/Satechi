@@ -1,0 +1,89 @@
+{% assign enabled = settings.breadcrumbs_enabled %}
+
+{%- if enabled -%}
+  {% capture delimiter %}
+    {{ settings.breadcrumbs_delimiter | remove: "<p>" | remove: "</p>" }}
+  {% endcapture %}
+
+  <div class="padding-vertical-4 large--padding-vertical-5 font-size-3 large--font-size-4 text-medium-grey">
+      {{ "Home" | link_to: "/" | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+
+      {{ delimiter }}
+
+      {% if template.name == "product" and collection %}
+
+        {{ collection.title | link_to: collection.url | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+        {{ delimiter }}
+        <span>{{ product.title }}</span>
+
+      {% elsif template.name == "product" %}
+
+        <span>{{ product.title }}</span>
+
+      {% elsif template.name == "collection" and current_tags %}
+
+        {{ collection.title | link_to: collection.url | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+        {{ delimiter }}
+        <span>{{ current_tags | join: " + " }}</span>
+
+      {% elsif template.name == "collection" %}
+
+        <span>{{ collection.title }}</span>
+
+      {% elsif template.name == "blog" and current_tags %}
+
+        {{ blog.title | link_to: blog.url | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+        {{ delimiter }}
+        <span>{{ current_tags | join: " + " }}</span>
+
+      {% elsif template == "article" %}
+
+        {{ blog.title | link_to: blog.url | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+
+      {% elsif template.name == "page" %}
+
+        <span>{{ page.title }}</span>
+
+      {% elsif template.name == "search" and search.performed %}
+
+        {{ "Search" | link_to: "/search" | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+        {{ delimiter }}
+        <span>"{{ search.terms }}"</span>
+
+      {% elsif template.name == "search" %}
+
+        <span>Search</span>
+
+      {% elsif template.name == "account" %}
+
+        <span>My account</span>
+
+      {% elsif template.name == "login" %}
+
+        <span>Sign up</span>
+
+      {% elsif template.name == "reset_password" %}
+
+        <span>Reset password</span>
+
+      {% elsif template.name == "activate_account" %}
+
+        <span>Activate account</span>
+
+      {% elsif template.name == "register" %}
+
+        <span>Create account</span>
+
+      {% elsif template.name == "order" or template.name == "addresses" %}
+
+        {{ "My Account" | link_to: "/account" | replace: "title=", " class='text-no-decoration text-underline-hover text-default' title=" }}
+        {{ delimiter }}
+        <span>{{ page_title }}</span>
+
+      {% else %}
+
+        <span>{{ page_title }}</span>
+
+      {% endif %}
+  </div>
+{%- endif -%}

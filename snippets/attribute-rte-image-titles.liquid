@@ -1,0 +1,18 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_image_titles = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "<img" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign image_title = "null" | split: "-<-@" %}
+
+  {% if line contains 'title="' %}
+    {% assign image_title = line | split: 'title="' | last | split: '"' | first %}
+    {% assign image_title = image_title | split: "-<-@" %}
+  {% endif %}
+
+  {% assign rte_image_titles = rte_image_titles | concat: image_title %}
+{% endfor %}

@@ -1,0 +1,261 @@
+{%- comment -%}
+  /**
+   * ========
+ 	 * Example
+   * ========
+   * https://velour-wholesale.myshopify.com/admin/products/11413496597
+   * Tag: Price Filter: if line_item.quantity >= 3 && customer.tags contains "group A"; -10%
+   * Means: if {{ line_item.quantity }} > 3 AND customer.tags contains a tag with "group A", price is -10% the passed in value (INPUT_VALUE)  (let "| money" handle the formatting)
+   *
+   * @param  INPUT_TAG_SPLIT_PREFIX  Prefix the tag starts with, e.g., "Price Filter: "
+   * @param  INPUT_TAGS              Tags to iterate over
+   * @param  INPUT_VALUE             Value to filter
+   */
+{%- endcomment -%}
+
+{%- include "enum-logical-expression-operators" -%}
+{%- include "attribute-customer-tags-string" -%}
+
+{%- comment -%}
+	Can just pass in "Price Filter" instead of "Price Filter: ". Will be handled properly either way.
+{%- endcomment -%}
+{%- assign INPUT_TAG_SPLIT_PREFIX = INPUT_TAG_SPLIT_PREFIX | default: "Price Filter" | append: ": " | replace: ": : ", ": " | replace: ":: ", "::" | replace: "::", ": " -%}
+{%- assign INPUT_TAGS = INPUT_TAGS | default: false -%}
+{%- comment -%}
+	TODO: ? Think of a situation in which anything but products would make sense.
+{%- endcomment -%}
+{%- unless INPUT_TAGS -%}
+  {%- if product -%}
+    {%- assign INPUT_TAGS = product.tags -%}
+  {%- elsif order -%}
+    {%- assign INPUT_TAGS = order.tags -%}
+  {%- elsif customer -%}
+    {%- assign INPUT_TAGS = customer.tags -%}
+  {%- endif -%}
+{%- endunless -%}
+
+{%- comment -%}
+	TODO: Default line items, etc. Should just pass it in tbh...
+{%- endcomment -%}
+{%- assign INPUT_VALUE = INPUT_VALUE | default: false -%}
+
+{%- assign VALUE_SPLIT_SUBSTRING = VALUE_SPLIT_SUBSTRING | default: '; ' -%}
+
+{%- assign filter_tags = false -%}
+
+{%- assign filter_price = INPUT_VALUE -%}
+{%- assign filter_tag = false -%}
+{%- for tag in INPUT_TAGS -%}
+  {%- if tag contains INPUT_TAG_SPLIT_PREFIX -%}
+    {%- assign filter_tag = tag -%}
+    {%- if filter_tags -%}
+      {%- assign filter_tags = filter_tags | append: "||" | append: filter_tag -%}
+    {%- else -%}
+      {%- assign filter_tags = filter_tag -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if filter_tags -%}
+  {%- assign filter_tags = filter_tags | split: "||" -%}
+{%- endif -%}
+
+{%- assign original_value_to_filter = INPUT_VALUE -%}
+{%- assign RETURN_VALUE = INPUT_VALUE -%}
+
+{%- assign lowest_price = 999999999999 -%}
+{%- assign original_lowest_price = lowest_price -%}
+
+{%- for filter_tag in filter_tags -%}
+  {%- unless filter_tag -%}
+    {% continue %}
+  {%- endunless -%}
+
+  {%- assign satisfies_logical_expression = false -%}
+
+  {%- assign operable_filter_tag = filter_tag -%}
+
+  {%- assign value = operable_filter_tag | split: VALUE_SPLIT_SUBSTRING | last -%}
+  {%- assign raw_value = value -%}
+  {%- unless value contains "%" -%}
+    {%- assign value = value | remove: "$" | times: 1 -%}
+  {%- endunless -%}
+
+  {%- if value contains "%" -%}
+    {%- if value contains "-" -%}
+      {%- assign to_subtract = value | split: "-" | last | split: "%" | first | times: 1 -%}
+      {%- assign conditional_multiplier = 100 | minus: to_subtract -%}
+      {%- assign filter_price = original_value_to_filter | times: conditional_multiplier | divided_by: 100 | ceil -%}
+    {%- else -%}
+      {%- assign conditional_multiplier = value | split: "-" | last | split: "%" | first | times: 1 -%}
+      {%- assign filter_price = original_value_to_filter | times: conditional_multiplier | divided_by: 100 | ceil -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign filter_price = value | remove: "$" | times: 100 -%}
+  {%- endif -%}
+
+  {%- assign operable_filter_tag = operable_filter_tag | split: INPUT_TAG_SPLIT_PREFIX | last | remove: raw_value | replace: "IF ", "if " | remove: "if " | replace: "; ", ";" | remove: ";" -%}
+
+  {%- assign conditions = false -%}
+
+  {%- assign disjunction_operator = false -%}
+
+  {%- if operable_filter_tag contains DISJUNCTION_OPERATOR_AND -%}
+    {%- assign disjunction_operator = DISJUNCTION_OPERATOR_AND -%}
+  {%- elsif operable_filter_tag contains DISJUNCTION_OPERATOR_OR -%}
+    {%- assign disjunction_operator = DISJUNCTION_OPERATOR_OR -%}
+  {%- endif -%}
+
+  {%- if disjunction_operator -%}
+    {%- assign conditions = operable_filter_tag | split: disjunction_operator -%}
+  {%- else -%}
+    {%- assign conditions = operable_filter_tag -%}
+  {%- endif -%}
+
+  {%- assign conditional_evaluation_results = false -%}
+
+  {%- for condition in conditions -%}
+    {%- assign operable_condition = condition -%}
+    {%- assign satisfies_evaluation = false -%}
+    {%- assign is_line_item_quantity = false -%}
+    {%- assign is_customer_tags = false -%}
+
+    {%- assign operator = false -%}
+    {%- for op in OPERATORS_ACCEPTED -%}
+      {%- unless condition contains op -%}
+        {%- continue -%}
+      {%- endunless -%}
+
+      {%- assign operator = op -%}
+
+      {%- assign operator_with_spaces = " " | append: operator | append: " " -%}
+
+      {%- if operable_condition contains LHS_CART_ITEM_COUNT -%}
+        {%- assign operable_condition = operable_condition | replace: LHS_CART_ITEM_COUNT, cart.item_count -%}
+      {%- endif -%}
+      {%- if operable_condition contains LHS_CART_TOTAL_PRICE -%}
+        {%- comment -%}
+          {%- include "attribute-product-wholesale-price" skip: current_variant.id -%}
+          {%- assign cart_total_price = wholesale_price -%}
+          The below causes an infinite loop. I need to disclude the current item...
+        {%- endcomment -%}
+        {%- comment -%}
+          {%- assign cart_total_price = cart.total_price | divided_by: 100 -%}
+        {%- endcomment -%}
+        {%- assign operable_condition = operable_condition | replace: LHS_CART_TOTAL_PRICE, cart_total_price -%}
+      {%- endif -%}
+
+      {%- if operable_condition contains LHS_LINE_ITEM_QUANTITY -%}
+        {%- assign is_line_item_quantity = true -%}
+        {%- for item in cart.items -%}
+          {%- if item.id == product.selected_or_first_available_variant.id -%}
+            {%- assign operable_condition = operable_condition | replace: LHS_LINE_ITEM_QUANTITY, item.quantity -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- assign lhs = operable_condition | replace: operator_with_spaces, operator | split: operator | first -%}
+      {%- assign lhs = lhs | replace: LHS_CUSTOMER_TAGS, customer_tags_string -%}
+
+      {%- if operable_condition contains LHS_CUSTOMER_TAGS -%}
+        {%- assign is_customer_tags = true -%}
+      {%- endif -%}
+
+      {%- unless operator == "contains" -%}
+        {%- assign lhs = lhs | times: 1 -%}
+      {%- endunless -%}
+
+      {%- assign rhs = operable_condition | replace: operator_with_spaces, operator | split: operator | last | split: VALUE_SPLIT_SUBSTRING | first -%}
+
+      {%- unless operator == "contains" -%}
+        {%- assign rhs = rhs | times: 1 -%}
+      {%- else -%}
+        {%- assign rhs = rhs | remove: '"' -%}
+      {%- endunless -%}
+
+    {%- endfor -%}{%- comment -%}for operator in OPERATORS_ACCEPTED{%- endcomment -%}
+
+    {%- case operator -%}
+      {%- when OPERATOR_EQUAL_TO -%}
+        {%- if lhs == rhs -%}
+          {%- assign satisfies_evaluation = true -%}
+        {%- endif -%}
+      {%- when OPERATOR_GREATER_THAN_EQUAL_TO -%}
+        {%- if lhs >= rhs -%}
+          {%- assign satisfies_evaluation = true -%}
+        {%- endif -%}
+      {%- when OPERATOR_LESS_THAN_EQUAL_TO -%}
+        {%- if lhs <= rhs -%}
+          {%- assign satisfies_evaluation = true -%}
+        {%- endif -%}
+      {%- when OPERATOR_CONTAINS -%}
+        {%- if lhs contains rhs -%}
+          {%- assign satisfies_evaluation = true -%}
+        {%- endif -%}
+    {%- endcase -%}
+
+
+
+    {%- comment %}
+    	TODO: put this somewhere else!
+      or at least come up with a different var. we're hijacking satisfies evaluation
+      it may still satisfy evaluation but doesn't satisfy other reqs..
+    {% endcomment -%}
+    {%- if is_line_item_quantity -%}
+      {%- include "attribute-shop-quantity-break-pricing-enabled" -%}
+      {%- include "attribute-product-quantity-break-pricing-enabled" -%}
+      {%- include "attribute-customer-quantity-break-pricing-enabled" -%}
+      {%- unless shop_quantity_break_pricing_enabled and product_quantity_break_pricing_enabled and customer_quantity_break_pricing_enabled -%}
+        {%- assign satisfies_evaluation = false -%}
+      {% endunless %}
+    {%- endif -%}
+    {%- if is_customer_tags and conditions.size == 1 -%}
+      {%- include "attribute-shop-group-pricing-enabled" -%}
+      {%- include "attribute-product-group-pricing-enabled" -%}
+      {%- include "attribute-customer-group-pricing-enabled" -%}
+      {%- unless shop_group_pricing_enabled and product_group_pricing_enabled and customer_group_pricing_enabled -%}
+        {%- assign satisfies_evaluation = false -%}
+      {%- endunless -%}
+    {%- endif -%}
+
+    {%- assign conditional_evaluation_results = conditional_evaluation_results | append: "||" | append: satisfies_evaluation -%}
+
+  {%- endfor -%}{%- comment -%}condition in conditions{%- endcomment -%}
+
+  {%- if filter_price -%}
+    {%- assign filter_price = filter_price | times: 1 -%}
+  {%- endif -%}
+
+  {%- assign conditional_evaluation_results = conditional_evaluation_results | remove_first: "false||" -%}
+
+  {%- if disjunction_operator and disjunction_operator == DISJUNCTION_OPERATOR_AND -%}
+    {%- assign satisfies_logical_expression = true -%}
+    <!-- rickm: hello with {{ conditional_evaluation_results }} -->
+    {%- if conditional_evaluation_results contains "false" or conditional_evaluation_results contains false -%}
+      {%- assign satisfies_logical_expression = false -%}
+    {%- endif -%}
+  {%- elsif disjunction_operator and disjunction_operator == DISJUNCTION_OPERATOR_OR -%}
+    {%- assign satisfies_logical_expression = false -%}
+    {%- if conditional_evaluation_results contains "true" or conditional_evaluation_results contains true -%}
+      {%- assign satisfies_logical_expression = true -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign satisfies_logical_expression = conditional_evaluation_results -%}
+    {%- if satisfies_logical_expression == "false" or satisfies_logical_expression contains "false" -%}
+      {%- assign satisfies_logical_expression = false %}
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if satisfies_logical_expression -%}
+    <!-- rickm; {{ satisfies_logical_expression }} so {{ filter_price }} vs {{ lowest_price }} -->
+    {%- if filter_price < lowest_price and filter_price > 0 -%}
+      {%- assign lowest_price = filter_price -%}
+    {%- endif -%}
+  {%- endif -%}
+
+{%- endfor -%}{%- comment -%}for filter_tag in filter_tags{%- endcomment -%}
+
+{%- assign RETURN_VALUE = false -%}
+{%- unless lowest_price == original_lowest_price -%}
+  {%- assign RETURN_VALUE = lowest_price -%}
+{%- endunless -%}

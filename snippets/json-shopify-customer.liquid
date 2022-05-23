@@ -1,0 +1,13 @@
+{%- capture customer_tags -%}
+  {%- for tag in customer.tags -%}{{ tag }}{% unless forloop.last %}, {% endunless %}{%- endfor -%}
+{%- endcapture -%}
+
+{% if customer %}
+  {% assign customer_accepts_marketing = customer.accepts_marketing %}
+  {% assign customer_orders_count = customer.orders_count %}
+{% else %}
+  {% assign customer_accepts_marketing = "false" %}
+  {% assign customer_orders_count = 0 %}
+{% endif %}
+
+{"id":"{{ customer.id }}","email":"{{ customer.email }}","accepts_marketing":{{ customer_accepts_marketing }},"first_name":"{{ customer.first_name }}","last_name":"{{ customer.last_name }}","orders_count":{{ customer_orders_count }},"tags":"{{ customer_tags }}","default_address":{{ customer.default_address | json }},"last_order_id":"{{ customer.last_order.id }}","addresses":{{ customer.addresses | json }}}

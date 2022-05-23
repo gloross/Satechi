@@ -1,0 +1,218 @@
+{% comment %}relative class on header is required for desktop dropdown positioning{% endcomment %}
+{% comment %}some general page templates have border-bottom in header... wasn't sure how to set those{% endcomment %}
+<header id="Header" role="banner" class="background-white text-center relative z-index-9
+  {% if template == '404' or page.template_suffix == nil or page.template_suffix == 'refer' %}border-bottom border-off-white{% endif %}">
+  <div class="center max-width-9 padding-horizontal-4 small--padding-horizontal-6 large--padding-horizontal-10">
+    <div class="flex items-center justify-between">
+
+      <div class="flex-item-1 large--hide text-left">
+        <button class="hamburger hamburger--squeeze" type="button"
+          aria-label="Menu">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </div>
+
+      <div class="large--flex-item-1 text-left">
+        <div class="padding-vertical-4 line-height-0 border border-transparent">
+          {% include "logo" with "header" %}
+        </div>
+      </div>
+
+      <div class="hide large--block large--self-stretch">
+        {% assign shop_main_menu = linklists[section.settings.menu] %}
+        {% include "main-menu" %}
+      </div>
+
+      <div class="flex-item-1 text-right">
+        {% include "utility-menu" %}        
+      </div>
+
+    </div>
+  </div>
+</header>
+
+{% include "mobile-menu" %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }, 
+    {
+      "type": "link_list",
+      "id": "customer_service_menu",
+      "label": "Mobile only: Customer Service menu"
+    }, 
+    { 
+      "type": "text", 
+      "id": "customer_service_menu_title", 
+      "label": "Customer Service menu title", 
+      "default": "Customer Service"
+    }
+  ], 
+  "blocks": [ 
+    { 
+      "type": "dropdown_page", 
+      "name": "Dropdown", 
+      "settings": [ 
+        { 
+          "type": "text", 
+          "id": "parent_link", 
+          "label": "Main Navigation link", 
+          "info": "Parent link in main nav - much match text and case exactly"
+        }, 
+        { 
+          "type": "header", 
+          "content": "Dropdown CTA"
+        }, 
+        {
+          "type": "checkbox",
+          "id": "show_dropdown_cta",
+          "label": "Show dropdown CTA?",
+          "default": true
+        },
+        { 
+          "type": "text", 
+          "id": "cta_text", 
+          "label": "CTA text", 
+          "default": "Shop All"
+        },
+        { 
+          "type": "url", 
+          "id": "cta_url", 
+          "label": "CTA URL"
+        }, 
+        { 
+          "type": "header", 
+          "content": "Dropdown image content"
+        }, 
+        { 
+          "type": "select", 
+          "id": "dropdown_type", 
+          "label": "Dropdown content type", 
+          "options": [
+            {
+              "value": "image_grid",
+              "label": "Image collection grid (up to 4)"
+            },
+            {
+              "value": "single_image",
+              "label": "Single image"
+            }, 
+            {
+              "value": "no_image",
+              "label": "No image"
+            }
+          ],
+          "default": "no_image"
+        }, 
+        { 
+          "type": "header", 
+          "content": "Image collection grid (up to 4):"
+        }, 
+        { 
+          "type": "header", 
+          "content": "#1"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "collection_image_1",
+          "label": "Image", 
+          "info": "Suggested image size: 534 x 356px"
+        }, 
+        {
+          "type": "text",
+          "id": "collection_title_1",
+          "label": "Title"
+        }, 
+        {
+          "type": "url",
+          "id": "collection_url_1",
+          "label": "URL"
+        }, 
+        { 
+          "type": "header", 
+          "content": "#2"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "collection_image_2",
+          "label": "Image", 
+          "info": "Suggested image size: 534 x 356px"
+        }, 
+        {
+          "type": "text",
+          "id": "collection_title_2",
+          "label": "Title"
+        }, 
+        {
+          "type": "url",
+          "id": "collection_url_2",
+          "label": "URL"
+        }, 
+        { 
+          "type": "header", 
+          "content": "#3"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "collection_image_3",
+          "label": "Image", 
+          "info": "Suggested image size: 534 x 356px"
+        }, 
+        {
+          "type": "text",
+          "id": "collection_title_3",
+          "label": "Title"
+        }, 
+        {
+          "type": "url",
+          "id": "collection_url_3",
+          "label": "URL"
+        }, 
+        { 
+          "type": "header", 
+          "content": "#4"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "collection_image_4",
+          "label": "Image", 
+          "info": "Suggested image size: 534 x 356px"
+        }, 
+        {
+          "type": "text",
+          "id": "collection_title_4",
+          "label": "Title"
+        }, 
+        {
+          "type": "url",
+          "id": "collection_url_4",
+          "label": "URL"
+        }, 
+        { 
+          "type": "header", 
+          "content": "Single image:"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "single_image",
+          "label": "Image", 
+          "info": "Note: image container dimensions will vary based on dropdown content. Suggested image size: 1024 x 1024px"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

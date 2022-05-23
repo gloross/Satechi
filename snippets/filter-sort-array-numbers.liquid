@@ -1,0 +1,22 @@
+{% assign input = array %}
+
+{% assign output = false %}
+
+{% if input %}
+  {% assign output = array %}
+
+  {% for n in (1..output.size) %}
+    {% for item in output %}
+      {% assign a = item | times: 1 %}
+
+      {% assign b = forloop.index0 | plus: 1 %}
+      {% assign b = output[b] | times: 1 %}
+
+      {% if a > b %}
+        {% assign position = a | append: "  " | append: b %}
+        {% assign swapped = b | append: "  " | append: a %}
+        {% assign output = output | join: "  " | replace_first: position, swapped | split: "  " %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,14 @@
+{%- if product.images.size > 0 -%}
+  {%- for variant in product.variants -%}
+    {%- assign image = variant.image -%}
+    <img class="{% if forloop.first %}active{% endif %} object-fit-contain object-position-center"
+      src="{{ image | img_url: '100x' }}"
+      data-variant-id="{{ variant.id }}"
+      data-src="{{ image | img_url: '450x' }}" 
+      alt="{{ product.title }}" 
+      nopin 
+      width="{{ image.width }}" 
+      height="{{ image.height }}" 
+      loading="lazy" />
+  {%- endfor -%}
+{%- endif -%}

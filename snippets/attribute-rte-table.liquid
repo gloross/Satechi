@@ -1,0 +1,22 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_table = false %}
+
+{% assign rte_table_start_index = false %}
+
+{% assign rte_table_length = false %}
+
+{% for line in rte_lines %}
+  {% if line contains "<table" %}
+    {% assign rte_table_start_index = forloop.index0 %}
+  {% endif %}
+
+  {% if line contains "</table>" %}
+    {% assign rte_table_length = forloop.index | minus: rte_table_start_index %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if rte_table_start_index and rte_table_length %}
+  {% assign rte_table = rte_lines | slice: rte_table_start_index, rte_table_length | join: "" %}
+{% endif %}

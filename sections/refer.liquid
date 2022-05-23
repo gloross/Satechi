@@ -1,0 +1,223 @@
+{%- assign title = section.settings.title -%}
+{%- assign subtitle = section.settings.subtitle -%}
+{%- assign image = section.settings.image -%}
+
+{%- assign logged_in_share_link_label = section.settings.logged_in_share_link_label -%}
+{%- assign logged_in_share_social_label = section.settings.logged_in_share_social_label -%}
+
+{%- assign email_address_label = section.settings.email_address_label -%}
+{%- assign email_submission_footnote = section.settings.email_submission_footnote -%}
+{%- assign email_submission_error_message = section.settings.email_submission_error_message -%}
+
+{%- assign referral_by_email_label = section.settings.referral_by_email_label -%}
+{%- assign referral_by_email_success_message = section.settings.referral_by_email_success_message -%}
+{%- assign referral_by_email_error_message = section.settings.referral_by_email_error_message -%}
+
+<div class="container">
+  <div class="padding-vertical-16">
+    <div class="padding-vertical-10">
+      <div class="center large--width-50">
+        <h1 class="font-family-primary font-weight-4 font-size-8 large--font-size-10 letter-spacing--1 margin-bottom-6">{{ title }}</h1>
+
+        <div class="font-size-4 text-grey margin-bottom-6">
+          {{ subtitle }}
+        </div>
+
+        {%- if customer -%}
+          <div 
+              id="swell-customer-identification"
+              data-authenticated="true"
+              data-email="{{ customer.email }}"
+              data-id="{{ customer.id }}"
+              data-tags="{{ customer.tags | json }}"
+              style="display:none;"
+           ></div>
+           
+          <div class="tab-container">
+            <ul class="list-reset tabs">
+              <li class="active">
+                <a href="#referral-share">Share Link</a>
+              </li>
+              <li>
+                <a href="#referral-email">Email Invite</a>
+              </li>
+            </ul>
+
+            <div class="tab-content active"
+              data-tab-id="referral-share">
+              <p class="font-size-3 font-weight-7">{{ logged_in_share_link_label }}</p>
+
+              <div class="flex flex-row flex-wrap items-stretch overflow-hidden large--background-white margin-bottom-8">
+                <div class="width-100 margin-bottom-2 large--width-auto large--grow-2 large--margin-bottom-0 large--border large--border-secondary border-right-none">
+                  <div class="flex flex-column justify-center height-100 padding-left-4 font-weight-7 border border-secondary large--border-none padding-vertical-4 large--padding-vertical-0">
+                    <span class="swell-referral-link"></span>
+                  </div>
+                </div>
+
+                <button class="js-copy-swell-referral-link button background-default background-primary-hover font-size-1 text-uppercase width-100 large--width-auto" data-trigger=".swell-referral-link">
+                  Copy Link
+                </button>
+              </div>
+
+              <p class="font-size-3 font-weight-7">{{ logged_in_share_social_label }}</p>
+
+              <div class="margin-left--1">
+                <!-- facebook -->
+                <a class="link margin-1 inline-block swell-share-referral-facebook" href="javascript:void(0)" target="_blank">
+                  <span class="block transition-all relative padding-left-10 padding-bottom-10 background-off-white background-default-hover text-white-hover border-radius-circle">
+                    <span class="absolute position-center font-size-4">
+                      <i class="fab fa-facebook-f"></i>
+                    </span>
+                  </span>
+                </a>
+
+                <!-- twitter -->
+                <a class="link margin-1 inline-block swell-share-referral-twitter" href="javascript:void(0)" target="_blank">
+                  <span class="block transition-all relative padding-left-10 padding-bottom-10 background-off-white background-default-hover text-white-hover border-radius-circle">
+                    <span class="absolute position-center font-size-4">
+                      <i class="fab fa-twitter"></i>
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div class="tab-content"
+              data-tab-id="referral-email">
+              {% include "refer-send-emails" %}
+            </div>
+          </div>
+        {%- else -%}
+          <div>
+            <div class="js-customer-no-account-signup">
+              <p class="font-size-3 font-weight-7">{{ email_address_label }}</p>
+
+              <div class="flex flex-row flex-wrap items-stretch overflow-hidden large--background-white margin-bottom-8">
+                <div class="width-100 margin-bottom-2 large--width-auto large--grow-2 large--margin-bottom-0 large--border large--border-secondary border-right-none">
+                  <input id="referral-customer-email"
+                    type="text" 
+                    placeholder="e.g. name@google.com"
+                    aria-label="Email Addresses" 
+                    autocorrect="off" 
+                    autocapitalize="off" 
+                    class="width-100 height-100 focus-hide-placeholder border border-secondary large--border-none padding-4 font-family-heading font-size-3 font-weight-4" />
+                </div>
+
+                <a id="referral-customer-capture" 
+                  class="button background-default background-primary-hover font-size-1 text-uppercase width-100 large--width-auto"
+                  href="#"
+                  title="Next">
+                  Next
+                </a>
+              </div>
+
+              <div class="font-size-3 text-center text-grey margin-bottom-8">
+                {{ email_submission_footnote }}
+              </div>
+
+              <div class="js-customer-referral-email-error text-center hide">
+                {{ email_submission_error_message }}
+              </div>
+            </div>
+
+            <div class="js-customer-no-account-referral hide">
+              {% include "refer-send-emails" %}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if image != blank -%}
+    <img class="block width-100"
+      data-src="{{ image | img_url: '1120x', scale: 2 }}"
+      alt="Refer a friend" />
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Referral page content",
+  "settings": [
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+      "default": "Give $10, Get $10"
+    },
+    {
+      "id": "subtitle",
+      "type": "textarea",
+      "label": "Subtitle", 
+      "default": "Share with your friends, and get $10 when they place their first order"
+    },
+    { 
+      "id": "image", 
+      "type": "image_picker", 
+      "label": "Page footer image", 
+      "info": "Recommended size: 2240px wide"
+    }, 
+    { 
+      "type": "header", 
+      "content": "Logged-in customer"
+    }, 
+    {
+      "id": "logged_in_share_link_label",
+      "type": "text",
+      "label": "Share link label", 
+      "default": "Your unique share link"
+    },
+    {
+      "id": "logged_in_share_social_label",
+      "type": "text",
+      "label": "Share via social media label", 
+      "default": "Share via"
+    },
+    { 
+      "type": "header", 
+      "content": "Not logged in"
+    }, 
+    {
+      "id": "email_address_label",
+      "type": "text",
+      "label": "Email label", 
+      "default": "Your email address"
+    },
+    {
+      "id": "email_submission_footnote",
+      "type": "textarea",
+      "label": "Email address submission footnote", 
+      "default": "We will not share your email address with anyone."
+    }, 
+    {
+      "id": "email_submission_error_message",
+      "type": "textarea",
+      "label": "Email address submission error message", 
+      "default": "There was an issue with submitting your email. Please try again."
+    }, 
+    { 
+      "type": "header", 
+      "content": "Email referral"
+    }, 
+    { 
+      "id": "referral_by_email_label",
+      "type": "textarea",
+      "label": "Email link referral label", 
+      "default": "Share a referral link via email"
+    }, 
+    { 
+      "id": "referral_by_email_success_message",
+      "type": "textarea",
+      "label": "Email referral success message", 
+      "default": "Your email was sent successfully!"
+    }, 
+    { 
+      "id": "referral_by_email_error_message",
+      "type": "textarea",
+      "label": "Email referral error message", 
+      "default": "There was an issue with sending your email. Please check the email addresses and try again."
+    }
+  ]
+}
+{% endschema %}

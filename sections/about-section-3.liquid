@@ -1,0 +1,49 @@
+{% include 'object-param-load', section_name: "about-section-3" %}
+
+{%- assign about        = section.settings -%}
+{%- assign label        = about.label -%}
+{%- assign title        = about.title -%}
+{%- assign description  = about.description -%}
+{%- assign image        = about.image -%}
+{%- assign image_mobile = about.image_mobile -%}
+
+<div class="relative padding-top-8 large--padding-top-16">
+  <div class="relative z-index-2 padding-top-16">
+    {% include "about-section-3" %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About - Section 3",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    { 
+      "type": "richtext", 
+      "id": "description", 
+      "label": "Description"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image", 
+      "info": "Suggested size: 2560 x 1230px"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image", 
+      "info": "Suggested size: 1024 x 1146px"
+    }
+  ]
+}
+{% endschema %}

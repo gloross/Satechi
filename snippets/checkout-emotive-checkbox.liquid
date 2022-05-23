@@ -1,0 +1,12 @@
+<div class="checkbox__input" id="emotiveCheckout" style="visibility:hidden">
+    <br>
+    <input type="hidden" name="checkout[attributes][optedIn]" value="No">
+    <input type="checkbox" class="input-checkbox" name="checkout[attributes][optedIn]" value="Yes"
+    value="Yes" checked {% if checkout.attributes["optedIn"] == "Yes" %} checked{% endif %}>
+    <span style="padding-left: 5px;">Receive support and offers via text message*</span><br>
+    <p style="font-size: 10px;margin-top: 10px;">
+    *By submitting this form, you agree to receive automated marketing messages from Satechi
+    at<br> your shipping cell phone number. Consent is not a condition of any purchase.
+    Msg & data rates may apply.<br> View <a href="/pages/privacy-policy" target="_blank">privacy policy</a>.
+    </p>
+</div>

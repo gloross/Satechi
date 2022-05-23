@@ -1,0 +1,29 @@
+{% assign item_url = item.url %}
+
+{% include "attribute-item-properties-string" %}
+
+{% include "attribute-item-variants-string" %}
+
+{% if item_properties_string %}
+  {% if item_url contains "?" %}
+    {% assign item_url = item_url | append: "&" | append: item_properties_string %}
+  {% else %}
+    {% assign item_url = item_url | append: "?" | append: item_properties_string %}
+  {% endif %}
+{% endif %}
+
+{% if item_variants_string %}
+  {% if item_url contains "?" %}
+    {% assign item_url = item_url | append: "&" | append: item_variants_string %}
+  {% else %}
+    {% assign item_url = item_url | append: "?" | append: item_variants_string %}
+  {% endif %}
+{% endif %}
+
+{% if item_url contains "?" %}
+  {% assign item_url = item_url | append: "&" | append: "quantity=" | append: item.quantity %}
+{% else %}
+  {% assign item_url = item_url | append: "?" | append: "quantity=" | append: item.quantity %}
+{% endif %}
+
+{% assign item_url = item_url | replace: "variant=", "id=" %}

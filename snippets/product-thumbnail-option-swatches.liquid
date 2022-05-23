@@ -1,0 +1,3 @@
+<div class="flex flex-row flex-wrap items-center justify-{% if product.options.size > 1 %}between{% else %}center{% endif %} padding-4 large--padding-5 font-size-0">
+  {% include "product-options" with product_page_form: false %}
+</div>

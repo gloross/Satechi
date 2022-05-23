@@ -1,0 +1,46 @@
+{% assign base_cart_url = "/cart/update?" %}
+
+{% assign order_cart_url = base_cart_url %}
+
+{%- comment %}
+	TODO make this 2 different objects?
+  object-order-cart-url-append
+  object-order-cart-url-replace
+
+  and then make this snippet contain both of those?
+{% endcomment -%}
+
+{%- comment %}
+	If you want to replace the cart contents with line items from order, this should be false.
+
+  If you want to append order contents to the existing cart, this should be true.
+
+  Defaulting to false because this is usually used as a "reorder" button.
+{% endcomment -%}
+
+{% assign append_to_existing_cart_items = append_to_existing_cart_items | default: false %}
+
+{%- for line_item in order.line_items %}
+  {% include "filter-add-to-cart-update-url" input: order_cart_url quantity: line_item.quantity variant_id: line_item.variant_id %}
+  {%- if output -%}
+    {% assign order_cart_url = output %}
+  {%- endif -%}
+{% endfor -%}
+
+{%- if append_to_existing_cart_items -%}
+  {% for line_item in cart.items %}
+    {% include "filter-add-to-cart-update-url" input: order_cart_url quantity: line_item.quantity variant_id: line_item.variant_id %}
+    {%- if output -%}
+      {% assign order_cart_url = output %}
+    {%- endif -%}
+  {% endfor %}
+{%- endif -%}
+
+{%- if order_cart_url == base_cart_url -%}
+  {% assign order_cart_url = false %}
+{%- else -%}
+  {% include "filter-clean-cart-update-url" input: order_cart_url %}
+  {%- if output -%}
+    {% assign order_cart_url = output %}
+  {%- endif -%}
+{%- endif -%}

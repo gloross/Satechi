@@ -1,0 +1,108 @@
+{%- assign linklist_width_class = "column-span-12" -%}
+{%- assign linklist_grid_class  = "columns-12" -%}
+
+<div class="main-menu-dropdown absolute top-100 left-0 right-0 background-white text-default text-left overflow-hidden">
+  <div class="container">
+    {% comment %}
+      Before we assign grid column widths and classes, we need to know what combination content we're dealing with - this means # of linklists and type of image content. 
+
+      Image grid content will always take up half of the container width
+
+      Single image width depends on # of linklists :)
+      Single image goes beyond container width though - extends to end of screen. May need to max out at 1680? (TODO: ask client)
+
+      1, 2, or 4 linklists = 7 columns (based on design)
+      3 or 5+ = 9 columns
+    {% endcomment %}
+
+    {%- if dropdown_content_type == "single_image" -%}
+      {%- if second_level_links.size == 3 or second_level_links.size > 4 -%}
+        {%- assign linklist_width_class = "column-span-9" -%}
+        {%- assign linklist_grid_class  = "columns-9" -%}
+        {%- assign image_width_class    = "column-span-3" -%}
+      {%- else -%}
+        {%- assign linklist_width_class = "column-span-7" -%}
+        {%- assign linklist_grid_class  = "columns-7" -%}
+        {%- assign image_width_class    = "column-span-5" -%}
+      {%- endif -%}
+    {%- elsif dropdown_content_type == "image_grid" -%}
+      {%- assign linklist_width_class = "column-span-6" -%}
+      {%- assign linklist_grid_class  = "columns-6" -%}
+      {%- assign image_width_class    = "column-span-6" -%}
+    {%- endif -%}
+
+    <div class="grid grid-gap-4 columns-12">
+      <div class="{{ linklist_width_class }}">
+        <div class="grid grid-gap-4 {{ linklist_grid_class }} padding-vertical-15">
+          {%- for dropdown_link in second_level_links -%}
+            {%- assign has_third_level_links = false -%}
+
+            {%- if dropdown_link.links.size > 0 -%}
+              {%- assign has_third_level_links = true -%}
+              {%- assign third_level_links = dropdown_link.links -%}
+            {%- endif -%}
+
+            <div class="column-span-3">
+              <div class="grid grid-gap-4 columns-3 margin-bottom-8">
+                <div class="column-span-2 line-height-double">
+                  {%- if dropdown_link.url == '#' -%}
+                    <span class="block font-family-heading font-size-1 font-weight-6 letter-spacing-1 padding-bottom-2 text-uppercase text-medium-grey"
+                      title="{{ dropdown_link.title }}">
+                      {{ dropdown_link.title }}
+                    </span>
+                  {%- else -%}
+                    <a class="block link text-primary-hover font-family-heading font-size-2 font-weight-6 letter-spacing-1 padding-bottom-2 text-uppercase"
+                      title="{{ dropdown_link.title }}"
+                      href="{{ dropdown_link.url }}">
+                      {{ dropdown_link.title }}
+                    </a>
+                  {%- endif -%}
+
+                  {%- if has_third_level_links -%}
+                    <ul class="list-reset">
+                      {%- for sublink in third_level_links -%}
+                        <li>
+                          <a
+                            title="{{ sublink.title }}" 
+                            class="inline-block padding-vertical-1 link text-primary-hover font-size-2 font-weight-1"
+                            href="{{ sublink.url }}">
+                            {{ sublink.title }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if dropdown_content_type != false -%}
+        <div class="{{ image_width_class }}">
+          {%- if dropdown_content_type == "single_image" -%}
+            {% include "main-menu-dropdown-single-image" %}
+          {%- elsif dropdown_content_type == "image_grid" -%}
+            {% comment %}vertical padding should match linklist grid{% endcomment %}
+            <div class="padding-vertical-15">
+              {% include "main-menu-dropdown-image-grid" %}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if has_dropdown_content_cta -%}
+      <div class="text-right padding-bottom-15">
+        <a href="{{ dropdown_content_cta_url }}"
+          title="{{ dropdown_content_cta_text }}"
+          class="link text-primary-hover font-size-4">
+          <span class="inline-flex flex-row items-center">
+            {{ dropdown_content_cta_text }}&nbsp;{% include "icon-arrow-right-circle" with icon_arrow_color: "primary-dark" %}
+          </span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

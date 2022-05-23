@@ -1,0 +1,63 @@
+{% include 'object-param-load', section_name: "about-featured-collection" %}
+
+{%- assign featured_collection = section.settings -%}
+{%- assign collection = collections[featured_collection.handle] -%}
+{%- assign title = featured_collection.title | default: false | default: collection.title -%}
+{%- assign more_button = featured_collection.show_more_button -%}
+{%- assign button_text = featured_collection.show_more_text | default: "View More" -%}
+{%- assign button_url = featured_collection.button_url | default: collection.url -%}
+{%- assign product_limit = featured_collection.product_limit -%}
+
+{%- capture featured_collection_products -%}
+  {%- for product in collection.products limit: product_limit -%}
+    <div class="padding-horizontal-1 small--padding-horizontal-2">
+      {% include "product-thumbnail" %}
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{% include "featured-collection" %}
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "handle",
+        "label": "Collection"
+      }, 
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title", 
+        "info": "Leave blank to use collection name"
+      }, 
+      {
+        "type": "number",
+        "id": "product_limit",
+        "label": "Product limit",
+        "default": 6
+      }, 
+      {
+        "type": "checkbox",
+        "id": "show_more_button",
+        "label": "Show View More Button?",
+        "default": false,
+        "info": "If checked, and there are more products in the collection than shown here, there will be a button which goes to the collection"
+      },
+      {
+        "type": "url",
+        "id": "collection_url",
+        "label": "Optional Button URL ",
+        "info": "If you want to have the view more button go to a different URL, then enter it here."
+      },
+      {
+        "type": "text",
+        "id": "show_more_text",
+        "label": "More Button Text",
+        "default": "View More"
+      }
+    ]
+  }
+{% endschema %}

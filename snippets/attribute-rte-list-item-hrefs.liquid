@@ -1,0 +1,17 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_list_item_hrefs = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "</li>" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign list_item_href = "#" | split: "  " %}
+
+  {% if line contains 'href="' %}
+    {% assign list_item_href = line | split: 'href="' | last | split: '"' | first | split: "  " %}
+  {% endif %}
+
+  {% assign rte_list_item_hrefs = rte_list_item_hrefs | concat: list_item_href %}
+{% endfor %}

@@ -1,0 +1,68 @@
+{% comment %} 
+  Product description accordion 
+{% endcomment %}
+{%- assign feature_class = "block padding-top-1 font-family-heading font-weight-7 font-size-1 text-default text-uppercase letter-spacing-1" -%}
+{%- assign value_class = "font-family-primary font-size-3 font-weight-4 margin-top-2 padding-bottom-4 border-bottom border-off-white" -%}
+
+<div id="ProductTabs"
+  class="border-bottom border-light-grey margin-bottom-6">
+  
+  {% include 'attribute-add-ons' %}
+  {% if add_ons == true %}
+    {% include "product-addons" %}
+  {% endif %}
+
+  <details class="accordion product-details-accordion border-top border-light-grey" data-behavior="accordion">
+    <summary>
+      <span class="text-default font-weight-5 font-size-4 letter-spacing--1 padding-right-6">
+        Details
+      </span>
+      <div class="accordion-icon font-size-6"></div>
+    </summary>
+
+    <div class="accordion-content rte-simple">
+      {%- if template.suffix == "basic" %}
+        {% include "product-details-basic" %}
+      {%- elsif template.suffix == "premium" or template.suffix == "bundle" or template.suffix == "pre-order" -%}
+        {% include "product-details-premium" %}
+      {%- elsif template.suffix == "hero" or template.suffix == "premium-B" or template.suffix == "" -%}
+        {% include "product-details" %}
+      {%- endif -%}
+    </div>
+  </details>
+
+  {%- unless template.suffix == "basic" %}
+    <details class="accordion product-tech-specs-accordion border-top border-light-grey" data-behavior="accordion">
+      <summary>
+        <span class="text-default font-weight-5 font-size-4 letter-spacing--1 padding-right-6">
+          Tech Specs
+        </span>
+        <div class="accordion-icon font-size-6"></div>
+      </summary>
+
+      <div class="accordion-content rte-simple">
+        {% include "product-tech-specs" %}
+      </div>
+    </details>
+  {%- endunless -%}
+
+  {%- if settings.product_shipping_message != blank -%}
+    <details class="accordion border-top border-light-grey" data-behavior="accordion">
+      <summary>
+        <span class="text-default font-weight-5 font-size-4 letter-spacing--1 padding-right-6">
+          Shipping & Returns
+        </span>
+        <div class="accordion-icon font-size-6"></div>
+      </summary>
+
+      <div class="accordion-content rte-simple">
+        {%- if product.metafields.custom_fields["product_shipping_message"] != blank -%}
+          {{ product.metafields.custom_fields["product_shipping_message"] }}
+        {%- else -%}
+          {{ settings.product_shipping_message }}
+        {%- endif -%}
+      </div>
+    </details>
+  {%- endif -%}
+
+</div>

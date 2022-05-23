@@ -1,0 +1,10 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_fragment_headings = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% if line contains "</h5>" %}
+    {% assign heading = line | strip_html | strip | downcase | split: "  " %}
+    {% assign rte_fragment_headings = rte_fragment_headings | concat: heading %}
+  {% endif %}
+{% endfor %}

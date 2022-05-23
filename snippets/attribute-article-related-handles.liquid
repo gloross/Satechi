@@ -1,0 +1,18 @@
+{% include "attribute-article-category" %}
+
+{% assign related = "" | split: "" %}
+
+{% for tag in article.tags %}
+  {% if tag contains "Related: " %}
+    {% assign handle = tag | split: ": " | last | append: "  " | split: "  " %}
+    {% assign related = related | concat: handle %}
+  {% endif %}
+{% endfor %}
+
+{% assign previous_handle = blog.previous_article | remove: "/blogs/" | append: "  " | split: "  " %}
+
+{% assign next_handle = blog.next_article | remove: "/blogs/" | append: "  " | split: "  " %}
+
+{% assign related = related | concat: previous_handle | concat: next_handle %}
+
+{% assign article_related_handles = related | default: false %}

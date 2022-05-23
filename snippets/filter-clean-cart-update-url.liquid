@@ -1,0 +1,14 @@
+{% assign output = false %}
+{%- if input -%}
+  {% assign output = input %}
+
+  {%- comment %}
+  	If we go through two or more loops loops, it's possible we have a '&&' so we should make it just '&'
+  {% endcomment -%}
+  {% assign output = output | replace: '&&&', '&' | replace: "&&", "&" %}
+
+  {%- comment %}
+  We're going to have a trailing '&'. Get rid of it.
+  {% endcomment -%}
+  {% assign output = output | split: "" | reverse | join: "" | remove_first: '&' | split: "" | reverse | join: "" %}
+{%- endif -%}

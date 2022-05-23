@@ -1,0 +1,43 @@
+{% comment %}TODO: before launch, update{% endcomment %}
+{%- if page.handle == 'education' -%}
+  <div class="about-sections">
+    <h1 class="invisible">{{ page.title }}</h1>
+    {% section "education-section-1" %}
+    {% section "education-section-2" %}
+    {% section "education-featured-collection" %}
+    {% section "instagram" %}
+  </div>
+{%- elsif page.handle == 'business' -%}
+  <div class="about-sections">
+    <h1 class="invisible">{{ page.title }}</h1>
+    {% section "business-section-1" %}
+    {% section "business-section-2" %}
+    {% section "business-featured-collection" %}
+    {% section "instagram" %}
+  </div>
+{%- elsif page.handle == 'search-page' -%}
+<div class="padding-bottom-8 large--padding-bottom-16">
+  <div class="container">
+    <div class="rte">
+      {{ page.content }}
+    </div>
+  </div>
+</div>
+{%- else -%}
+
+{% assign current_page = page %}
+
+<div class="padding-vertical-8 large--padding-vertical-16">
+  <div class="container">
+    <div class="large--width-60 center">
+
+      {% include 'section-heading', title: current_page.title, description: false, tag: 'h1' %}
+
+      <div class="rte">
+        {% include "shortcodes" with current_page.content %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- endif -%}

@@ -1,0 +1,93 @@
+{% include 'object-param-load', section_name: "about-section-2" %}
+
+{%- assign about        = section.settings -%}
+{%- assign label        = about.label -%}
+{%- assign title        = about.title -%}
+{%- assign description  = about.description -%}
+{%- assign image        = about.image -%}
+{%- assign image_mobile = about.image_mobile -%}
+
+<div class="background-default text-white relative padding-top-8 large--padding-top-16 large--padding-bottom-8">
+  <div class="relative z-index-2 padding-top-16 large--padding-bottom-16">
+    {% include "about-section-2" %}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="container padding-top-10 padding-bottom-4 large--padding-vertical-15">
+        <div class="margin-horizontal--4 large--margin-horizontal-0 grid columns-12 grid-gap-4">
+          {%- for block in section.blocks -%}
+            {%- assign about       = block.settings -%}
+            {%- assign label       = about.label -%}
+            {%- assign title       = about.title -%}
+            {%- assign description = about.description -%}
+            {%- assign image       = about.image -%}
+
+            {% capture index_cycle %}{% cycle 'odd', 'even' %}{% endcapture %}
+            <div class="column-span-12 {% if index_cycle == 'odd' %}large--column-start-2 large--column-end-7{% else %}large--column-span-5{% endif %}">
+              {% include "about-block" %}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About - Section 2",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    { 
+      "type": "richtext", 
+      "id": "description", 
+      "label": "Description"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop image", 
+      "info": "Suggested size: 2560 x 1230px"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image", 
+      "info": "Suggested size: 1024 x 1146px"
+    }
+  ], 
+  "blocks": [ 
+    {
+      "type": "module",
+      "name": "Image + text module",
+      "limit": 4, 
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title"
+        },
+        { 
+          "type": "richtext", 
+          "id": "description", 
+          "label": "Description"
+        }, 
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image", 
+          "info": "Suggested size: 916 x 1056px"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

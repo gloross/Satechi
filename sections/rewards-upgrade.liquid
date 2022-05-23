@@ -1,0 +1,189 @@
+{%- assign title       = section.settings.title -%}
+{%- assign subtitle    = section.settings.subtitle -%}
+{%- assign description = section.settings.description -%}
+{%- assign image       = section.settings.image -%}
+
+{%- assign basic_tier_title = section.settings.basic_tier_title -%}
+{%- assign basic_tier_cost  = section.settings.basic_tier_cost -%}
+{%- assign basic_tier_perks = section.settings.basic_tier_perks | newline_to_br | split: "<br />" -%}
+
+{%- assign pro_tier_title            = section.settings.pro_tier_title -%}
+{%- assign pro_tier_cost             = section.settings.pro_tier_cost -%}
+{%- assign pro_tier_cost_description = section.settings.pro_tier_cost_description -%}
+{%- assign pro_tier_perks            = section.settings.pro_tier_perks | newline_to_br | split: "<br />" -%}
+
+{%- assign tier_styles = "box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12), 0 9px 20px 0 rgba(0, 0, 0, 0.12);" -%}
+
+<div class="upgrade-container background-off-white padding-vertical-16 relative">
+  <div class="container container-wide-gutters padding-vertical-8 large--padding-vertical-12 relative z-index-2">
+
+    <div class="max-width-6 text-center center margin-bottom-12">
+      {%- if subtitle != blank -%}
+        <p class="font-family-heading font-size-1 large--font-size-2 font-weight-6 text-uppercase letter-spacing-1 margin-top-0 margin-bottom-3 large--margin-bottom-4">{{ subtitle }}</p>
+      {%- endif -%}
+
+      <h3 class="font-family-primary font-size-8 large--font-size-10 font-weight-4 margin-bottom-1 text-default letter-spacing--1">
+        {{ title | newline_to_br }}
+      </h3>
+
+      {%- if description != blank -%}
+        <div class="font-size-4">
+          {% include "unwidow" with description %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="grid large--columns-12 grid-gap-4 large--padding-bottom-12">
+
+      {% comment %}Basic Tier{% endcomment %}
+      <div class="column-span-12 large--column-start-3 large--column-end-7">
+        <div class="height-100 border-radius-3 background-white text-default">
+
+          <div class="text-center padding-8 padding-bottom-6 large--padding-10 large--padding-bottom-8 border-bottom border-light-grey">
+            <h3 class="font-weight-7 text-uppercase font-size-6 letter-spacing-1 margin-bottom-1">
+              {{ basic_tier_title }}
+            </h3>
+
+            <span class="block relative font-size-5 letter-spacing--1 padding-bottom-6">
+              {{ basic_tier_cost }}
+            </span>
+          </div>
+
+          <div class="text-left padding-8 large--padding-10">
+            <ul class="list-reset margin-bottom-8">
+              {%- for perk in basic_tier_perks -%}
+                <li class="padding-bottom-3">
+                  <span class="inline-block text-secondary font-size-5 margin-right-3 align-middle"><i class="far fa-check"></i></span> 
+                  {{ perk }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      {% comment %}Pro Tier{% endcomment %}
+      <div class="column-span-12 large--column-start-7 large--column-end-11">
+        <div class="height-100 border-radius-3 background-accent text-light-grey"
+          style="{{ tier_styles }}">
+
+          <div class="text-center padding-8 padding-bottom-6 large--padding-10 large--padding-bottom-8 border-bottom border-default">
+            <h3 class="font-weight-7 text-uppercase font-size-6 letter-spacing-1 margin-bottom-1 text-primary">
+              {{ pro_tier_title }}
+            </h3>
+
+            <span class="block relative font-size-5 letter-spacing--1 padding-bottom-6 text-white">
+              {{ pro_tier_cost }}
+
+              <span class="absolute bottom-0 left-0 right-0 text-center font-size-1 text-secondary">
+                {{ pro_tier_cost_description }}
+              </span>
+            </span>
+          </div>
+
+          <div class="text-left padding-8 large--padding-10">
+            <ul class="list-reset margin-bottom-8">
+              {%- for perk in pro_tier_perks -%}
+                <li class="padding-bottom-3">
+                  <span class="inline-block text-primary font-size-5 margin-right-3 align-middle"><i class="far fa-check"></i></span> 
+                  {{ perk }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  {%- if image != blank -%}
+    <img data-src="{{ image | img_url: 'master' }}"
+      alt="Upgrade your Satechi rewards"
+      class="absolute z-index-1 bottom-0 right-0" />
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Upgrade",
+  "settings": [
+    {
+      "id": "subtitle",
+      "type": "text",
+      "label": "Subtitle", 
+      "default": "Upgrade Rewards"
+    },
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+      "default": "Become a Pro. Unlock Even More"
+    },
+    { 
+      "id": "description", 
+      "type": "richtext", 
+      "label": "Description"
+    }, 
+    { 
+      "id": "image", 
+      "type": "image_picker", 
+      "label": "Background image", 
+      "info": "Image should be PNG with transparent background. Image will be applied on white and off-white backgrounds, aligned to bottom right (per design)"
+    }, 
+    { 
+      "type": "header", 
+      "content": "Basic Tier"
+    }, 
+    {
+      "id": "basic_tier_title",
+      "type": "text",
+      "label": "Title", 
+      "default": "Basic"
+    },
+    {
+      "id": "basic_tier_cost",
+      "type": "text",
+      "label": "Cost", 
+      "default": "Free Forever"
+    },
+    {
+      "id": "basic_tier_perks",
+      "type": "textarea",
+      "label": "Perks", 
+      "info": "Each perk should be on its own line"
+    },
+    { 
+      "type": "header", 
+      "content": "Pro Tier"
+    }, 
+    {
+      "id": "pro_tier_title",
+      "type": "text",
+      "label": "Title", 
+      "default": "Pro"
+    },
+    {
+      "id": "pro_tier_cost",
+      "type": "text",
+      "label": "Cost", 
+      "default": "Spend $500"
+    },
+    {
+      "id": "pro_tier_cost_description",
+      "type": "text",
+      "label": "Cost description", 
+      "default": "(per year)"
+    },
+    {
+      "id": "pro_tier_perks",
+      "type": "textarea",
+      "label": "Perks", 
+      "info": "Each perk should be on its own line"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+{% comment %}
+Taken from old site, not used?
+{%- assign details_header_subject = product.metafields.premium-product.details_header_subject -%}  
+{%- assign details_header_summary = product.metafields.premium-product.details_header_summary -%}  
+{% endcomment %}
+
+<ul class="list-reset">
+  {%- for i in (1..2) -%}
+    {% comment %}
+    {% assign field_icon = 'details_left_%1_icon' | replace: '%1', i %}
+    {% assign icon_class = product.metafields.premium-product[field_icon] | downcase | prepend: 'icon-' %}
+    {% endcomment %}
+    {% assign field_subject = 'details_left_%1_subject' | replace: '%1', i %}
+    {% assign field_summary = 'details_left_%1_summary' | replace: '%1', i %}
+    {% assign subject = product.metafields.premium-product[field_subject] %}
+    {% assign summary = product.metafields.premium-product[field_summary] %}
+    <li>
+      <span class="{{ feature_class }}">{{ subject }}</span>
+      <p class="{{ value_class }}">{{ summary }}</p>
+    </li>
+  {%- endfor -%}
+        
+  {%- for i in (1..2) -%}
+    {% comment %}
+    {% assign field_icon = 'details_right_%1_icon' | replace: '%1', i %}
+    {% assign icon_class = product.metafields.premium-product[field_icon] | downcase | prepend: 'icon-' %}
+    {% endcomment %}
+    {% assign field_subject = 'details_right_%1_subject' | replace: '%1', i %}
+    {% assign field_summary = 'details_right_%1_summary' | replace: '%1', i %}
+    {% assign subject = product.metafields.premium-product[field_subject] %}
+    {% assign summary = product.metafields.premium-product[field_summary] %}
+    <li>
+      <span class="{{ feature_class }}">{{ subject }}</span>
+      <p class="{{ value_class }}">{{ summary }}</p>
+    </li>
+  {%- endfor -%}
+</ul>

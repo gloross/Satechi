@@ -1,0 +1,72 @@
+{%- assign title                 = section.settings.title -%}
+{%- assign description           = section.settings.description -%}
+{%- assign register_button_text  = section.settings.register_button_text -%}
+{%- assign existing_account_text = section.settings.existing_account_text -%}
+{%- assign questions_text        = section.settings.questions_text -%}
+
+<div class="large--padding-vertical-16">
+  <div class="background-white padding-vertical-16">
+    <div class="container">
+      <div class="text-center">
+        <h3 class="font-family-primary font-size-8 large--font-size-10 font-weight-4 margin-bottom-1 large--margin-bottom-3 text-default letter-spacing--1">
+          {{ title }}
+        </h3>
+
+        <div class="rte">
+          {{ description }}
+        </div>
+
+        <div class="margin-vertical-8">
+          <a href="/account/register" 
+            class="inline-block button padding-horizontal-8 background-primary text-white background-default-hover">
+            {{ register_button_text }}
+          </a>
+        </div>
+
+        <div class="rte">
+          {{ existing_account_text }}
+
+          <div class="margin-top-8">
+            {{ questions_text }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Redeem credits",
+  "settings": [
+    {
+      "id": "title",
+      "type": "textarea",
+      "label": "Title",
+      "default": "Redeem Rewards Credits"
+    },
+    { 
+      "id": "description", 
+      "type": "richtext", 
+      "label": "Description", 
+      "default": "<p>Easily apply earned credits any time you checkout.</p>"
+    }, 
+    {
+      "id": "register_button_text",
+      "type": "text",
+      "label": "Register button text",
+      "default": "Get Started"
+    },
+    {
+      "id": "existing_account_text",
+      "type": "richtext",
+      "label": "Existing account text"
+    },
+    {
+      "id": "questions_text",
+      "type": "richtext",
+      "label": "Questions text"
+    }
+  ]
+}
+{% endschema %}

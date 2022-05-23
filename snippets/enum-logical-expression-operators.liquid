@@ -1,0 +1,14 @@
+{%- assign DISJUNCTION_OPERATOR_AND = " && " -%}
+{%- assign DISJUNCTION_OPERATOR_OR = " || " -%}
+
+{%- assign OPERATOR_EQUAL_TO = '==' -%}
+{%- assign OPERATOR_GREATER_THAN_EQUAL_TO = '>=' -%}
+{%- assign OPERATOR_LESS_THAN_EQUAL_TO = '<=' -%}
+{%- assign OPERATOR_CONTAINS = 'contains' -%}
+
+{%- assign OPERATORS_ACCEPTED = "==  >=  <=  contains" | split: "  " -%}
+
+{%- assign LHS_LINE_ITEM_QUANTITY = "line_item.quantity" -%}
+{%- assign LHS_CART_ITEM_COUNT = "cart.item_count" -%}
+{%- assign LHS_CART_TOTAL_PRICE = "cart.total_price" -%}
+{%- assign LHS_CUSTOMER_TAGS = "customer.tags" -%}

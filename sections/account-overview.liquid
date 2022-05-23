@@ -1,0 +1,97 @@
+{% assign content = section.settings %}
+
+{%- assign title = content.title | default: "Profile" -%}
+{%- assign reset_password_cta = content.reset_password_cta | default: "Reset Password" -%}
+{%- assign addresses_header = content.addresses_header | default: "Addresses" -%}
+{%- assign addresses_call_to_action = content.addresses_edit_cta -%}
+{%- assign addresses_no_default = content.addresses_no_default -%}
+
+<div class="padding-vertical-8 large--padding-vertical-16">
+
+  {% include 'section-heading', title: title, description: false %}
+
+  <p class="margin-vertical-3">
+    {{ customer.name }}<br />
+    {{ customer.email }}
+  </p>
+
+  <div class="text-right margin-bottom-5">
+    <a href="/account/login#recover" class="button font-size-1">{{ reset_password_cta }}</a>
+  </div>
+
+  <h2 class="font-family-heading text-uppercase margin-vertical-6 font-size-4 font-weight-7">
+    {{ addresses_header }}
+  </h2>
+
+  {%- if customer.default_address != empty and customer.addresses_count > 0 -%}
+    <div class="account-address margin-top-4">
+      <p class="margin-vertical-0">
+        <span class="margin-right-3 border-right border-grey padding-right-3 font-weight-6">{{ customer.name }}</span><span class="font-italic text-grey">Primary Address</span>
+      </p>
+
+      <address class="margin-top-3 margin-bottom-4 border border-light-grey background-off-white padding-vertical-3 padding-horizontal-4 font-normal">
+        {{ customer.default_address.name }}<br />
+        {{ customer.default_address.address1 }}<br />
+        {%- if customer.default_address.address2 != blank -%}
+          {{ customer.default_address.address2 }}<br />
+        {%- endif -%}
+        {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}<br />
+        {{ customer.default_address.country }}<br />
+        {%- if customer.default_address.phone != blank -%}
+          {{ customer.default_address.phone }}
+        {%- endif -%}
+      </address>
+    </div>
+  {%- else -%}
+    <p class="margin-vertical-4">
+      {{ addresses_no_default }}
+    </p>
+  {%- endif -%}
+
+  <div class="text-right">
+    <a href="/account/addresses" class="button font-size-1">{{ addresses_call_to_action }}</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "class": "account-overview-page-content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Profile"
+    },
+    {
+      "type": "text",
+      "id": "reset_password_cta",
+      "label": "Reset password call to action",
+      "default": "Reset Password"
+    },
+    {
+      "type": "header",
+      "content": "Addresses"
+    },
+    {
+      "type": "text",
+      "id": "addresses_header",
+      "default": "Addresses",
+      "label": "Addresses header"
+    },
+    {
+      "type": "text",
+      "id": "addresses_edit_cta",
+      "default": "Add/Edit",
+      "label": "Add / Edit call to action"
+    },
+    {
+      "type": "textarea",
+      "id": "addresses_no_default",
+      "default": "No default address",
+      "label": "No addresses message"
+    }
+  ]
+}
+{% endschema %}

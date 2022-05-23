@@ -1,0 +1,32 @@
+{% assign order_reorder_link = "/cart/" %}
+
+{% for line_item in order.line_items %}
+  {% assign variant_id_quantity_string = line_item.variant_id | append: ':' | append: line_item.quantity %}
+
+  {% assign order_reorder_link = order_reorder_link | append: variant_id_quantity_string %}
+
+  {% unless forloop.last %}
+    {% assign order_reorder_link = order_reorder_link | append: ',' %}
+  {% endunless %}
+{% endfor %}
+
+{%- if order.attributes -%}
+  {%- for attribute in order.attributes -%}
+    {% unless order_reorder_link contains "?" %}
+      {%- if forloop.first -%}
+        {% assign order_reorder_link = order_reorder_link | append: '?' %}
+      {%- endif -%}
+    {% endunless %}
+
+    {% assign attribute_first = attribute | first %}
+    {% assign attribute_last = attribute | last %}
+    {% assign attribute_string = "attributes[" | append: attribute_first | append: ']=' | append: attribute_last %}
+
+    {% assign order_reorder_link = order_reorder_link | append: attribute_string %}
+
+    {% unless forloop.last %}
+      {% assign order_reorder_link = order_reorder_link | append: '&' %}
+    {% endunless %}
+
+  {%- endfor -%}
+{%- endif -%}

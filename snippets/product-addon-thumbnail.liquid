@@ -1,0 +1,48 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign href = product.url | within: collection %}
+
+{% if current_variant.available %}
+  <div class="product-thumbnail flex items-center padding-bottom-4 input-checkbox {% if class_name != blank %}{{ class_name }}{% endif %}"
+  data-addon-price="{{ current_variant.price }}">
+      <input id="{{ product.title | handleize }}{% if variant_id != blank %}-{{ variant_id | handleize }}{% endif %}" class="js-product-addon" type="checkbox" value="{% if variant_id != blank %}{{ theVariant.id }}{% else %}{{ current_variant.id }}{% endif %}" />
+      <label for="{{ product.title | handleize }}{% if variant_id != blank %}-{{ variant_id | handleize }}{% endif %}">
+      <span
+      data-modal-id="ModalProduct{{ product.title | handleize }}{% if variant_id != blank %}-{{ variant_id | handleize }}{% endif %}"      
+      data-behavior="launch-modal">
+        <span class="text-black text-underline">{{ product.title }}{% if variant_id != blank %} - {{ variant_id }}{% endif %}</span>
+        {{ product.price | money_without_trailing_zeros }}
+      </span>
+    </label>
+  </div>
+{% endif %}
+
+{% capture modal_id %}
+ModalProduct{{ product.title | handleize }}{% if variant_id != blank %}-{{ variant_id | handleize }}{% endif %}
+{% endcapture %}
+
+{% assign modal_id = modal_id | strip %}
+
+{% capture modal_content %}
+<div class="flex flex-column large--flex-row">
+  <div class="width-100 large--width-40">
+    {% if variant_id != blank %}
+    {% assign fimage = theVariant.image | img_url : 'medium_cropped' %}
+    {% else %}
+    {% assign fimage = product.featured_image | img_url : 'medium_cropped' %}
+    {% endif %}
+    <img src="{{ fimage }}">
+  </div>
+  <div class="width-100 large--width-60 flex flex-column justify-center">
+    <h3 class="margin-bottom-5">{{ product.title }}{% if variant_id != blank %} - {{ variant_id }}{% endif %}</h3>
+    {%- if template.suffix == "basic" %}
+      {% include "product-details-basic" %}
+    {%- elsif template.suffix == "premium" or template.suffix == "bundle" or template.suffix == "pre-order" -%}
+      {% include "product-details-premium" %}
+    {%- elsif template.suffix == "hero" or template.suffix == "premium-B" or template.suffix == "" -%}
+      {% include "product-details" %}
+    {%- endif -%}
+  </div>
+</div>
+{% endcapture %}
+
+{% include "modal" with { modal_id: modal_id, modal_content: modal_content } %}

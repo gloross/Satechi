@@ -1,0 +1,40 @@
+{%- assign input = input | default: false -%}
+
+{%- assign output = false -%}
+
+{%- if input -%}
+  {%- assign output = "" -%}
+
+  {%- assign each_line = input | newline_to_br | split: "<br />" -%}
+
+  {%- for line in each_line -%}
+    {%- assign line_new = line -%}
+    {%- assign line_new_parts = false -%}
+
+    {%- assign line_new = line_new | remove: "</p>" -%}
+
+    {%- if line contains "<p" -%}
+      {%- assign line_new_parts = line_new | split: "<p" | last | split: ">" -%}
+    {%- endif -%}
+
+    {%- if line_new_parts -%}
+      {%- assign line_new = "" -%}
+
+      {%- for part in line_new_parts -%}
+        {%- if forloop.first -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- assign part_ = part -%}
+
+        {%- if part_ contains "<" -%}
+          {%- assign part_ = part_ | append: ">" -%}
+        {%- endif -%}
+
+        {%- assign line_new = line_new | append: part_ -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- assign output = output | append: line_new -%}
+  {%- endfor -%}
+{%- endif -%}

@@ -1,0 +1,13 @@
+{% assign test_count = test_count | plus: 1 %}
+
+{% if expected != actual %}
+  <p>
+    <strong>Failed: {{ message }}</strong><br />
+    <span style="display: inline-block; width: 80px;">Expected:</span> "{{ expected | escape }}"<br />
+    <span style="display: inline-block; width: 80px;">Actual:</span> "{{ actual | escape }}"
+  </p>
+
+  <p>---</p>
+
+  {% assign fail_count = fail_count | plus: 1 %}
+{% endif %}

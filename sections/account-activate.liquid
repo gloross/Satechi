@@ -1,0 +1,85 @@
+{% assign content = section.settings %}
+{% assign title = content.title %}
+{% assign description = content.description | default: false %}
+{% assign call_to_action = content.call_to_action %}
+{% assign registration_prompt = content.customer_login_registration_question %}
+{% assign registration_call_to_action = content.customer_login_registration_call_to_action %}
+{% assign decline = content.decline %}
+
+<div class="container padding-vertical-16">
+  <div class="measure-narrow center margin-top-3">
+    {% comment %} Common section heading {% endcomment %}
+    {% include 'section-heading', title: title, description: description, tag: 'h1' %}
+
+    <p class="text-links hide large--block">
+      {{ registration_prompt }}
+      <br>
+      <a class="text-default" href="/account/login">
+        {{ registration_call_to_action }}
+      </a>
+    </p>
+    
+    {% form "activate_customer_password" %}
+      {% if form.errors %}
+        <div class="rte margin-vertical-6" role="alert">
+          The following errors were found when the form was submitted:<br/>
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div class="input-group margin-bottom-3">
+        <label for="activate-password">Password</label>
+        <input type="password" id="activate-password" class="input" name="customer[password]" value="" required />
+      </div>
+
+      <div class="input-group margin-bottom-3">
+        <label for="activate-password-confirmation">Password Confirmation</label>
+        <input type="password" id="activate-password-confirmation" class="input" name="customer[password_confirmation]" value="" required />
+      </div>
+
+      <button type="submit" class="button block">{{ call_to_action }}</button>
+      <br />
+      <button type="submit" class="button block" name="decline">{{ decline }}</button>
+
+      <p class="rte margin-top-3 margin-bottom-4 large--hide">
+        {{ registration_prompt }}
+        <a href="/account/register">
+          {{ registration_call_to_action }}
+        </a>
+      </p>
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "class": "account-activate",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Activate account"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Create a password to activate your account."
+    },
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Create account"
+    },
+    {
+      "type": "text",
+      "id": "decline",
+      "label": "Decline",
+      "default": "Decline invitation"
+    }
+  ]
+}
+{% endschema %}

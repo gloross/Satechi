@@ -1,0 +1,50 @@
+{%- if image_3_alt_text == blank -%}
+  {%- assign image_3_alt_text = shop.name -%}
+{%- endif -%}
+
+{%- if image_3_mobile_alt_text == blank -%}
+  {%- assign image_3_mobile_alt_text = shop.name -%}
+{%- endif -%}
+
+<a class="column-span-12 large--column-span-6 large--row-span-1 zoom-on-hover block link"
+  href="{{ url_3 }}">
+  <div class="width-100 aspect-ratio-1x1 large--padding-0 large--height-100 background-{% if text_color_3 == 'white' %}default{% else %}off-white{% endif %} relative">
+    <div class="hide large--block"
+      style="padding-bottom: 51.54%;">
+    </div>
+
+    <div class="large--hide absolute absolute-fill z-index-1">
+      <img class="block object-fit-cover object-position-center js-load-on-event"
+        data-src="{{ image_3_mobile | img_url: '750x' }}"
+        data-manual-load
+        loading="lazy"
+        alt="{{ image_3_mobile_alt_text }}" />
+    </div>
+
+    <div class="hide large--block absolute absolute-fill z-index-1 zoom-target">
+      <img class="block object-fit-cover object-position-center height-auto js-load-on-event"
+        data-src="{{ image_3 | img_url: '552x284', scale: 2 }}"
+        data-manual-load
+        width="552" 
+        height="284"
+        loading="lazy"
+        alt="{{ image_3_alt_text }}" />
+    </div>
+
+    {%- if overlay_activate_3 -%}
+      <div class="absolute absolute-fill z-index-2" style="background-color: {{ overlay_color_3 }}; opacity: {{ overlay_opacity_3 | divided_by: 100.00 }}"></div>
+    {%- endif -%}
+
+    {% comment %}Text content w/ positioning{% endcomment %}
+    <div class="absolute absolute-fill z-index-3 width-100 height-100 padding-8 large--padding-15">
+      <div class="height-100 flex flex-column justify-{{ block_alignment_y_3_mobile }} large--justify-{{ block_alignment_y_3 }}">
+        <div class="width-100 flex flex-row justify-{{ block_alignment_x_3_mobile }} large--justify-{{ block_alignment_x_3 }}">
+          <div class="text-{{ text_alignment_3_mobile }} large--text-{{ text_alignment_3 }}">
+            <h3 class="font-family-primary font-weight-4 font-size-7 margin-bottom-4 text-{{ text_color_3 }} letter-spacing--1">{{ title_3 | newline_to_br }}</h3>
+            <p class="margin-0 font-size-1 font-family-heading font-weight-6 letter-spacing-2 text-{{ subtitle_text_color_3 }}">{{ subtitle_3 }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>

@@ -1,0 +1,51 @@
+{% assign param_load = true %}
+
+{% assign enable_ajax_sections = true %}
+
+{% if enable_ajax_sections %}
+
+  {% assign param_load = false %}
+
+  {% assign section_name = section_name | default: false %}
+
+  {% capture do_not_ajax %}
+    header-top-bar
+  {% endcapture %}
+  {%- comment -%}
+    why do_not_ajax
+    - header-top-bar: generally is just JSON settings that don't require any additional product, collection or metafield DB calls
+  {%- endcomment -%}
+
+  {% assign do_not_ajax = do_not_ajax | strip | strip_newlines | split: "  " %}
+
+  {% if section_name and do_not_ajax contains section_name %}
+    {% assign param_load = true %}
+  {% else %}
+    {% unless current_params %}
+      {% include "object-current-params" %}
+    {% endunless %}
+
+    {% for param in current_param_keys %}
+      {% if param == "load" %}
+        {% assign param_load = current_param_values[forloop.index0] %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {%- comment -%}If we're in previewing in theme settings, just let it load normally.{%- endcomment -%}
+    {% unless param_load %}
+      {% assign url = content_for_header | split: '"pageurl":"' | last | split: '"' | first | split: ".myshopify.com" | last | replace: "\/", "/" | replace: "%20", " " | replace: "\u0026", "&" %}
+      {% if url contains "shopify.content_for_header.start" %}{%- comment -%}this'll only appear in theme settings requests{%- endcomment -%}
+        {% assign param_load = true %}
+      {% endif %}
+    {% endunless %}
+  {% endif %}
+
+  {%- comment -%}
+    If on an app proxy URL, like /a/returns, there will be no global "template" variable and the app is likely to choke on JS. Just load normally.
+  {%- endcomment -%}
+  {% unless template %}
+    {% assign param_load = true %}
+  {% endunless %}
+
+{% endif %}

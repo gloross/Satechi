@@ -1,0 +1,14 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_image_urls = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "<img" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign image_url = line | split: 'src="' | last | split: '"' | first %}
+  {% assign image_url = image_url | split: "  " %}
+
+  {% assign rte_image_urls = rte_image_urls | concat: image_url %}
+{% endfor %}

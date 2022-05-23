@@ -1,0 +1,72 @@
+{%- assign login_form = section.settings -%}
+
+{%- assign title = login_form.title | default: "Log In" -%}
+{%- assign description = login_form.description | default: false -%}
+{%- assign login_call_to_action = login_form.call_to_action | default: "Log In" -%}
+{%- assign forgot_password_prompt = login_form.forgot_password | default: "Forgot your password?" -%}
+
+<div>
+
+  {% comment %} Common section heading {% endcomment %}
+  {% include 'section-heading', title: title, description: description, tag: 'h1' %}
+
+  {% form "customer_login", class: "margin-top-5" %}
+    {% if form.errors %}
+      <div class="rte margin-vertical-6" role="alert">
+        The following errors were found when the form was submitted:<br/>
+        {{ form.errors | default_errors }}
+      </div>
+    {% endif %}
+
+    <div class="input-group margin-bottom-5">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" class="input" name="customer[email]" placeholder="{{ settings.placeholder_email }}" value="" autocorrect="off" autocapitalize="off" autofocus required />
+    </div>
+
+    <div class="input-group margin-bottom-5">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" class="input" name="customer[password]" placeholder="{{ settings.placeholder_password }}" value="" required />
+    </div>
+
+    <div>
+      <button type="submit" class="button background-default background-primary-hover padding-horizontal-10 margin-top-4 margin-bottom-5 font-size-2">{{ login_call_to_action }}</button>
+    </div>
+
+    <div>
+      <button type="button" class="button-reset font-size-1 text-underline" data-behavior="toggle-forms">{{ forgot_password_prompt }}</button>
+    </div>
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "Login form",
+  "class": "login-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Log In"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "info": "Optional. Can be left blank."
+    },
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Log In"
+    },
+    {
+      "type": "text",
+      "id": "forgot_password",
+      "label": "Question to prompt user to use forgot password form",
+      "default": "Forgot your password?"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,178 @@
+{%- assign footer = section.settings -%}
+{%- assign show_newsletter_form = footer.show_newsletter_form -%}
+{%- assign newsletter_form_heading = footer.newsletter_form_heading -%}
+{%- assign newsletter_form_placeholder = footer.newsletter_form_placeholder -%}
+{%- assign show_logo = footer.show_logo -%}
+{%- assign text_below_logo = footer.text_below_logo -%}
+{%- assign footer_menu = footer.footer_menu | default: false -%}
+{%- assign legal_menu = footer.legal_menu | default: false -%}
+{%- assign current_year = 'now' | date: "%Y" -%}
+{%- assign copyright_message = footer.copyright_message | replace: "[current_year]", current_year | default: false -%}
+
+{%- if show_newsletter_form -%}
+  <div class="background-off-white padding-vertical-8 large--padding-vertical-12">
+    <div class="container">
+      <div class="text-center">
+        <h3 class="font-family-heading font-weight-5 font-size-4 letter-spacing-1 text-uppercase margin-bottom-5">
+          {{ newsletter_form_heading }}
+        </h3>
+      </div>
+
+      {% include "newsletter-form" %}
+    </div>
+  </div>
+{%- endif -%}
+
+<footer class="background-white text-default">
+  <div class="border-bottom border-light-grey">
+    <div class="container">
+      <div class="padding-vertical-12 large--padding-vertical-15">
+        <div class="flex flex-row flex-wrap">
+
+          <div class="width-100 large--width-50 large--order-2">
+            {%- if footer_menu -%}
+              {%- assign footer_menu = linklists[footer_menu] -%}
+              <div class="grid grid-gap-4 columns-{{ footer_menu.links.size }} padding-horizontal-2 large--padding-horizontal-0">
+                {%- for link in footer_menu.links -%}
+                  <div>
+                    <span class="block padding-bottom-4 font-family-heading font-weight-6 font-size-2 letter-spacing-1 text-uppercase">
+                      {{ link.title }}
+                    </span>
+
+                    {%- if link.links.size > 0 -%}
+                      <ul class="list-reset">
+                        {%- for sublink in link.links -%}
+                          <li class="block text-grey">
+                            <a href="{{ sublink.url }}"
+                              title="{{ sublink.title }}"
+                              class="link text-primary-hover inline-block padding-vertical-1 font-size-3 font-weight-1">
+                              {{ sublink.title }}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="width-100 large--width-50">
+            <div class="text-center large--text-left padding-top-12 large--padding-top-0">
+              {%- if show_logo -%}
+                {% include 'logo' %}
+              {%- endif -%}
+
+              <div class="margin-vertical-6 margin-left--1">
+                {% include 'social-links' %}
+              </div>
+
+              {%- if text_below_logo != blank -%}
+                <div class="text-medium-grey font-size-3">
+                  {{ text_below_logo }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if legal_menu or copyright_message -%}
+    <div class="container">
+      <div class="padding-vertical-8 large--padding-vertical-10 text-center large--text-left flex flex-row flex-wrap large--justify-between font-size-xs">
+        {%- if legal_menu -%}
+          <div class="width-100 large--width-auto large--order-2 text-grey">
+            {%- for link in linklists[legal_menu].links -%}
+              <a class="link text-primary-hover inline-block margin-horizontal-2 large--margin-right-0 large--margin-left-5" href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if copyright_message -%}
+          <div class="width-100 large--width-auto text-medium-grey">
+            {{ copyright_message }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    { 
+      "type": "paragraph", 
+      "content": "Newsletter signup form is based on Theme Settings > Klaviyo Info"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "show_newsletter_form",
+      "label": "Show newsletter form?", 
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_form_heading",
+      "label": "Newsletter form heading",
+      "default": "Get the Latest News"
+    }, 
+    {
+      "type": "text",
+      "id": "newsletter_form_placeholder",
+      "label": "Newsletter email placeholder",
+      "default": "Enter your email address"
+    }, 
+    {
+      "type": "header",
+      "content": "Footer Branding"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "label": "Show Logo?",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "text_below_logo",
+      "label": "Optional text below logo & social links", 
+      "default": "<p>🇺🇸  Made in California</p>"
+    },
+    {
+      "type": "header",
+      "content": "Footer Links"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Footer Menu"
+    },
+    {
+      "type": "header",
+      "content": "Legal Content"
+    },
+    {
+      "type": "textarea",
+      "id": "copyright_message",
+      "label": "Copyright Message",
+      "default": "All Rights Reserved",
+      "info": "Use [current_year] for current year"
+    }, 
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal Menu"
+    }
+  ]
+}
+{% endschema %}

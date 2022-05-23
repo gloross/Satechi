@@ -1,0 +1,42 @@
+{%- if image_1_alt_text == blank -%}
+  {%- assign image_1_alt_text = shop.name -%}
+{%- endif -%}
+
+<a class="column-span-12 large--column-span-6 large--row-span-2 zoom-on-hover block link"
+  href="{{ url_1 }}">
+  <div class="width-100 background-{% if text_color_1 == 'white' %}default{% else %}off-white{% endif %} relative" style="padding-bottom: 105.8%;">
+    <div class="absolute absolute-fill z-index-1 zoom-target">
+      <img class="block object-fit-cover object-position-center height-auto js-load-on-event"
+        data-src="{{ image_1 | img_url: '552x584', scale: 2 }}"
+        data-manual-load
+        loading="lazy"
+        alt="{{ image_1_alt_text }}" 
+        width="552" 
+        height="584" />
+    </div>
+
+    {%- if overlay_activate_1 -%}
+      <div class="absolute absolute-fill z-index-2" style="background-color: {{ overlay_color_1 }}; opacity: {{ overlay_opacity_1 | divided_by: 100.00 }}"></div>
+    {%- endif -%}
+
+    <div class="absolute absolute-fill z-index-3 width-100 height-100 padding-8 large--padding-15">
+
+      <div class="height-100 flex flex-column justify-{{ block_alignment_y_1_mobile }} large--justify-{{ block_alignment_y_1 }} items-stretch text-{{ text_alignment_1_mobile }} large--text-{{ text_alignment_1 }} width-100">
+
+        <h3 class="font-family-primary font-weight-4 font-size-7 text-{{ text_color_1 }} letter-spacing--1">{{ title_1 | newline_to_br }}</h3>
+
+        <div>
+          <div class="{% if text_alignment_1_mobile == 'center' %}inline-{% endif %}flex large--{% if text_alignment_1 == 'center' %}inline-{% endif %}flex flex-row justify-between items-center">
+            <p class="margin-0 font-family-heading font-weight-6 font-size-1 letter-spacing-2 text-{{ subtitle_text_color_1 }}">{{ subtitle_1 }}</p>
+
+            <span>
+              {% include "icon-arrow-right-circle" %}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</a>

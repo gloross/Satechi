@@ -1,0 +1,8 @@
+{% assign rte_links = false %}
+
+{% if rte contains "</a>" %}
+  {% assign rte_links = true %}
+{% endif %}
+
+{% include "attribute-rte-link-hrefs" %}
+{% include "attribute-rte-link-texts" %}

@@ -1,0 +1,179 @@
+{%- assign product_type_list = "Power & Charging, Adapters & Hubs, Car Accessories, Bags & Carry, Desk Accessories, Audio & Speakers, Peripherals" | split: ", " -%}
+
+{%- assign color_tag_list = "Space Gray, Silver, Rose Gold, Gold, Black, Red, Blue, Green, Violet, Yellow, Pink" | split: ", " -%}
+
+{%- assign device_tag_list = "iPhone 11, iPhone X & XS, iPhone 8, iPhone 7, iPhone 6" | split: ", " -%}
+
+{%- assign price_tag_list = "Under $50, $50 - $100, $100 - $200, $200+" | split: ", " -%}
+
+{%- assign filter_heading_classes = "font-family-heading font-size-2 letter-spacing-2 text-uppercase font-weight-5 padding-vertical-4 large--padding-vertical-0 margin-bottom-0 large--margin-bottom-3 accordion-heading" -%}
+
+{%- assign column_classes = "border-bottom border-light-grey large--border-bottom-none padding-horizontal-4 small--padding-horizontal-6 large--padding-horizontal-0" -%}
+
+<div class="collection-filters">
+  <div class="background-white">
+    <div class="border-bottom border-light-grey">
+      <div class="container">
+        <div class="flex flex-row justify-between items-center padding-vertical-5">
+          <div class="font-family-heading font-size-4 letter-spacing-1 text-uppercase font-weight-5">
+            <span class="hide large--inline">
+              {{ collection.title }}
+            </span>
+
+            <span class="large--hide">
+              Filter
+            </span>
+          </div>
+
+          <div>
+            <span class="cursor-pointer"
+              data-behavior="toggle-collection-filter">
+              {% include "svg-close" %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container large--padding-vertical-12">
+      <div class="margin-horizontal--4 small--margin-horizontal--6 large--margin-horizontal-0 large--grid large--grid-gap-4 large--columns-12">
+
+        <div class="large--column-start-1 large--column-end-3 {{ column_classes }}"
+          data-behavior="accordion">
+          <h3 class="{{ filter_heading_classes }}">
+            Type
+            <span class="accordion-icon"><i class="far fa-angle-down"></i></span>
+          </h3>
+
+          <div class="accordion-content">
+            <fieldset>
+              <legend class="invisible">Type</legend>
+              <ul class="list-reset">
+                {%- for product_type in product_type_list -%}
+                  <li class="input-radio padding-vertical-2">
+                    <label class="align-middle">
+                      <input type="radio" 
+                        name="product_type"
+                        value="{{ product_type }}"
+                        aria-label="{{ product_type }}" />
+                      {{ product_type }}
+
+                      <span></span>
+                      <span class="invisible">{{ product_type }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="large--column-start-4 large--column-end-6 {{ column_classes }}"
+          data-behavior="accordion">
+          <h3 class="{{ filter_heading_classes }}">
+            Color
+            <span class="accordion-icon"><i class="far fa-angle-down"></i></span>
+          </h3>
+
+          <div class="accordion-content">
+            <fieldset>
+              <legend class="invisible">Color</legend>
+              <ul class="list-reset">
+                {%- for tag in collection.tags -%}
+                  {%- if color_tag_list contains tag -%}
+                    <li class="input-color inline-block margin-right-1">
+                      <label class="align-middle">
+                        <input type="radio" 
+                          name="color"
+                          value="{{ tag }}"
+                          aria-label="{{ tag }}" />
+                        <div class="inline-block color-swatch-outer line-height-0">
+
+                          <div class="color-swatch color-swatch-{{ tag | handle }} inline-block line-height-solid text-center"
+                          title="{{ tag }}"
+                          style="width: 1.5rem; height: 1.5rem;"></div>
+
+                        </div>
+
+                        <span class="invisible">{{ tag }}</span>
+                      </label>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="large--column-start-7 large--column-end-9 {{ column_classes }}"
+          data-behavior="accordion">
+          <h3 class="{{ filter_heading_classes }}">
+            Device
+            <span class="accordion-icon"><i class="far fa-angle-down"></i></span>
+          </h3>
+
+          <div class="accordion-content">
+            <fieldset>
+              <legend class="invisible">Device</legend>
+              <ul class="list-reset">
+                {%- for device in device_tag_list -%}
+                  <li class="input-radio padding-vertical-2">
+                    <label class="align-middle">
+                      <input type="radio" 
+                        name="device"
+                        value="{{ device }}"
+                        aria-label="{{ device }}"/>
+                      {{ device }}
+
+                      <span></span>
+                      <span class="invisible">{{ device }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="large--column-start-10 large--column-end-12 {{ column_classes }}"
+          data-behavior="accordion">
+          <h3 class="{{ filter_heading_classes }}">
+            Price
+            <span class="accordion-icon"><i class="far fa-angle-down"></i></span>
+          </h3>
+
+          <div class="accordion-content">
+            <fieldset>
+              <legend class="invisible">Price</legend>
+              <ul class="list-reset">
+                {%- for price in price_tag_list -%}
+                  <li class="input-radio padding-vertical-2">
+                    <label class="align-middle">
+                      <input type="radio" 
+                        name="price"
+                        value="{{ price }}"
+                        aria-label="{{ price }}" />
+                      {{ price }}
+
+                      <span></span>
+                      <span class="invisible">{{ price }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </fieldset>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="padding-bottom-16 text-center">
+      <span class="cursor-pointer button padding-horizontal-10"
+        data-behavior="complete-collection-filter"
+        style="min-width: 270px;">Done</span>
+    </div>
+  </div>
+</div>
+
+<div class="collection-filter-overlay fade-in" data-behavior="toggle-collection-filter"></div>

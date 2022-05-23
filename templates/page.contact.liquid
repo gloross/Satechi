@@ -1,0 +1,23 @@
+{%- assign current_page = page -%}
+
+<div class="padding-top-10 large--padding-vertical-16">
+  <div class="container">
+    <div class="large--grid large--grid-gap-4 large--columns-12">
+      <div class="width-100 large--column-start-2 large--column-end-8">
+        {% include 'section-heading', title: current_page.title, description: false, tag: 'h1' %}
+
+        <div class="rte padding-top-3 margin-bottom-8">
+          {% include "shortcodes" with current_page.content %}
+        </div>
+
+        {% section "contact-form" %}
+      </div>
+
+      <div class="margin-horizontal--4 small--margin-horizontal--6 large--margin-horizontal-0 large--column-start-9 large--column-end--1">
+        <div class="width-100 background-off-white padding-10 large--padding-14">
+          {% section "contact-sidebar" %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

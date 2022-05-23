@@ -1,0 +1,18 @@
+{% include "attribute-rte-lines" %}
+
+{% assign rte_image_alts = "" | split: "" %}
+
+{% for line in rte_lines %}
+  {% unless line contains "<img" %}
+    {% continue %}
+  {% endunless %}
+
+  {% assign image_alt = page_title | split: "-<-@" %}
+
+  {% if line contains 'alt="' %}
+    {% assign image_alt = line | split: 'alt="' | last | split: '"' | first %}
+    {% assign image_alt = image_alt | default: page_title | split: "-<-@" %}
+  {% endif %}
+
+  {% assign rte_image_alts = rte_image_alts | concat: image_alt %}
+{% endfor %}

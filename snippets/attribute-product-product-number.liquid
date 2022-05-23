@@ -1,0 +1,8 @@
+{%- comment %}
+  TODO
+	This is probably too specific to a specific business's logic.
+  Should probably just be current_variant.sku.  But sometimes there may not
+  be a SKU and this could potentially be a metafield instead?  Then we could
+  probably abstract that configuration to theme settings.
+{% endcomment -%}
+{% assign product_number = current_variant.sku | default: false %}

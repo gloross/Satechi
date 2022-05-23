@@ -1,0 +1,30 @@
+<div class="grid grid-gap-4 columns-1 text-default">
+  {%- for num in (1..2) -%}
+    {%- assign grid_image = "collection_image_" | append: num -%}
+    {%- assign grid_image = dropdown_content[grid_image] -%}
+
+    {%- assign grid_image_title = "collection_title_" | append: num -%}
+    {%- assign grid_image_title = dropdown_content[grid_image_title] -%}
+
+    {%- assign grid_image_url = "collection_url_" | append: num -%}
+    {%- assign grid_image_url = dropdown_content[grid_image_url] -%}
+
+    {%- if grid_image != blank and grid_image_title != blank and grid_image_url != blank -%}
+      <a href="{{ grid_image_url }}"
+        class="block link text-primary-hover"
+        title="{{ grid_image_title }}">
+        <div class="aspect-ratio-3x2 relative margin-bottom-4">
+          <div class="absolute absolute-fill">
+            <img class="block object-fit-cover object-position-center"
+              data-src="{{ grid_image | img_url: '267x178', scale: 2, crop: 'center' }}"
+              alt="{{ grid_image_title }}" />
+          </div>
+        </div>
+
+        <span class="block font-family-heading font-weight-6 font-size-2 letter-spacing-1 text-uppercase margin-bottom-1">
+          <span class="font-weight-1 text-medium-grey">0{{ forloop.index }}</span> {{ grid_image_title }}
+        </span>
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

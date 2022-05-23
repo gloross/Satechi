@@ -1,0 +1,14 @@
+{% include "attribute-product-gallery-exclusion-alt-keywords" %}
+
+{% assign image_should_include_in_gallery = true %}
+
+{% for keyword in product_gallery_exclusion_alt_keywords %}
+  {% assign keyword = keyword | handle %}
+  {% assign image_alt = image.alt | downcase | split: ", " | handle %}
+  {% assign keyword_test = keyword | handle %}
+
+  {% if image_alt contains keyword_test %}
+    {% assign image_should_include_in_gallery = false %}
+    {% break %}
+  {% endif %}
+{% endfor %}

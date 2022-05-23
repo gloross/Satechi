@@ -1,0 +1,55 @@
+{% comment %}
+Pretty sure this is a duplicate of the product description???
+{%- assign about_the_product = product.metafields.basic-product.about_product -%}
+{% endcomment %}
+{%- assign our_guarantee = product.metafields.basic-product.our_guarantee -%}
+{%- assign quick_guide = product.metafields.video_next.quick_guide -%}
+{%- assign dimensions = product.metafields.technical-specs.dimensions -%}
+{%- assign weight = product.metafields.technical-specs.weight -%}
+{%- assign model_no = product.metafields.technical-specs.model_no -%}
+
+<ul class="list-reset">
+  <li>
+    <span class="{{ feature_class }}">Technical Specs</span>
+      <ul class="padding-left-4 padding-bottom-4 border-bottom border-off-white margin-bottom-4">
+      {%- for i in (1..10) -%}
+        {%- assign field_spec = 'tech_spec_%1' | replace: '%1', i -%}
+        {%- assign tech_spec = product.metafields.basic-product[field_spec] -%}
+
+        {%- unless tech_spec == blank -%}
+        <li>{{ tech_spec }}</li>
+        {%- endunless -%} 
+      {%- endfor -%}
+      </ul>
+  </li>
+
+  {%- if our_guarantee != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Our Guarantee</span>
+    <p class="{{ value_class }}">{{ our_guarantee }}</p>
+  </li>
+  {%- endif -%}
+  {%- if dimensions != blank or weight != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Dimensions & Weight</span>
+    <p class="{{ value_class }}">{{ dimensions }}, {{ weight }}</p>
+  </li>
+  {%- endif -%}
+  {%- if model_no != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Model NO / UPC</span>
+    <p class="{{ value_class }}">{{ model_no }}</p>
+  </li>
+  {%- endif -%}
+
+  {%- if quick_guide != blank -%}
+  <li>
+    <span class="{{ feature_class }}">Quick Guide</span>
+    <a href="{{ quick_guide }}" target="_blank">
+      <p class="{{ value_class }}">Download</p>
+    </a>
+  </li>
+  {%- endif -%}
+
+  {% include "product-details-prop-65" %}
+</ul>

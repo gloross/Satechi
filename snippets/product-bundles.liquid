@@ -1,0 +1,117 @@
+{%- if product.metafields.custom_fields["product_bundle_save_variant"] != blank -%}
+  <div class="margin-vertical-6">
+    <h3 class="font-size-4 font-weight-6 margin-bottom-3">Bundle & Save</h3>
+
+    {%- for bundle_item in product.metafields.custom_fields["product_bundle_save_variant"] -%}
+      {%- if bundle_item["bundle_product"] != blank -%}
+        {%- assign bundle_product_handle = bundle_item["bundle_product"] -%}
+        {%- assign bundle_product = all_products[bundle_product_handle] -%}
+        {%- if bundle_product.available and bundle_product.title != blank -%}
+          {% comment %} 
+            Assignments (titles, variants, variant IDs, images) 
+          {% endcomment %}
+          {%- assign bundle_product_title = bundle_product.title -%}
+
+          {%- if bundle_item["variant_id"] != blank -%}
+            {%- assign bundle_variant_id = bundle_item["variant_id"] | abs -%}
+            {%- for variant in bundle_product.variants -%}
+              {%- if variant.id == bundle_variant_id -%}
+                {%- assign bundle_variant = variant -%}
+                {%- assign bundle_image = bundle_variant.image | img_url : '100x', scale: 2 -%}
+                {%- assign bundle_product_title = bundle_product.title | append: ' - ' | append: bundle_variant.title -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign bundle_variant_id = bundle_product.first_available_variant.id -%}
+            {%- assign bundle_variant = bundle_product.first_available_variant -%}
+            {%- assign bundle_image = bundle_product.featured_image | img_url : '100x', scale: 2 -%}
+          {%- endif -%}
+
+          {% comment %} 
+            Modal 
+          {% endcomment %}
+          {% capture modal_id %}
+          ModalProduct{{ bundle_product_title | handleize }}{% if bundle_variant_id != blank %}-{{ bundle_variant_id | handleize }}{% endif %}
+          {% endcapture %}
+
+          {% assign modal_id = modal_id | strip %}
+
+          {% capture modal_content %}
+          <div class="flex flex-column large--flex-row">
+            <div class="width-100 large--width-40">
+              <img src="{{ bundle_image }}" data-src="{{ bundle_image }}">
+            </div>
+            <div class="width-100 large--width-60 flex flex-column justify-center">
+              <h3 class="margin-bottom-5">{{ bundle_product_title }}</h3>
+
+              <div class="bundle-modal-product-details">
+                {%- if bundle_product.template_suffix == "basic" %}
+                  {% include "product-details-basic" with product: bundle_product %}
+                {%- elsif bundle_product.template_suffix == "premium" or bundle_product.template_suffix == "bundle" or bundle_product.template_suffix == "pre-order" -%}
+                  {% include "product-details-premium" with product: bundle_product %}
+                {%- elsif bundle_product.template_suffix == "hero" or bundle_product.template_suffix == "premium-B" or bundle_product.template_suffix == "" -%}
+                  {% include "product-details" with product: bundle_product %}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+          {% endcapture %}
+
+          {% comment %} 
+            Bundle sidebar markup 
+          {% endcomment %}
+          <div class="product-bundle-item border border-light-grey border-radius-1 padding-3 margin-bottom-4">
+            <div class="flex items-stretch">
+              <div style="width: 15%;">
+                <img data-src="{{ bundle_image }}" class="block max-width-100 height-auto">
+              </div>
+
+              <div class="flex-item-1 padding-left-3">
+                <div class="height-100 flex flex-column justify-between">
+                  <div class="margin-bottom-2">
+                    <h4 class="margin-top-0 margin-bottom-1 font-size-3 font-weight-6 flex justify-between items-start">
+                      <a href="{{ bundle_product.url }}"
+                        class="text-no-decoration text-default text-underline-hover"
+                        data-modal-id="ModalProduct{{ bundle_product_title | handleize }}{% if bundle_variant_id != blank %}-{{ bundle_variant_id | handleize }}{% endif %}"      
+                        data-behavior="launch-modal">
+                        {{ bundle_product_title }}
+                      </a>
+
+                      <span class="input-checkbox">
+                        <input id="{{ bundle_product_title | handleize }}{% if bundle_variant_id != blank %}-{{ bundle_variant_id | handleize }}{% endif %}" class="js-product-addon" type="checkbox" value="{{ bundle_variant_id }}" />
+                        <label for="{{ bundle_product_title | handleize }}{% if bundle_variant_id != blank %}-{{ bundle_variant_id | handleize }}{% endif %}"></label>
+                      </span>
+                    </h4>
+
+                    {%- if bundle_item["short_product_description"] != blank -%}
+                      <p class="font-family-heading font-size-2 font-weight-4 margin-vertical-0">{{ bundle_item["short_product_description"] }}</p>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="flex items-end justify-between">
+                    <div>
+                      {%- if bundle_item["discount_code_info"] != blank -%}
+                        <div class="font-family-heading font-size-1 font-weight-5 margin-top-2 rte p-no-margin">{{ bundle_item["discount_code_info"] }}</div>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="font-family-heading font-size-1 text-right">
+                      {% if bundle_item["discounted_price"] != blank %}<s class="font-weight-4 text-grey">{% endif %}
+                        {{ bundle_variant.price | money }}
+                      {% if bundle_item["discounted_price"] != blank %}</s>
+                        <span class="block font-weight-6 text-primary-dark">{{ bundle_item["discounted_price"] }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% include "modal" with { modal_id: modal_id, modal_content: modal_content } %}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

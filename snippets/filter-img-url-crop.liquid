@@ -1,0 +1,21 @@
+{% assign input = input | default: image %}
+
+{% if input.width > input.height %}
+  {% assign short_side = "height" %}
+{% else %}
+  {% assign short_side = "width" %}
+{% endif %}
+
+{% assign desired_size = size | times: 1 %}
+
+{% if desired_size > input.width or desired_size > input.height %}
+  {% assign actual_size = image[short_side] %}
+{% else %}
+  {% assign actual_size = desired_size %}
+{% endif %}
+
+{% assign size_parameter = "SIZExSIZE" | replace: "SIZE", actual_size %}
+
+{% assign crop = crop | default: "center" %}
+
+{% assign output = input | img_url: size_parameter, crop: crop %}

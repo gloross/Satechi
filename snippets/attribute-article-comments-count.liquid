@@ -1,0 +1,5 @@
+{% if comment and comment.status == "unapproved" %}
+  {% assign article_comments_count = article.comments_count | plus: 1 %}
+{% else %}
+  {% assign article_comments_count = article.comments_count %}
+{% endif %}

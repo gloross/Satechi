@@ -1,0 +1,32 @@
+{%- assign dropdown_content_type = false -%}
+{%- assign has_dropdown_content_cta = false -%}
+
+{%- for block in section.blocks -%}
+  {%- assign dropdown_content = block.settings -%}
+  {%- if dropdown_content.parent_link == link_title -%}  
+    {% comment %}
+      We have a block assigned to this nav item
+      First, we get the CTA content
+    {% endcomment %}
+    {%- if dropdown_content.show_dropdown_cta and dropdown_content.cta_text != blank and dropdown_content.cta_url != blank -%}
+      {%- assign has_dropdown_content_cta = true -%}
+      {%- assign dropdown_content_cta_text = dropdown_content.cta_text -%}
+      {%- assign dropdown_content_cta_url = dropdown_content.cta_url -%}
+    {%- endif -%}
+
+    {% comment %}
+      Content type (image/collection grid, single image, no image)
+    {% endcomment %}
+    {%- if dropdown_content.dropdown_type == 'single_image' -%}
+      {%- assign dropdown_content_type = 'single_image' -%}
+      {%- assign dropdown_single_image = dropdown_content.single_image -%}
+    {%- elsif dropdown_content.dropdown_type == 'image_grid' -%}
+      {%- assign dropdown_content_type = 'image_grid' -%}
+    {%- endif -%}
+
+    {% comment %}
+      Extremely important: 
+    {% endcomment %}
+    {% break %}
+  {%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,205 @@
+{% assign content = section.settings %}
+
+<div class="padding-vertical-8 large--padding-vertical-16">
+
+  {% include 'section-heading', title: order.name, description: false %}
+
+  <div class="margin-top-4">
+    <table class="account-table hide medium--table">
+      <thead>
+        <tr>
+          <th>{{ content.column_header_product }}</th>
+          <th>{{ content.column_header_price }}</th>
+          <th>{{ content.column_header_quantity }}</th>
+          <th class="medium--text-right">{{ content.column_header_total }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr>
+            <td>
+              <span class="font-weight-7">{{ line_item.product.title }}</span>{% if line_item.fulfillment.created_at != blank %}<br />
+              <span class="text-grey font-italic">Fulfilled {{ line_item.fulfillment.created_at | time_tag: "%m/%d/%Y" }}</span>{% endif %}
+            </td>
+
+            <td>{{ line_item.original_price | money_without_trailing_zeros }}</td>
+
+            <td>{{ line_item.quantity }}</td>
+
+            <td class="medium--text-right">{{ line_item.original_line_price | money_without_trailing_zeros }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+
+    <div class="medium--hide">
+      {%- for line_item in order.line_items -%}
+        <div class="border border-light-grey background-off-white padding-vertical-3 padding-horizontal-4 {% unless forloop.first %}margin-top-3{% endunless %}">
+          <p class="margin-top-0 margin-bottom-4">
+            <span class="font-weight-7">{{ line_item.product.title }}</span>{% if line_item.fulfillment.created_at != blank %}<br />
+            <span class="text-grey font-italic">Fulfilled {{ line_item.fulfillment.created_at | time_tag: "%m/%d/%Y" }}</span>{% endif %}
+          </p>
+
+          <p class="margin-vertical-3">
+            Price: {{ line_item.original_price | money_without_trailing_zeros }}
+          </p>
+
+          <p class="margin-vertical-3">
+            Quantity: {{ line_item.quantity }}
+          </p>
+
+          <p class="margin-top-3 margin-bottom-0">
+            Total: {{ line_item.original_line_price | money_without_trailing_zeros }}
+          </p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <table class="account-order-info margin-vertical-4">
+    <tbody>
+      <tr>
+        <td>{{ content.footer_subtotal }} </td>
+        <td>{{ order.subtotal_price | money }}</td>
+      </tr>
+
+      <tr>
+        <td>{{ content.footer_discount }} {% if order.discount_applications != empty %} ({{ order.discount_applications[0].title }}){% endif %}</td>
+        <td>-{{ order.total_discounts | money }}</td>
+      </tr>
+
+      <tr>
+        <td>{{ content.footer_shipping }}{% if order.shipping_methods != empty %} ({{ order.shipping_methods[0].title }}){% endif %}</td>
+        <td>{{ order.shipping_price | money }}</td>
+      </tr>
+
+      <tr>
+        <td>{{ content.footer_tax }}</td>
+        <td>{{ order.tax_price | money }}</td>
+      </tr>
+
+      <tr>
+        <td class="font-weight-7">{{ content.footer_total }}</td>
+        <td class="font-weight-7">{{ order.total_price | money }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="padding-horizontal-2">
+    <p class="margin-vertical-0 font-size-3 font-weight-7 text-grey medium--text-right">{{ content.bi_header }}</p>
+
+    <address class="margin-vertical-0 font-size-3 font-normal text-grey medium--text-right">
+      {{ order.billing_address.name }}<br />
+      {{ order.billing_address.address1 }}<br />
+      {%- if order.billing_address.address2 != blank -%}
+        {{ order.billing_address.address2 }}<br />
+      {%- endif -%}
+      {{ order.billing_address.city }}, {{ order.billing_address.province_code }} {{ order.billing_address.zip }}<br />
+      {{ order.billing_address.country }}<br />
+      {%- if order.billing_address.phone != blank -%}
+        {{ order.billing_address.phone }}
+      {%- endif -%}
+    </address>
+
+    <p class="margin-top-3 margin-bottom-0 font-size-3 text-medium-grey medium--text-right">
+      {{ order.transactions[0].payment_details.credit_card_company }} ending in {{ order.transactions[0].payment_details.credit_card_number | slice: -4, 4 }}
+    </p>
+
+    <a href="/account#orders" class="inline-block margin-top-5 font-size-3 font-weight-7 text-inherit text-uppercase">
+      {{ content.reason_label }}
+    </a>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Page content",
+  "class": "account-order-page-content",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Order Header"
+    },
+    {
+      "type": "text",
+      "id": "back_to_account_details",
+      "label": "Back to Account Home Call To Action",
+      "default": "Back to My Orders"
+    },
+    {
+      "type": "header",
+      "content": "Order Table"
+    },
+    {
+      "type": "text",
+      "id": "column_header_product",
+      "label": "Product Column Header",
+      "default": "Product"
+    },
+    {
+      "type": "text",
+      "id": "column_header_price",
+      "label": "Price Column Header",
+      "default": "Price"
+    },
+    {
+      "type": "text",
+      "id": "column_header_quantity",
+      "label": "Quantity Column Header",
+      "default": "Quantity"
+    },
+    {
+      "type": "text",
+      "id": "column_header_total",
+      "label": "Total Column Header",
+      "default": "Total"
+    },
+    {
+      "type": "header",
+      "content": "Order Footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_subtotal",
+      "label": "Subtotal Label",
+      "default": "Subtotal:"
+    },
+    {
+      "type": "text",
+      "id": "footer_discount",
+      "label": "Discount Label",
+      "default": "Discount:"
+    },
+    {
+      "type": "text",
+      "id": "footer_shipping",
+      "label": "Shipping Label",
+      "default": "Shipping"
+    },
+    {
+      "type": "text",
+      "id": "footer_tax",
+      "label": "Tax Label",
+      "default": "Tax"
+    },
+    {
+      "type": "text",
+      "id": "footer_total",
+      "label": "Total Label",
+      "default": "Total:"
+    },
+    {
+      "type": "header",
+      "content": "Billing Information"
+    },
+    {
+      "type": "text",
+      "id": "bi_header",
+      "label": "Header",
+      "default": "Billing Info:"
+    }
+  ]
+}
+{% endschema %}

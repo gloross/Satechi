@@ -1,0 +1,39 @@
+<details class="accordion product-details-accordion border-top border-light-grey" data-behavior="accordion" open="open">
+    <summary>
+      <span class="text-default font-weight-5 font-size-4 letter-spacing--1 padding-right-6">
+        Pairs with
+      </span>
+      <div class="accordion-icon font-size-6"></div>
+    </summary>
+
+    <div class="accordion-content rte-simple" style="display:block;">
+        <div class="variant-options gifting width-100 z-index-2 top-100 option-content margin-top-3 padding-horizontal-4 large--padding-horizontal-0 padding-bottom-8 large--padding-bottom-0" data-ignore>
+            <div class="inline-block width-100">
+
+            {% assign product_refs = product.metafields.custom_fields["add_ons"] | split: "|" %}
+            {% for product_handle in product_refs %}
+                {% assign product_ref = all_products[product_handle] %}
+                {% if product_ref != blank %}
+                  {% include 'product-addon-thumbnail' with product: product_ref %}
+                {% endif %}
+            {% endfor %}
+
+            {% if product.metafields.custom_fields["product_addons_variant"] != blank %}
+              {% assign product_addon_handles = product.metafields.custom_fields["product_addons_variant"] | split: ',' %}
+              {% assign theHandle = '' %}
+              {% assign variantid = '' %}
+              
+              {% for product_handle in product_addon_handles %}
+                  {% assign theHandle = product_handle | split: '|' %}
+                  {% assign variantid = theHandle.last %}
+                  {% assign product_ref = all_products[theHandle.first] %}
+                  
+                  {% if product_ref.title %}
+                    {% include 'product-addon-thumbnail-variant', product: product_ref, variant_id: variantid %}
+                  {% endif %}
+              {% endfor %}
+            {% endif %}
+            </div>
+        </div>        
+    </div>
+  </details>

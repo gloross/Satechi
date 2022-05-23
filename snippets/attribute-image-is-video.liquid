@@ -1,0 +1,10 @@
+{% comment %}
+  example: https://www.youtube.com/watch?v=your-video-id-here
+  TODO vimeo
+{% endcomment %}
+
+{% assign image_is_video = false %}
+
+{% if image.alt contains "youtu" %}
+  {% assign image_is_video = true %}
+{% endif %}

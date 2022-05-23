@@ -1,0 +1,13 @@
+{%- comment %}
+	Often we want to put promotional products in the cart, but don't want to allow the customer to change the quantity
+  Put any additional business logic here.
+{% endcomment -%}
+
+{% assign item_quantity_can_change = true %}
+
+{%- if item.product.template_suffix == "fragment" -%}
+  {% assign item_quantity_can_change = false %}
+{%- endif -%}
+{%- if item.line_price == 0 -%}
+  {% assign item_quantity_can_change = false %}
+{%- endif -%}

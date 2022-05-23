@@ -1,0 +1,125 @@
+{%- assign content = section.settings -%}
+{%- assign title = content.title -%}
+
+<div class="padding-vertical-8 large--padding-vertical-16">
+  
+  {% include 'section-heading', title: title, description: false %}
+
+  {%- unless customer.orders.size == 0 -%}
+    <div class="margin-top-4">
+      <table class="account-table hide width-100 medium--table">
+        <thead>
+          <tr>
+            <th>{{ content.table_order }}</th>
+            <th>{{ content.table_date }}</th>
+            <th>{{ content.table_payment_status }}</th>
+            <th>{{ content.table_total }}</th>
+            <th>{{ content.table_fulfillment_status }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr>
+              <td>
+                <a href="{{ order.customer_url }}" class="text-no-decoration-hover">{{ order.name }}</a>
+              </td>
+              <td>{{ order.created_at | time_tag: "%m/%d/%Y" }}</td>
+              <td class="font-italic text-capitalize">{{ order.fulfillment_status }}</td>
+              <td>{{ order.total_price | money_without_trailing_zeros }}</td>
+              <td>
+                {%- if order.line_items[0].fulfillment.tracking_url != blank -%}
+                  <a href="{{ order.line_items[0].fulfillment.tracking_url }}" target="_blank" rel="noreferrer noopener">Track Order</a>
+                {%- else -%}
+                  Unavailable
+                {%- endif -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+      <div class="account-accordions medium--hide">
+        {%- for order in customer.orders -%}
+          <details class="accordion" data-behavior="accordion">
+            <summary>
+              {{ order.name }}
+              <span class="accordion-icon"></span>
+            </summary>
+
+            <div class="accordion-content">
+              <p class="margin-vertical-0">
+                Order Number: <a href="{{ order.customer_url }}">{{ order.order_number }}</a><br />
+                Date: {{ order.created_at | time_tag: "%m/%d/%Y" }}<br />
+                Order Status: <span class="font-italic text-capitalize">{{ order.fulfillment_status }}</span><br />
+                Total: {{ order.total_price | money_without_trailing_zeros }}<br />
+                Tracking: {% if order.line_items[0].fulfillment.tracking_url != blank %}<a href="{{ order.line_items[0].fulfillment.tracking_url }}" target="_blank" rel="noreferrer noopener">Track Order</a>{% else %}Unavailable{% endif %}
+              </p>
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- else -%}
+    <p>{{ content.no_orders }}</p>
+  {%- endunless -%}
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "class": "account-overview-page-content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Orders"
+    },
+    {
+      "type": "header",
+      "content": "Order Table"
+    },
+    {
+      "type": "text",
+      "id": "table_order",
+      "label": "Order Column Header",
+      "default": "Order"
+    },
+    {
+      "type": "text",
+      "id": "table_date",
+      "label": "Date Column Header",
+      "default": "Date"
+    },
+    {
+      "type": "text",
+      "id": "table_payment_status",
+      "label": "Payment Status Column Header",
+      "default": "Order Status"
+    },
+    {
+      "type": "text",
+      "id": "table_fulfillment_status",
+      "label": "Fulfillment Status Column Header",
+      "default": "Tracking"
+    },
+    {
+      "type": "text",
+      "id": "table_total",
+      "label": "Total Column Header",
+      "default": "Total"
+    },
+    {
+      "type": "header",
+      "content": "Miscellaneous"
+    },
+    {
+      "type": "textarea",
+      "id": "no_orders",
+      "label": "Message when no orders have been placed",
+      "default": "You haven't placed any orders yet. :("
+    }
+  ]
+}
+{% endschema %}

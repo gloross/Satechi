@@ -1,0 +1,26 @@
+<p class="font-size-3 font-weight-7">{{ referral_by_email_label }}</p>
+
+<div class="flex flex-row flex-wrap items-stretch overflow-hidden large--background-white margin-bottom-8">
+  <div class="width-100 margin-bottom-2 large--width-auto large--grow-2 large--margin-bottom-0 large--border large--border-secondary border-right-none">
+    <input id="referred-customers-input"
+      type="text" 
+      placeholder="Enter comma-separated email addresses"
+      aria-label="Email Addresses" 
+      autocorrect="off" 
+      autocapitalize="off" 
+      class="width-100 height-100 focus-hide-placeholder border border-secondary large--border-none padding-4 font-family-heading font-size-3 font-weight-4" />
+  </div>
+
+  <button id="referred-customers-send-btn" 
+    class="button background-default background-primary-hover font-size-1 text-uppercase width-100 large--width-auto">
+    Send
+  </button>
+</div>
+
+<div class="js-referral-email-success hide">
+  {{ referral_by_email_success_message }}
+</div>
+
+<div class="js-referral-email-error hide">
+  {{ referral_by_email_error_message }}
+</div>

@@ -1,0 +1,64 @@
+{%- unless no_text -%}
+  <div class="width-100 center large--padding-horizontal-6 max-width-8">
+    <div class="text-center padding-top-16 padding-bottom-5 padding-horizontal-4 small--padding-horizontal-6">
+      <div class="padding-vertical-8">
+        {%- if custom_hero_subtitle != blank -%}
+          <span class="font-family-heading font-weight-5 font-size-2 text-uppercase letter-spacing-2 block margin-bottom-4">
+            {{ custom_hero_subtitle }}
+          </span>
+        {%- endif -%}
+
+        {%- if custom_hero_title != blank -%}
+          <h2 class="font-family-primary font-size-9 large--font-size-10 font-weight-4 letter-spacing--1">
+            {{ custom_hero_title | replace: "[br]", "<br/>" }}
+          </h2>
+        {%- endif -%}
+
+        {%- if custom_hero_description != blank -%}
+          <div class="center large--width-80">
+            {{ custom_hero_description }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endunless -%}
+
+{%- if custom_hero_image != blank -%}
+  <div class="width-100 center padding-top-8 margin-bottom-8 {% if hero_image_full_width != 1 %}large--padding-horizontal-6 max-width-8{% else %}max-width-11{% endif %}">
+    {% include 'cf-image' with image: custom_hero_image, size: "1920x", tag_alt: product.title, tag_class: "hide large--block width-100" %}
+
+    {%- if custom_hero_image_mobile == blank -%}
+      {%- assign custom_hero_image_mobile = custom_hero_image -%}
+    {%- endif -%}
+
+    {% include 'cf-image' with image: custom_hero_image_mobile, size: "1024x", tag_alt: product.title, tag_class: "block large--hide width-100" %}
+  </div>
+{%- endif -%}
+
+{%- if custom_hero_video != blank and custom_hero_video_type != "(none)" -%}
+  {%- assign hero_video_url = false -%}
+  {%- if custom_hero_video_type == "Vimeo" -%}
+    {%- assign video_color = settings.color_primary | remove: '#' -%}
+    {%- assign video_id = custom_hero_video | split: "/" | last -%}
+    {%- assign hero_video_url = "//player.vimeo.com/video/ID" | replace: "ID", video_id | append: "?portrait=0&title=0&byline=0&color=" | append: video_color -%}
+  {%- elsif custom_hero_video_type == "YouTube" -%}
+    {%- assign video_id = custom_hero_video | split: "v=" | last | split: "&" | first -%}
+    {%- assign hero_video_url = "//www.youtube.com/embed/ID" | replace: "ID", video_id -%}
+  {%- endif -%}
+
+  {%- if hero_video_url -%}
+    <div class="center max-width-8 margin-bottom-8 large--margin-bottom-16">
+      <div class="aspect-ratio-16x9">
+        <iframe 
+          class="absolute top-0 left-0 width-100 height-100 z-index-2"
+          src="{{ hero_video_url }}" 
+          frameborder="0" 
+          webkitallowfullscreen="webkitallowfullscreen" 
+          mozallowfullscreen="mozallowfullscreen" 
+          allowfullscreen="allowfullscreen"
+          muted></iframe>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

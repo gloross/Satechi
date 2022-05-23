@@ -1,0 +1,92 @@
+<h1 class="invisible">{{ page.title }}</h1>
+
+{%- if customer -%}
+  <div 
+      id="swell-customer-identification"
+      data-authenticated="true"
+      data-email="{{ customer.email }}"
+      data-id="{{ customer.id }}"
+      data-tags="{{ customer.tags | json }}"
+      style="display:none;"
+   ></div>
+
+  <div class="js-rewards-customer-logged-in container container-wide-gutters large--padding-top-16">
+    <div class="padding-vertical-16 large--padding-bottom-0">
+      <div class="large--grid large--grid-gap-4 large--columns-12">
+        <div class="large--column-start-2 large--column-end-12">
+
+          <div class="flex flex-row flex-wrap justify-start large--justify-between large--items-end"> 
+
+            <div class="width-100vw large--width-auto border-bottom border-light-grey large--border-none padding-bottom-6 margin-horizontal--8 large--margin-horizontal-0 padding-horizontal-8 large--padding-horizontal-0">
+              <h2 class="font-family-primary font-weight-4 font-size-8 large--font-size-10">Hi, {{ customer.first_name }}</h2>
+
+              <p><span class="js-swell-vip-tier inline-block"></span>
+                <span class="hide inline-block margin-left-4 js-upgrade-link text-primary-dark">
+                  <a href="#upgrade" 
+                    title="Upgrade"
+                    class="link text-underline-hover">Upgrade</a>
+                </span>
+              </p>
+            </div>
+
+            <div class="width-100 large--width-auto inline-flex flex-row padding-top-6 large--padding-top-0 large--padding-bottom-6">
+              <div class="large--text-right padding-right-12">
+                <span class="hide large--block text-uppercase font-family-heading font-size-1 font-weight-5 letter-spacing-1">Credit</span>
+                <span class="inline-block white-space-nowrap font-size-6 small--font-size-7 large--font-size-9 font-weight-4">$<span class="swell-checkout-dollar-balance"></span></span>
+                <span class="font-size-2 text-grey font-weight-4 block large--hide">Credit</span>
+              </div>
+
+              <div class="large--text-right">
+                <span class="hide large--block text-uppercase font-family-heading font-size-1 font-weight-5 letter-spacing-1">Referrals</span>
+                <span class="js-swell-referrals-total font-size-6 small--font-size-7 large--font-size-9 font-weight-4"></span>
+                <span class="font-size-2 text-grey font-weight-4 block large--hide">Referrals</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hide large--block border-top border-light-grey">
+    <div class="container container-wide-gutters padding-vertical-6">
+      <div class="large--grid large--grid-gap-4 large--columns-12">
+        <div class="large--column-start-2 large--column-end-12">
+          <div class="flex flex-row justify-start items-center">
+            <div class="js-rewards-bar margin-right-6">
+              <div class="js-rewards-bar-progress"></div>
+            </div> 
+
+            <div class="js-rewards-earned-text text-medium-grey"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="background-off-white padding-vertical-16">
+    <div class="container container-wide-gutters">
+      <div class="large--grid large--grid-gap-4 large--columns-12">
+        <div class="large--column-start-2 large--column-end-12">
+
+          <div class="js-rewards-grid grid grid-gap-4 columns-1 large--columns-3"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="upgrade">
+    {% section "rewards-upgrade" %}
+  </div>
+{%- else -%}
+  {% section "rewards-hero" %}
+  {% include "rewards-login-bar" %}
+  {% section "rewards-actions" %}
+  {% section "rewards-refer" %}
+  {% section "rewards-upgrade" %}
+  {% section "rewards-redeem-credits" %}
+  {% section "rewards-hero-2" %}
+{%- endif -%}

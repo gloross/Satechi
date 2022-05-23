@@ -1,0 +1,21 @@
+{% assign item_properties_string = false %}
+
+{% for property in item.properties %}
+  {% if property.first != blank and property.last != blank %}
+    {% assign item_properties_string = "" %}
+  {% endif %}
+{% endfor %}
+
+{% if item_properties_string %}
+  {% for property in item.properties %}
+    {% if property.first != blank and property.last != blank %}
+      {% assign property_name = "properties[" | append: property.first | append: "]" | url_encode %}
+
+      {% assign property_value = property.last | url_encode %}
+
+      {% assign item_properties_string = item_properties_string | append: "&" | append: property_name | append: "=" | append: property_value %}
+    {% endif %}
+  {% endfor %}
+
+  {% assign item_properties_string = item_properties_string | remove_first: "&" %}
+{% endif %}

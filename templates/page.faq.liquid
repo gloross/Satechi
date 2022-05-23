@@ -1,0 +1,25 @@
+{% assign current_page = page %}
+{% assign current_page_content = current_page.content %}
+
+{% comment %}
+  The following attribute is necessary if the RTE is being used for the FAQ content
+  If section blocks are being used for the FAQ content, remove it
+{% endcomment %}
+{% include "attribute-rte-faq-content" %}
+
+<div class="padding-vertical-3">
+  <div class="container text-center">
+    <div class="center large--width-80">
+      {% include 'section-heading', title: current_page.title, description: false, tag: 'h1' %}
+
+      <div class="text-left">
+        {% include "shortcodes" with current_page_content %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %}
+  Un-comment out to use section blocks instead of RTE: 
+  {% section "faq-content" %}
+{% endcomment %}

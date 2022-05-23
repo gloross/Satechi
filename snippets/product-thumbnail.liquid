@@ -1,0 +1,84 @@
+{% include "attribute-product-title" %}
+{% include "attribute-product-featured-image" %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- capture product_json -%}{% include "product-json" %}{%- endcapture -%}
+
+<div class="product-thumbnail">
+  <div class="aspect-ratio-4x5 small--aspect-ratio-6x7 relative background-off-white overflow-visible">
+    <div class="block link absolute absolute-fill z-index-1 overflow-visible">
+      <a class="product-thumbnail-link-to-product link flex flex-column justify-start height-100"
+        href="{{ product.url }}"
+        title="{{ product.title }}">
+
+        <div class="padding-horizontal-7 small--padding-horizontal-9 medium--padding-horizontal-10 large--padding-horizontal-14 padding-vertical-4 small--padding-vertical-6 large--padding-top-14 large--padding-bottom-6">
+          <div class="product-gallery-outer aspect-ratio-1x1 relative">
+            <div class="absolute absolute-fill">
+              {%- if product.variants.size > 1 -%}
+                {% include "product-thumbnail-gallery" %}
+              {%- else -%}
+                <img class="active object-fit-cover object-position-center"
+                  src="{{ product.featured_image | img_url: '100x' }}"
+                  data-variant-id="{{ product.variants[0].id }}"
+                  data-src="{{ product.featured_image | img_url: '450x' }}" 
+                  alt="{{ product.title }}" 
+                  nopin 
+                  width="{{ product.featured_image.width }}" 
+                  height="{{ product.featured_image.height }}" 
+                  loading="lazy" />
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+
+        <form action="/cart/add" 
+          method="post" 
+          enctype="multipart/form-data" 
+          class="width-100 grow-2 relative z-index-1 text-center js-product-form js-product-thumbnail-form"
+          {% if settings.ajax_cart_enable %}data-behavior="ajax-cart-form"{% endif %}
+          data-product-json='{{ product_json }}'>
+          <div class="product-thumbnail-hide-on-hover 
+            padding-horizontal-4 small--padding-horizontal-6
+            font-family-heading font-weight-4 font-size-2 text-no-decoration text-uppercase letter-spacing-1">
+            <h3 class="font-weight-6 font-size-1 margin-bottom-2 small--margin-bottom-3">{{ product.title }}</h3>
+
+            <div class="text-default">
+              {%- if product.compare_at_price and product.compare_at_price > 0 and product.compare_at_price > product.price -%}
+                <del class="padding-left-1">{{ product.compare_at_price | money_without_trailing_zeros }}</del> <span class="text-default padding-left-1">{{ product.price | money_without_trailing_zeros }}</span>
+              {%- else -%}
+                <span>{% if product.price_varies %}<span class="font-size-xs">From</span> {% endif %}{{ product.price | money_without_trailing_zeros }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <div class="product-thumbnail-show-on-hover 
+            absolute absolute-fill hidden">
+            <div class="height-100 flex flex-column justify-end">
+              <div class="hide large--block relative">
+                {%- if product.variants.size > 1 -%}
+                  {% include "product-thumbnail-option-swatches" with space_gray_first: true %}
+                {%- endif -%}
+
+                <input type="hidden" name="id" value="{{ current_variant.id }}" tabindex="-1" />
+                <input type="hidden" name="quantity" value="1" tabindex="-1" />
+
+                <div class="product-form-atc">
+                  {%- if product.available -%}
+                    <button type="submit" class="button background-default background-accent-hover width-100 cursor-pointer">
+                    Add <span class="js-product-thumbnail-price">{{ product.price | money_without_trailing_zeros }}</span>
+                    </button>
+                  {%- else -%}
+                    <button type="submit" class="button width-100" data-product-data='{{ product_json }}' data-variant-id='{{ current_variant.id }}'>
+                      Out of Stock
+                    </button>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </a>
+    </div>
+  </div>
+</div>

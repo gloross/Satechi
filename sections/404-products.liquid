@@ -1,0 +1,41 @@
+{% comment %}
+This is not being used
+
+{%- assign collection = collections[section.settings.collection] -%}
+{%- assign title = section.settings.title | default: collection.title -%}
+
+{%- unless collection == empty -%}
+  <div class="container padding-vertical-5">
+    {% include 'section-heading', title: title, description: description, tag: 'h1' %}
+
+    <div class="grid grid-gap-4 columns-2 medium--columns-4">
+      {%- for product in collection.products limit: 4 -%}
+        {% include "product-thumbnail" %}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endunless -%}
+
+{% endcomment %}
+
+{% schema %}
+
+  {
+    "name": "Featured Products",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection",
+        "info": "The first 4 products in this collection will be displayed"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title",
+        "info": "Default is the collection title"
+      }
+    ]
+  }
+
+{% endschema %}

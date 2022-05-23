@@ -1,0 +1,167 @@
+{%- assign education                  = section.settings -%}
+{%- assign label                      = education.label -%}
+{%- assign title                      = education.title -%}
+{%- assign description                = education.description -%}
+{%- assign background_image           = education.background_image -%}
+{%- assign background_image_alignment = education.background_image_alignment -%}
+{%- assign wufoo                      = education.wufoo -%}
+
+{% include 'object-param-load', section_name: "education-section-2" %}
+
+{%- assign call_to_action = section.settings.call_to_action -%}
+{%- assign success = section.settings.success -%}
+
+{%- assign form_input_group_class = "input-group margin-bottom-5" -%}
+{%- assign form_subject_label = section.settings.form_subject_label -%}
+{%- assign form_subject_list = section.settings.form_subject_list | newline_to_br | split: "<br />" -%}
+
+{% include "about-form" with form_title: "Education" %}
+
+{% comment %}
+  UPLOADCARE SNIPPET
+  If the project needs attachment uploads, then just comment this out, and the .uploadcare-container
+  div from the form above. Then, just add the public key obtained from uploadcare
+{% endcomment %}
+
+{% comment %} <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'UPLOAD_CARE_PUBLIC_KEY';
+
+  UPLOADCARE_LOCALE_TRANSLATIONS = {
+    buttons: {
+      choose: {
+        files: {
+          one: 'Add Attachment',
+          other: 'Add Attachments'
+        },
+        images: {
+          one: 'Add Attachment',
+          other: 'Add Attachments'
+        }
+      }
+    }
+  };
+</script> {% endcomment %}
+
+
+{% schema %}
+{
+  "name": "Education Contact Form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    },
+    { 
+      "type": "richtext", 
+      "id": "description", 
+      "label": "Description"
+    }, 
+    {
+      "type": "header",
+      "content": "Wufoo Form"
+    },
+    {
+      "type": "textarea",
+      "id": "wufoo",
+      "label": "Wufoo Code",
+      "info": "If empty, we will use the Shopify contact form instead"
+    },
+    { 
+      "type": "header", 
+      "content": "Shopify Form content"
+    }, 
+    { 
+      "type": "textarea", 
+      "id": "form_wufoo", 
+      "label": "Wufoo embed code", 
+      "info": "This will override the shopify default form"
+    },
+    { 
+      "type": "text", 
+      "id": "form_subject_label", 
+      "label": "Dropdown label", 
+      "default": "Your Institution"
+    }, 
+    { 
+      "type": "textarea", 
+      "id": "form_subject_list", 
+      "label": "Dropdown options", 
+      "info": "Separate options by line"
+    }, 
+    {
+      "type": "text",
+      "id": "call_to_action",
+      "label": "Call to action",
+      "default": "Submit"
+    },
+    {
+      "type": "textarea",
+      "id": "success",
+      "label": "Success",
+      "default":
+        "Thanks for contacting us! We'll get back to you as soon as possible."
+    }, 
+    { 
+      "type": "header", 
+      "content": "Background"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image", 
+      "info": "Image should be transparent PNG (on off-white background)"
+    }, 
+    { 
+      "type": "select", 
+      "id": "background_image_alignment", 
+      "label": "Background image alignment", 
+      "options": [ 
+        { 
+          "value": "top left", 
+          "label": "Top left"
+        }, 
+        { 
+          "value": "top center", 
+          "label": "Top center"
+        }, 
+        { 
+          "value": "top right", 
+          "label": "Top right"
+        }, 
+        { 
+          "value": "center left", 
+          "label": "Center left"
+        }, 
+        { 
+          "value": "center center", 
+          "label": "Center"
+        }, 
+        { 
+          "value": "center right", 
+          "label": "Center right"
+        }, 
+        { 
+          "value": "bottom left", 
+          "label": "Bottom left"
+        }, 
+        { 
+          "value": "bottom center", 
+          "label": "Bottom center"
+        }, 
+        { 
+          "value": "bottom right", 
+          "label": "Bottom right"
+        }
+      ], 
+      "default": "center center"
+    }
+  ]
+}
+{% endschema %}

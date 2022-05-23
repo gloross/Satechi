@@ -1,0 +1,77 @@
+
+<div class="js-ajax-cart-backdrop ajax-cart-backdrop fixed top-0 right-0 bottom-0 left-0 z-index-max is-closed" data-behavior="toggle-cart"></div>
+
+
+<div class="js-ajax-cart ajax-cart fixed top-0 right-0 bottom-0 z-index-max width-100 background-white flex flex-column flex overflow-hidden is-closed">
+  {%- if settings.cart_shipping_bar_enable -%}
+    {% include "ajax-cart-shipping-bar" %}
+  {%- endif -%}
+
+  {% comment %}
+  Ajax cart header
+  {% endcomment %}
+  <div class="ajax-cart-header relative width-100 border-bottom border-width-1 border-light-grey">
+    <span class="inline-block font-size-5 font-family-heading font-weight-6 text-uppercase padding-5 letter-spacing-1">
+      My Cart
+    </span>
+
+    <button class="button-reset margin-horizontal-4 padding-1 absolute right-0 position-center-vertical 
+      line-height-0 font-size-4" data-behavior="toggle-cart" aria-label="Close Cart">
+      {% include 'svg-close' %}
+    </button>
+  </div>
+
+  {% comment %}
+  Ajax cart items list
+  {% endcomment %}
+  <div class="flex-item-1 border-bottom border-light-grey overflow-y-scroll ">
+    {% comment %} populated with JS {% endcomment %}
+    <div class="js-ajax-cart-items"></div>
+  </div>
+
+  {% comment %}
+  Findify recs
+  {% endcomment %}
+  <div id="CartFindifyUpsell" class="width-100 border-bottom border-light-grey overflow-y-scroll flex flex-column justify-end items-end">
+    <div class="findify-element" id="cart-findify-rec-3"></div>
+  </div>
+
+  {% comment %}
+  Ajax cart bottom
+  {% endcomment %}
+
+  <div class="js-ajax-cart-full ajax-cart-full padding-vertical-4 padding-horizontal-5">
+    {%- if settings.cart_upsell_enable -%}
+      <div class="margin-bottom-4">
+        {{ settings.cart_upsell_widget }}
+      </div>
+    {%- endif -%}
+
+    <p class="flex justify-between items-center font-size-4 font-weight-5 
+      margin-top-0 margin-bottom-4 padding-top-1 ">
+      <span class="margin-right-3">Subtotal</span>
+      <span class="js-ajax-cart-subtotal">{{ cart.original_total_price | money_without_trailing_zeros }}</span>
+    </p>
+
+    <form action="/checkout" method="post" class="js-checkout-form" novalidate>
+      <button type="submit" class="button background-accent background-primary-hover width-100 font-size-3 font-weight-3">
+        Checkout
+      </button>
+    </form>
+
+    <p class="margin-top-4 margin-bottom-0 font-size-1 font-weight-3 text-center text-medium-grey">
+      Shipping & Taxes calculated at checkout.<br/>
+      Ships from the USA
+    </p>
+
+  </div>
+
+  <div class="js-ajax-cart-empty ajax-cart-box padding-vertical-4 padding-horizontal-5 {% if cart.item_count > 0 %}hide{% endif %}">
+    <p class="margin-top-0 margin-bottom-4 font-size-4 large--font-size-5">
+      Your shopping cart is empty.
+    </p>
+
+    <button class="button-reset button width-100 font-size-2 small--font-size-3 text-center" data-behavior="toggle-cart">Continue Shopping</button>
+  </div>
+
+</div>

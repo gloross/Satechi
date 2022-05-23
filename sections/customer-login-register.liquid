@@ -1,0 +1,49 @@
+{%- assign register_form = section.settings -%}
+
+{%- assign title = register_form.title | default: "Sign Up" -%}
+{%- assign description = register_form.description | default: false -%}
+{%- assign call_to_action = register_form.call_to_action | default: "Sign Up" -%}
+
+{% if register_form.enable %}
+  <div>
+    {% comment %} Common section heading {% endcomment %}
+    {% include 'section-heading', title: title, description: description, tag: 'h1' %}
+
+    <a href="/account/register" class="button background-default background-primary-hover padding-horizontal-10 margin-top-4 font-size-2">
+      {{ call_to_action }}
+    </a>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Login registration prompt",
+  "class": "login-registration-prompt",
+  "settings": [
+    {
+      "type": "checkbox",
+      "label": "Enable?",
+      "id": "enable",
+      "default": true
+    },
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "title",
+      "default": "Sign Up"
+    },
+    {
+      "type": "textarea",
+      "label": "Description",
+      "id": "description",
+      "default": "Creating an account makes it easier to: checkout faster, view your order history, & access your order status"
+    },
+    {
+      "type": "text",
+      "label": "Call to action",
+      "id": "call_to_action",
+      "default": "Sign Up"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+{%- assign article = blog.articles.first -%}
+
+{%- if article.image -%}
+  {% assign image_url = article | img_url: "1024x" -%}
+{%- else -%}
+  {%- assign image_url = false -%}
+{%- endif -%}
+
+{%- assign title = article.title -%}
+{%- assign href = article.url -%}
+{%- assign call_to_action = section.settings.article_thumbnail_call_to_action -%}
+
+<section class="background-off-white relative">
+  <div class="container padding-vertical-4 small--padding-vertical-6 large--padding-vertical-12">
+    <div class="large--margin-vertical-8 flex flex-row flex-wrap large--flex-nowrap justify-center relative z-index-2 items-stretch background-white">
+
+      <div class="width-100 large--width-50 relative background-secondary">
+        <div class="absolute absolute-fill">
+          <img class="block object-fit-cover object-position-center" 
+            data-src="{{ image_url }}" 
+            alt="{{ title }}" />
+        </div>
+
+        <div class="large--hide aspect-ratio-4x3"></div>
+        <div class="hide large--block aspect-ratio-7x6"></div>
+      </div>
+
+      <div class="width-100 large--width-50 padding-6 large--padding-15">
+        <div class="width-100 height-100 max-width-content center flex flex-column justify-center large--padding-6">
+          {%- if article.tags.size > 0 -%}
+            <p class="font-family-heading font-size-xs large--font-size-1 font-weight-6 text-uppercase letter-spacing-1 text-medium-grey margin-top-0 margin-bottom-3 large--margin-bottom-4">{{ article.tags[0] }}</p>
+          {%- endif -%}
+
+          <h1 class="font-family-primary font-size-6 large--font-size-9 font-weight-4 margin-bottom-4 large--margin-bottom-8 text-default letter-spacing--1">
+            <a href="{{ href }}" class="link text-default-hover">
+              {{ title }}
+            </a>
+          </h1>
+
+          {%- if call_to_action != blank -%}
+            <a class="font-family-heading font-size-xs large--font-size-1 font-weight-6 text-uppercase letter-spacing-1 text-primary-dark text-default-hover text-no-decoration transition-all" 
+              href="{{ href }}"
+              title="{{ call_to_action }}">{{ call_to_action }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

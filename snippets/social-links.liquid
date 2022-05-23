@@ -1,0 +1,42 @@
+{% comment %} 
+
+  Info:
+  Loops through each social network in settings_schema. 
+  Checks if value is set, and renders a link and a corresponding icon. 
+  
+  Notes:
+  Depends on svg being in snippets, formed like this: 'svg-facebook.liquid'
+
+  Usage: 
+  {% include 'social-links' %}
+
+{% endcomment %}
+
+<div>
+
+  {% comment %} This matches with settings_schema {% endcomment %}
+  {%- assign socials = 'facebook,instagram,twitter,pinterest,linkedin,youtube' | split: ',' -%}
+  {%- assign icon_handles = 'facebook-f,instagram,twitter,pinterest-p,linkedin,youtube' | split: ',' -%}
+
+  {% for social in socials %}
+
+    {%- assign handle = 'social_' | append: social -%}
+    {%- assign url = settings[handle] -%}
+    {%- assign icon = icon_handles[forloop.index0] -%}
+    
+    {% comment %} Check if value is set in schema, if so, render the link & icon {% endcomment %}
+    {% if url != blank %}
+      <a class="link margin-1 inline-block" href="{{ url }}" target="_blank"
+        title="{{ social }}"
+        aria-label="{{ social }}">
+        <span class="block transition-all relative padding-left-10 padding-bottom-10 background-off-white background-default-hover text-white-hover border-radius-circle">
+          <span class="absolute position-center font-size-4">
+            <i class="fab fa-{{ icon }}"></i>
+          </span>
+        </span>
+      </a>
+    {% endif %}
+
+  {% endfor %}
+
+</div>

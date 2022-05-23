@@ -1,0 +1,16 @@
+{%- comment %}
+	If you need to upload an image to the image gallery in the product admin for reasons other than
+  adding it to the actual gallery, and you exclude those images by using alt text, add the alt text
+  here on a new line.
+{% endcomment -%}
+
+{% capture product_gallery_exclusion_alt_keywords %}
+  swatch
+  promo
+  size chart
+  embroidery
+  youtu
+  nogallery
+{% endcapture %}
+
+{% assign product_gallery_exclusion_alt_keywords = product_gallery_exclusion_alt_keywords | strip | strip_newlines | split: "  " %}

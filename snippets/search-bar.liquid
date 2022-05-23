@@ -1,0 +1,8 @@
+{%- assign class = class | default: false -%}
+
+<form class="search-bar {% if class %}{{ class }}{% endif %}" method="get" action="/search">
+  <input type="hidden" name="type" value="product" />
+  <label for="search-input" class="invisible">Search</label>
+    <input type="text" data-findify-attr="findify-autocomplete-input" class="input-group-field input__field-2" aria-label="Search Site" autocomplete="off" placeholder="Search" id = "searchbox_keyword" >
+  <button type="submit">{% include "svg-search" %}</button>
+</form>

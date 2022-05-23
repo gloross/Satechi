@@ -1,0 +1,15 @@
+{%- assign modal_content_class = modal_content_class | default: "" %}
+
+<div id="{{ modal_id }}" class="modal is-closed" data-modal>
+  <div class="modal-backdrop video-backdrop" data-behavior="close-modal"></div>
+
+  <div class="modal-container">
+    <div class="modal-content {{ modal_content_class }}">
+      {{ modal_content }}
+
+      <a class="modal-close" data-behavior="close-modal" aria-label="Close modal" href="#" style="color: white;">
+        {% include "svg-close" %}
+      </a>
+    </div>
+  </div>
+</div>

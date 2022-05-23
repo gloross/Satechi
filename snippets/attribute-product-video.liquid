@@ -1,0 +1,19 @@
+{% assign url = product.metafields.product.video_url %}
+
+{% assign product_video = false %}
+
+{% assign product_video_url = false %}
+{% assign product_video_id = false %}
+
+{% if url %}
+  {% assign product_video = true %}
+
+  {% assign product_video_url = url %}
+
+  {%- if product_video_url contains "?v=" -%}
+    {% assign product_video_id = url | split: "?v=" | last | split: "&" | first %}
+  {%- elsif product_video_url contains ".be/" -%}
+    {% assign product_video_id = url | split: ".be/" | last | split: "&" | first %}
+  {%- endif -%}
+
+{% endif %}

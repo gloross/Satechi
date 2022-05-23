@@ -1,0 +1,174 @@
+{% include 'object-param-load', section_name: "homepage-rich-content" %}
+
+{% assign rich_content    = section.settings %}
+{% assign title           = rich_content.title %}
+{% assign subtitle        = rich_content.subtitle | default: false %}
+{% assign image           = rich_content.image | default: false %}
+{% assign button_url      = rich_content.url | default: false %}
+{% assign button_text     = rich_content.button_text | default: false %}
+{% assign layout          = rich_content.layout %}
+{% assign overlay_color   = rich_content.overlay_color %}
+{% assign overlay_opacity = rich_content.overlay_opacity %}
+{% assign text_color      = rich_content.text_color %}
+
+<div class="{% if layout != 'full-text-center' %}background-off-white padding-vertical-4 small--padding-vertical-6 large--padding-vertical-15{% endif %}">
+  <div class="container">
+    <section class="relative {% if layout == 'full-text-center' %} background-cover background-position-center {% endif %}" {% if layout == 'full-text-center' and image %} data-src="{{ image | img_url: '800x' }}" {% endif %}>
+
+      {% comment %} Overlay (if not wanted, user can set to opacity 0) {% endcomment %}
+      {% if layout == 'full-text-center' %}
+        <div class="absolute absolute-fill z-index-1" style="background-color: {{ overlay_color }}; opacity: {{ overlay_opacity | divided_by: 100.00 }}"></div>
+      {% endif %}
+
+      <div class="large--margin-vertical-12 flex flex-row flex-wrap large--flex-nowrap justify-center relative z-index-2 {% if layout == 'full-text-center' %} padding-vertical-15 items-center {% else %} items-stretch{% endif %}">
+
+        {% if image and layout != 'full-text-center' %}
+          <div class="width-100 large--width-50 relative background-secondary {% if layout == 'col-text-left' %} order-2 {% endif %}">
+            <div class="absolute absolute-fill">
+              <img class="block object-fit-cover object-position-center" 
+                data-src="{{ image | img_url: '1024x' }}" 
+                alt="{{ title }}" />
+            </div>
+
+            {% comment %}
+              Aspect ratio placeholder, adds minimum dimensions
+            {% endcomment %}
+
+            <div class="aspect-ratio-4x3 large--aspect-ratio-7x6"></div>
+          </div>
+        {% endif %}
+
+        <div class="
+          {% if layout == 'full-text-center' %} text-center {% endif %}
+          {% if image and layout != 'full-text-center' %}
+            width-100 large--width-50 padding-6 large--padding-15 background-white
+          {% else %}
+            width-90 max-width-8 text-center center
+          {% endif %}">
+
+          <div class="width-100 height-100 max-width-content center flex flex-column justify-center large--padding-7">
+            {%- if subtitle -%}
+              <p class="font-family-heading font-size-xs large--font-size-1 font-weight-6 text-uppercase letter-spacing-1 text-medium-grey margin-top-0 margin-bottom-3 large--margin-bottom-4">{{ subtitle }}</p>
+            {%- endif -%}
+
+            <h3 class="font-family-primary font-size-6 large--font-size-9 font-weight-4 margin-bottom-4 large--margin-bottom-8 text-{{ text_color }} letter-spacing--1">
+              {% include "unwidow" with title %}
+            </h3>
+
+            {%- if button_url and button_text -%}
+              <a class="font-family-heading font-size-xs large--font-size-1 font-weight-6 text-uppercase letter-spacing-1 text-primary-dark text-default-hover text-no-decoration transition-all" 
+                href="{{ button_url }}"
+                title="Read more of this article">{{ button_text }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Rich Content",
+    "settings": [
+      {
+        "id": "subtitle",
+        "type": "text",
+        "label": "Subtitle"
+      },
+      {
+        "id": "title",
+        "type": "textarea",
+        "label": "Title",
+        "default": "Rich Content Title"
+      },
+      {
+        "id": "url",
+        "type": "url",
+        "label": "CTA Url"
+      },
+      {
+        "id": "button_text",
+        "type": "text",
+        "label": "CTA Text", 
+        "default": "Read More"
+      },
+      {
+        "id": "image",
+        "type": "image_picker",
+        "label": "Image"
+      },
+      {
+        "id": "layout",
+        "type": "select",
+        "label": "Layout",
+        "default": "col-text-right",
+        "options": [
+          {
+            "label": "Column: Text Right",
+            "value": "col-text-right"
+          },
+          {
+            "label": "Column: Text Left",
+            "value": "col-text-left"
+          },
+          {
+            "label": "Full: Text Center",
+            "value": "full-text-center"
+          }
+        ]
+      },
+      {
+        "id": "text_color",
+        "type": "select",
+        "label": "Text Color",
+        "default": "black",
+        "options": [
+          {
+            "label": "Black",
+            "value": "black"
+          },
+          {
+            "label": "White",
+            "value": "white"
+          },
+          {
+            "label": "Primary Color",
+            "value": "primary"
+          },
+          {
+            "label": "Secondary Color",
+            "value": "secondary"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Optional Image Overlay"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Opacity",
+        "default": 0,
+        "max": 100,
+        "min": 0,
+        "unit": "%"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich Content",
+        "category": "Rosewood"
+      }
+    ]
+  }
+{% endschema %}

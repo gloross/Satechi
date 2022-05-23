@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    {% include 'style-tags', layout: 'theme' %}
+
+    {% include "hide-admin-bar" %}
+
+    {{ content_for_header }}
+  </head>
+  <body>
+    <main class="padding--up-4">
+      {{ content_for_layout }}
+    </main>
+  </body>
+</html>

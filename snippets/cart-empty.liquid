@@ -1,0 +1,15 @@
+{% comment %} Variables inherited from `sections/cart.liquid` {% endcomment %}
+
+<h2 class="margin-vertical-0 font-size-4 font-weight-5 large--font-size-5">
+  {{ empty_title }}
+</h2>
+
+{%- if empty_description -%}
+  <div class="rte margin-top-3">
+    {{ empty_description }}
+  </div>
+{%- endif -%}
+
+{%- if empty_button_enable -%}
+  <a href="{{ empty_button_link }}" class="inline-block margin-top-4 text-inherit text-underline">{{ empty_button_text }}</a>
+{%- endif -%}

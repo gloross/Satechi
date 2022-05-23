@@ -1,0 +1,10 @@
+{% assign excluded_tags = settings.search_excluded_tags | split: ", " %}
+
+{% assign product_search_excluded = false %}
+
+{% for tag in excluded_tags %}
+  {% if product.tags contains tag %}
+    {% assign product_search_excluded = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}

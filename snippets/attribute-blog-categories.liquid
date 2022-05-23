@@ -1,0 +1,2 @@
+{% assign blog_categories = blog.handle | append: "-categories" %}
+{% assign blog_categories = linklists[blog_categories].links | default: false %}

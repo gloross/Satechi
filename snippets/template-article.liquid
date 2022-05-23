@@ -1,0 +1,95 @@
+{% assign current_article = article %}
+{% assign current_comment = comment %}
+
+{% comment %}Capture featured posts first so we can conditionally size main container{% endcomment %}
+{% assign current_article = article.title %}
+{% assign featured_posts = "" %}
+{% assign i = 0 %}
+{% for a in blog.articles %}
+  {% if a.tags contains 'Featured Post' and a.title != current_article %}
+    {% assign i = i | plus: 1 %}
+    {% capture thecycle %}{% cycle 'odd', 'even' %}{% endcapture %}
+    {% capture featured_post %}
+      <div class="featured-post margin-bottom-8 width-50 large--width-100 float-left {% if thecycle == 'odd' %}padding-right-2 large--padding-right-none{% elsif thecycle == 'even' %}padding-left-2 large--padding-left-none{% endif %} {% if i == 3 %}hide large--block{% endif %}">
+        <a class="link" href="{{ a.url }}">
+          <div class="aspect-ratio-1x1 relative">
+            <div class="absolute absolute-fill">
+              <img class="object-fit-cover object-position-center" src="{{ a.image.src | img_url: '400x' }}">
+            </div>
+          </div>
+          <span class="block font-family-heading font-weight-6 font-size-1 large--font-size-2 letter-spacing-1 text-uppercase padding-top-2">{{ a.tags.last }}</span>
+          <span class="font-family-heading font-weight-6 font-size-2 large--font-size-3">{{ a.title }}</span>
+        </a>
+      </div>
+    {% endcapture %}
+
+    {% assign featured_posts = featured_posts | append: featured_post %}
+    {% if i == 3 %}
+      {% break %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<div class="padding-vertical-8 large--padding-vertical-16">
+  <div class="container">
+    <div class="large--grid large--grid-gap-4 large--columns-12">
+    <article class="width-100 {% if featured_posts %}large--column-start-1 large--column-end-10 large--padding-right-8 large--border-right border-secondary{% else %}large--column-start-3 large--column-end-10{% endif %}">
+      <aside class="block margin-bottom-6">
+        <div class="flex flex-row">
+          <div>
+            <time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+              class="white-space-nowrap">
+
+              <i class="far fa-clock align-middle"></i>
+
+              <span class="font-family-heading font-weight-5 font-size-2 text-uppercase">
+                {{ article.published_at | date: "%b ‘%y" }}
+              </span>
+
+            </time>
+          </div>
+
+          <div class="line-height-solid padding-left-6 margin-top--1">
+            {% assign i = 0 %}
+            {%- for tag in article.tags -%}
+              {% if tag == 'Featured Post' %}{% continue %}{% endif %}
+              {% assign i = i | plus: 1 %}
+              {% if i > 3 %}{% break %}{% endif %}
+              
+              <a href="/blogs/news/tagged/{{ tag | handle }}" class="font-family-heading font-weight-5 font-size-1 text-uppercase text-grey inline-block background-light-grey border-radius-2 overflow-hidden margin-1 text-no-decoration padding-horizontal-3"
+              style="padding-top: 6px; padding-bottom: 6px;">{{ tag }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      </aside>
+
+      <header class="margin-bottom-5">
+        <h1 class="font-family-primary font-weight-4 font-size-6 large--font-size-10 margin-bottom-6"
+          style="letter-spacing: -0.0875rem;">
+          {{ article.title }}
+        </h1>
+      </header>
+
+      <div class="rte">
+        {%- assign article_content = article.content | replace: "_large.jpg", "_2048x2048.jpg" -%}
+        {% include "shortcodes" with article_content %}
+      </div>
+
+      {% if blog.comments_enabled? %}
+        {% include "article-comments" %}
+      {% endif %}
+
+      {% include "article-pagination" %}
+    </article>
+
+    {% if featured_posts %}
+      <aside class="sidebar inline-block width-100 large--column-start-10 padding-top-6 large--padding-top-0 margin-top-6 large--margin-top-0 large--column-end--1 large--padding-left-4 border-top border-secondary large--border-top-none">
+        <span class="padding-bottom-4 width-100 font-family-heading font-weight-6 font-size-1 large--font-size-2 letter-spacing-1 text-uppercase link float-left block">
+          Featured Posts
+        </span>
+
+        {{ featured_posts }}
+      </aside>
+    {% endif %}
+  </div>
+</div>

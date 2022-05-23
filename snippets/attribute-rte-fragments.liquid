@@ -1,0 +1,12 @@
+{% assign rte_fragments = "" | split: "" %}
+
+{% assign rte_fragment_chunks = rte | split: "<h5" %}
+
+{% for chunk in rte_fragment_chunks %}
+  {% unless forloop.first %}
+    {% assign html = chunk | split: "</h5>" | last | split: "-<-@" %}
+    {% assign rte_fragments = rte_fragments | concat: html %}
+  {% endunless %}
+{% endfor %}
+
+{% include "attribute-rte-fragment-headings" %}
