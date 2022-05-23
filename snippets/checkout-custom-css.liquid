@@ -6,14 +6,11 @@ body {
   --grey-dark: #737373;
   --orange: #db3901;
   --white: #fff;
-
-  font-family: 'Montserrat', sans-serif;
-  color: var(--grey);
 }
 
-.breadcrumb {
-  padding-top: 0;
-  margin: 30px 0;
+.breadcrumb--new.breadcrumb {
+  padding: 0;
+  margin: 20px 0;
   list-style-type: none;
   counter-reset: breadcrumb;
   position: relative;
@@ -21,7 +18,7 @@ body {
   text-transform: uppercase;
 }
 
-.breadcrumb:before {
+.breadcrumb--new.breadcrumb:before {
   position: absolute;
   top: 22px;
   left: 12.5%;
@@ -31,7 +28,7 @@ body {
   background: var(--grey);
 }
 
-.breadcrumb .breadcrumb__item {
+.breadcrumb--new.breadcrumb .breadcrumb__item {
   padding: 60px 0 20px;
   width: 25%;
   text-align: center;
@@ -41,11 +38,11 @@ body {
   align-items: center;
 }
 
-.breadcrumb .breadcrumb__item svg {
+.breadcrumb--new.breadcrumb .breadcrumb__item svg {
   display: none;
 }
 
-.breadcrumb .breadcrumb__item::after {
+.breadcrumb--new.breadcrumb .breadcrumb__item::after {
   counter-increment: breadcrumb;
   content: counter(breadcrumb);
   color: var(--grey-dark);
@@ -62,17 +59,17 @@ body {
   background: white;
 }
 
-.breadcrumb .breadcrumb__item--current:after {
+.breadcrumb--new.breadcrumb .breadcrumb__item--current:after {
   border-color: var(--orange);
   background: var(--orange);
   color: var(--white);
 }
 
-.breadcrumb .breadcrumb__item--current span {
+.breadcrumb--new.breadcrumb .breadcrumb__item--current span {
   color: var(--orange);
 }
 
-.breadcrumb .breadcrumb__item--completed:after,
+.breadcrumb--new.breadcrumb .breadcrumb__item--completed:after,
 .breadcrumb  .breadcrumb__item--completed span:after {
   background: url('{{ 'check-solid.svg' | asset_url  }}');
   background-position: center center;
@@ -85,19 +82,19 @@ body {
   content: "";
 }
 
-.breadcrumb .breadcrumb__item a {
+.breadcrumb--new.breadcrumb .breadcrumb__item a {
   color: inherit;
 }
 
 @media screen and (max-width: 767px) {
-  .breadcrumb {
+  .breadcrumb--new.breadcrumb {
     margin-right: -14px;
     margin-left: -14px;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .breadcrumb__item {
+  .breadcrumb--new .breadcrumb__item {
     font-size: 0.75em;
   }
 }
