@@ -15,5 +15,10 @@
         "gift_card_and_discount_placeholder": "Discount code (can't be used w\/ rewards)"
       }
     }
+  },
+  "products": {
+    "product": {
+      "delivery_time": "Estimated delivery between {{date1}} and {{date2}}"
+    }
   }
 }

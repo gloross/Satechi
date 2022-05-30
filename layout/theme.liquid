@@ -6,7 +6,7 @@
   {%- include "attribute-shop-social-links" -%}
   {%- include "attribute-template-noindex" -%}
   {%- include "attribute-cart-ajax-enabled" -%}
-  
+
   <html lang="en">
     <head>
 
@@ -17,92 +17,94 @@
         }
     </script>
     <!-- OneTrust Cookies Consent Notice end for satechi.net -->
-    
+
     <!-- OneTrust Script to Block Cookies -->
     {% render 'onetrust-block-cookies' %}
     <!-- End OneTrust Script to Block Cookies -->
-    
+
     <!-- Start - Elevar FB CAPI -->
     <script async src="https://shopify-gtm-suite.getelevar.com/shops/f03f171de6fcac592d906c3f6e903480505082f4/events.js" type="text/plain" class="optanon-category-C0002"></script>
     <!-- End - Elevar FB CAPI -->
     {% render 'elevar-head' %}
 
     <!-- Google Optimize -->
-      <script src="https://www.googleoptimize.com/optimize.js?id=GTM-TP9HNWP"></script>    
+      <script src="https://www.googleoptimize.com/optimize.js?id=GTM-TP9HNWP"></script>
     <!-- End Google Optimize -->
-      
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <meta name="theme-color" content="{{ settings.color_primary }}" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  
-      {% include 'SEOManager' %}
-  
-      {% if template_noindex %}
-        <meta name="robots" content="noindex, nofollow" />
-      {% endif %}
-      
-      <meta name="p:domain_verify" content="5fc13fcf046fca321bdd1fc298ee3aac"/>
-  
-      <link rel="canonical" href="{{ canonical_url }}" />
-      <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/x-icon" />
 
-      <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-      <link rel="preconnect" href="https://monorail-edge.shopifysvc.com" crossorigin>
-      <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
-      <link rel="preconnect" href="https://static.zdassets.com" crossorigin>
-  
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js" async defer></script>
-      <script src="//assets.findify.io/satechi.myshopify.com.min.js" async defer></script>
-  
-      {% include "schema" %}
-      {% include "vendor-criteo" %}
-      {% include "vendor-facebook-og" %}
-      {% include "vendor-klaviyo" %}
-      {% include "vendor-twitter-cards" %}
-      {% include "vendor-swell" %}
-      {% include "vendor-pinterest" %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="theme-color" content="{{ settings.color_primary }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-      {% comment %}
-        The following snippet scripts have been moved to lazyload-by-event: 
+    {% include 'SEOManager' %}
 
-        vendor-browser-update
-        vendor-pinterest (existing snippet contains <noscript> tag)
-        vendor-reddit
-        vendor-yotpo
-        vendor-zendesk
-      {% endcomment %}
+    {% if template_noindex %}
+      <meta name="robots" content="noindex, nofollow" />
+    {% endif %}
 
-      {% include "css-critical" %}
+    <meta name="p:domain_verify" content="5fc13fcf046fca321bdd1fc298ee3aac"/>
 
-      {% include "lazyload-by-event" %}
-  
-      {% include 'css-liquid-vars' %}
-      {% section 'product-color-swatches' %}
-      {{ 'theme.min.css' | asset_url | stylesheet_tag }}
-  
-      {% comment %} Sadly cannot find an NPM module for this: {% endcomment %}
-      {%- if template contains "customers" -%}
-        {{ "shopify_common.js"  | shopify_asset_url | script_tag }}
-        {{ "customer_area.js"  | shopify_asset_url | script_tag }}
-      {%- endif -%}
-  
-      {{ content_for_header }}
-  
-      <meta name="google-site-verification" content="8Kdu7nzSU4n1Fo_-s2CRxJQ7mrk2F1tbrPjjYZLrIu8" />
-      <script src="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js" async defer></script>
-      <script src="https://www.dwin1.com/19038.js" type="text/javascript" defer="defer"></script>
-  
-      <script>
-        var iac=(document.cookie.match(/^(?:.*;)?\s*cookieconsent_preferences_disabled\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];null!=iac&&iac.indexOf("marketing")>=0&&"function"==typeof fbq&&fbq("dataProcessingOptions",["LDU"],0,0);
-      </script>
-  
-      <meta name="facebook-domain-verification" content="tkmpybay3v8wx4gw11l3qwnd8vvq8l" />
-      
+    <link rel="canonical" href="{{ canonical_url }}" />
+    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://monorail-edge.shopifysvc.com" crossorigin>
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+    <link rel="preconnect" href="https://static.zdassets.com" crossorigin>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js" async defer></script>
+    <script src="//assets.findify.io/satechi.myshopify.com.min.js" async defer></script>
+
+    {% include "schema" %}
+    {% include "vendor-criteo" %}
+    {% include "vendor-facebook-og" %}
+    {% include "vendor-klaviyo" %}
+    {% include "vendor-twitter-cards" %}
+    {% include "vendor-swell" %}
+    {% include "vendor-pinterest" %}
+
+    {% comment %}
+      The following snippet scripts have been moved to lazyload-by-event:
+
+      vendor-browser-update
+      vendor-pinterest (existing snippet contains <noscript> tag)
+      vendor-reddit
+      vendor-yotpo
+      vendor-zendesk
+    {% endcomment %}
+
+    {% include "css-critical" %}
+
+    {% include "lazyload-by-event" %}
+
+    {% include 'css-liquid-vars' %}
+    {% section 'product-color-swatches' %}
+    {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Sadly cannot find an NPM module for this: {% endcomment %}
+    {%- if template contains "customers" -%}
+      {{ "shopify_common.js"  | shopify_asset_url | script_tag }}
+      {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    <meta name="google-site-verification" content="8Kdu7nzSU4n1Fo_-s2CRxJQ7mrk2F1tbrPjjYZLrIu8" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js" async defer></script>
+    <script src="https://www.dwin1.com/19038.js" type="text/javascript" defer="defer"></script>
+
+    <script>
+      var iac=(document.cookie.match(/^(?:.*;)?\s*cookieconsent_preferences_disabled\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];null!=iac&&iac.indexOf("marketing")>=0&&"function"==typeof fbq&&fbq("dataProcessingOptions",["LDU"],0,0);
+    </script>
+
+    <meta name="facebook-domain-verification" content="tkmpybay3v8wx4gw11l3qwnd8vvq8l" />
+
+    {%- render 'locales' -%}
   </head>
-  
+
     <body>
     {% render 'elevar-body-end' %}
       <div id="LinkToMainContent">
@@ -110,24 +112,24 @@
           Skip to main content
         </a>
       </div>
-  
+
       {% section 'header-top-bar' %}
       {% section "header" %}
-  
+
       <main role="main" id="MainContent">
         {{ content_for_layout }}
       </main>
-  
+
       {% section "footer" %}
-  
+
       {% if cart_ajax_enabled %}
         {% include "ajax-cart" %}
       {% endif %}
-  
+
       {% include 'currency-form' %}
-  
+
       {%- include 'scripts-rosewood-support' -%}
-      
+
       {{ 'theme.min.js' | asset_url | script_tag }}
 
       {%- if template contains 'customers' -%}
@@ -138,14 +140,16 @@
         {{ 'theme-main.min.js' | asset_url | script_tag }}
       {%- endif -%}
 
+      {{ 'custom.js' | asset_url | script_tag }}
+
       {% include "vendor-acsb" %}
-      
+
       {% include 'findify-tagging' %}
-  
+
     {% include 'wisepops-generated' %}
   <script>window.KlarnaThemeGlobals={};{%case template.name%} {%when"product"%} window.KlarnaThemeGlobals.data_purchase_amount={{product.first_available_variant.price}};window.KlarnaThemeGlobals.productVariants={{product.variants|json}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%when"cart"%} window.KlarnaThemeGlobals.data_purchase_amount={{cart.total_price}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%endcase%}</script>
-  
+
   {% include 'klaviyo-bis' %}
-  
+
   </body>
   </html>

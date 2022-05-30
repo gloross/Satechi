@@ -1,0 +1,9 @@
+{% assign keys = 'products.product.delivery_time' %}
+{% comment %}{% assign keys = keys | append: ',products.buttons.back_in_stock' %}{% endcomment %}
+{% assign keys = keys | split: ","  %}
+<script>
+  const langIndex = {};
+  {% for key in keys %}
+  langIndex["{{ key }}"] = "{{ key | t }}";{% endfor %}
+  Shopify.theme.locales = langIndex
+</script>
