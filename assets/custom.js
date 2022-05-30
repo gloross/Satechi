@@ -84,8 +84,8 @@ const calcDeliveryTime = () => {
     const estimation = locales['products.product.delivery_time'];
 
     const finalEstimation = estimation
-      .replace('{{date1}}', `<strong> ${weekdays[dateResults1.weekday]} ${months[dateResults1.month]} ${dateResults1.day + getOrdinalNumber(dateResults1.day)}</strong>`)
-      .replace('{{date2}}', `<strong> ${weekdays[dateResults2.weekday]} ${months[dateResults2.month]} ${dateResults2.day + getOrdinalNumber(dateResults2.day)}</strong>`);
+      .replace('{{date1}}', `<strong> ${weekdays[dateResults1.weekday].substring(0, 3)} ${months[dateResults1.month]} ${dateResults1.day}</strong>`)
+      .replace('{{date2}}', `<strong> ${weekdays[dateResults2.weekday].substring(0, 3)} ${months[dateResults2.month]} ${dateResults2.day}</strong>`);
 
     const selector = document.querySelector('.js-calc-delivery-time');
     if (selector) selector.innerHTML = finalEstimation;
