@@ -1,0 +1,102 @@
+{% style %}
+
+body {
+  --font-family-primary: 'FF Tisa Sans', 'FF Tisa Sans Pro', sans-serif;
+  --grey: rgb(152,152,152);
+  --grey-dark: #737373;
+  --orange: #db3901;
+  --white: #fff;
+}
+
+.breadcrumb--new.breadcrumb {
+  padding: 0;
+  margin: 20px 0;
+  list-style-type: none;
+  counter-reset: breadcrumb;
+  position: relative;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.breadcrumb--new.breadcrumb:before {
+  position: absolute;
+  top: 22px;
+  left: 12.5%;
+  content: '';
+  width: 75%;
+  height: 2px;
+  background: var(--grey);
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item {
+  padding: 60px 0 20px;
+  width: 25%;
+  text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item svg {
+  display: none;
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item::after {
+  counter-increment: breadcrumb;
+  content: counter(breadcrumb);
+  color: var(--grey-dark);
+  font-size: 1.4em;
+  position: absolute;
+  top: 0px;
+  left: calc(50% - 23px);
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 3px solid var(--grey);
+  border-radius: 50%;
+  line-height: 40px;
+  background: white;
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item--current:after {
+  border-color: var(--orange);
+  background: var(--orange);
+  color: var(--white);
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item--current span {
+  color: var(--orange);
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item--completed:after,
+.breadcrumb  .breadcrumb__item--completed span:after {
+  background: url('{{ 'check-solid.svg' | asset_url  }}');
+  background-position: center center;
+  background-repeat: no-repeat no-repeat;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: var(--white);
+  background-size: 60%;
+  content: "";
+}
+
+.breadcrumb--new.breadcrumb .breadcrumb__item a {
+  color: inherit;
+}
+
+@media screen and (max-width: 767px) {
+  .breadcrumb--new.breadcrumb {
+    margin-right: -14px;
+    margin-left: -14px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .breadcrumb--new .breadcrumb__item {
+    font-size: 0.75em;
+  }
+}
+
+{% endstyle %}

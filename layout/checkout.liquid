@@ -18,44 +18,44 @@
     <script async src="https://shopify-gtm-suite.getelevar.com/shops/f03f171de6fcac592d906c3f6e903480505082f4/events.js" type="text/plain" class="optanon-category-C0002"></script>
     <!-- End - Elevar FB CAPI -->
     {% render 'elevar-head' %}
-      
+
       <!-- Google Optimize -->
-      <script src="https://www.googleoptimize.com/optimize.js?id=GTM-TP9HNWP"></script>    
+      <script src="https://www.googleoptimize.com/optimize.js?id=GTM-TP9HNWP"></script>
      <!-- End Google Optimize -->
 
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
-  
+
       <title>{{ shop.name }} - {{ page_title }}</title>
-  
-  
+
+
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
       {{ content_for_header }}
-  
+
       {{ checkout_stylesheets }}
       {{ checkout_scripts }}
-    
+
       {{ "checkout.scss.css" | asset_url | stylesheet_tag }}
-      
+
       <!-- Swell Integration -->
       {{ "swell-rewards.scss.css" | asset_url | stylesheet_tag }}
-      {{ "swell-checkout.js" | asset_url | script_tag }} 
-      
+      {{ "swell-checkout.js" | asset_url | script_tag }}
+
         <!-- zendesk -->
     <!-- Start of satechi Zendesk Widget script -->
     <script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","56d664c0-113a-4fc6-a06c-6bc2994db903");/*]]>*/</script>
     <!-- End of satechi Zendesk Widget script -->
-      
+
         <script>
       console.log(window.innerWidth);
       if (window.innerWidth > 500) {
         zE(function() {
           zE.setHelpCenterSuggestions({ labels: ['top3_widget'] });
         });
-  
+
         window.zESettings = {
-          webWidget: {          
+          webWidget: {
             helpCenter: {
               title: {
                 '*': 'Help'
@@ -63,7 +63,7 @@
               searchPlaceholder: {
                 '*': 'Search our Help Center'
               }
-            },      
+            },
             launcher: {
               label: {
                 '*': 'Help'
@@ -73,19 +73,20 @@
         };
       }
     </script>
-      
+
     </head>
     <body>
+    {% render 'checkout-custom-css' %}
     {% render 'elevar-checkout-end' %}
-  
+
       <div class="banner" data-header>
         <div class="wrap">
           {{ content_for_logo }}
         </div>
       </div>
-  
+
       {{ order_summary_toggle }}
-  
+
       <div class="content" data-content>
         <div class="wrap">
           <div class="main" role="main">
@@ -117,17 +118,17 @@
           <p>{{ settings['checkout_message_summary_text'] }}</p>
         </div>
       </div>
-      {% endif %}          
+      {% endif %}
       {% if settings['checkout_message_left_enabled'] %}
       <div class = "left__message-wrapper">
         <div class = "left__message">
           <p>{{ settings['checkout_message_left_text'] }}</p>
         </div>
       </div>
-      {% endif %}          
-  
+      {% endif %}
+
       {{ tracking_code }}
-    
+
       <!-- Swell Integration -->
       {% include 'swell-checkout' %}
       {% include 'swell-post-checkout' %}
@@ -137,7 +138,7 @@
       .left__message-wrapper {
         display: none;
       }
-      
+
       .sidbar__message {
         margin-top: 20px;
         padding-top: 50px;
@@ -157,16 +158,16 @@
                 return c.substring(name.length, c.length);
             }
         }
-        
+
         return "";
     }
-  
+
       //$(document).ready(function(){
         var userId =  '{{ customer.id }}';
         if( getCookie("customer_login") ) {
           dataLayer.push({'event': 'GTMevent', 'eventCategory': 'lead', 'eventAction': 'submit', 'eventLabel': 'Customer Login', 'userId': userId});
         }
-  
+
       if( Shopify.Checkout.step != "contact_information" ) {
         {% for line_item in checkout.line_items %}
         ga('ec:addProduct', {               // Provide product details in an productFieldObject.
@@ -179,7 +180,7 @@
           'quantity': {{ line_item.quantity }}                     // Product quantity (number).
         });
         {% endfor %}
-  
+
         if (Shopify.Checkout.step == "shipping_method") {
           ga('ec:setAction','checkout', {
             'step': 2
@@ -190,12 +191,12 @@
           });
         }
       }
-      
+
       $(document).ready(function(){
         {% if settings['checkout_message_summary_enabled'] %}
         $('.order-summary__sections').append($('.sidbar__message-wrapper').html());
         {% endif %}
-        
+
         {% if settings['checkout_message_left_enabled'] %}
         $('.edit_checkout .step__footer').before('<div class = "section">' + $('.left__message-wrapper').html() + '</div>');
         {% endif %}
@@ -204,56 +205,55 @@
       });
         //ga('send', 'pageview');
       //});
-      
+
     </script>
-    
+
     <!-- Justnuo Subscription -->
-    <script data-cfasync="false">window.ju_num="E993C078-CD6D-4352-8DFD-2B4740FF08E2";window.asset_host='//cdn.justuno.com/';(function(i,s,o,g,r,a,m){i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)};a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script',asset_host+'vck.js','juapp');</script>  
-    
+    <script data-cfasync="false">window.ju_num="E993C078-CD6D-4352-8DFD-2B4740FF08E2";window.asset_host='//cdn.justuno.com/';(function(i,s,o,g,r,a,m){i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)};a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script',asset_host+'vck.js','juapp');</script>
+
     <script data-cfasync="false">
       window.juapp=window.juapp||function(){(window.juapp.q=window.juapp.q||[]).push(arguments)}
-  
+
       /*
       Replace the [order ...] portions below with the actual order information.
       You can omit any of the attributes that you don't have values other then the order id and order total.
       */
-  
+
       juapp(
         'order',
         '{{checkout.id}}',
         {total:{{checkout.total_price | divided_by : 100}},subtotal:{{checkout.subtotal_price | divided_by : 100}},tax:{{checkout.tax_price | divided_by : 100}},shipping:{{checkout.shipping_price | divided_by : 100}},currency:'USD'}
       );
-  
+
       /*
       You will need to repeat this line of code for each item in the order.
       Replace the [item ...] portions below with the actual item information in order.
       You can omit any of the attributes that you don't have values other then the item id and quantity.
       */
-  
+
       {% for line_item in checkout.line_items %}
       juapp(
         'orderItem',
         {productid:'{{line_item.product_id}}',variationid:'{{line_item.variant_id}}',sku:'{{line_item.sku}}',name:'{{line_item.title}}',quantity:{{line_item.quantity}},price:{{line_item.price | divided_by : 100}},color:'{{line_item.variant.option1}}'}
       );
       {% endfor %}
-  
+
       /* end of repeat section */
     </script>
     <style>
       @media screen and (max-width: 1024px) {
         #launcher{
           display: block;
-        }     
+        }
       }
       #aca_ui_container{
           display: none;
-        }     
+        }
     </style>
     <script type="text/javascript">
       document.querySelector('.policy-list').innerHTML = '<li class="policy-list__item"><a data-title-text="Shipping" href="https://satechi.net/pages/shipping-delivery" target="_blank">Shipping</a></li><li class="policy-list__item"><a data-title-text="Returns" href="https://satechi.net/pages/refunds-and-returns" target="_blank">Returns</a></li><li class="policy-list__item"><a data-title-text="Privacy" href="https://satechi.net/pages/terms-privacy" target="_blank">Privacy</a></li><li class="policy-list__item"><a data-title-text="Terms & Conditions" href="https://satechi.net/pages/terms-conditions" target="_blank">Terms & Conditions</a></li>'
     </script>
   </html>
-  
-  
-  
-  
+
+
+
