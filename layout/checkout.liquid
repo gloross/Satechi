@@ -37,6 +37,8 @@
       {{ checkout_scripts }}
 
       {{ "checkout.scss.css" | asset_url | stylesheet_tag }}
+      {{ "section-shipping-protection.css" | asset_url | stylesheet_tag }}
+      {{ "shipping-protection.css" | asset_url | stylesheet_tag }}
 
       <!-- Swell Integration -->
       {{ "swell-rewards.scss.css" | asset_url | stylesheet_tag }}
@@ -96,6 +98,10 @@
             </div>
             <div class="main__content">
               {{ content_for_layout }}
+
+              {%- if content_for_layout contains 'data-step="shipping_method"' -%}
+                {%- section 'shipping-protection' -%}
+              {%- endif -%}
             </div>
             <div class="main__footer">
               {{ content_for_footer }}
