@@ -1,0 +1,145 @@
+{% include 'object-param-load', section_name: "homepage-featured-collection" %}
+
+<div class="custom-slider--buttons text-center margin-bottom-5 max-width-5 center medium--max-width-100">
+  {% for block in section.blocks %}
+    <button 
+            id="custom-slider--button-{{ forloop.index }}"
+            data-slider-id="{{ block.settings.title }}"
+            data-slider-active="{% if forloop.index == 1 %}true{% else %}false{% endif %}" 
+            class="custom-slider--button {% if forloop.index == 1%}custom-slider--button-active {% endif %}font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy"
+            >{{ block.settings.title }}
+            </button>
+{% endfor %}
+</div>
+
+{% for block in section.blocks %}
+
+{%- assign featured_collection = block.settings -%}
+{%- assign collection = collections[featured_collection.handle] -%}
+{%- assign title = featured_collection.title | default: false -%}
+{%- assign more_button = featured_collection.show_more_button -%}
+{%- assign button_text = featured_collection.show_more_text | default: "View More" -%}
+{%- assign button_url = featured_collection.button_url | default: collection.url -%}
+{%- assign product_limit = featured_collection.product_limit -%}
+
+{%- capture featured_collection_products -%}
+  {%- for product in collection.products limit: product_limit -%}
+    <div class="margin-1 small--margin-2">
+      {% include "product-thumbnail" %}
+    </div>
+  {%- endfor -%}
+<div class="margin-1 small--margin-2">
+  <div class="product-thumbnail">
+    <div class="aspect-ratio-4x5 small--aspect-ratio-6x7 relative background-off-white overflow-visible">
+      <div class="block link absolute absolute-fill z-index-1 overflow-visible">
+        <a class="custom-slider--view-more font-weight-6 font-size-6 product-thumbnail-link-to-product link flex flex-column justify-start height-100"
+           href="{{ collection.url }}"
+           title="{{ title }}">
+          View all
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endcapture -%}
+
+  {% include "featured-collection--slider" %}
+
+{% endfor %}
+
+
+{% schema %}
+  {
+    "name": "Custom slider",
+    "settings": [ 
+    ],
+	"blocks": [
+        {
+          "name": "Collection",
+          "type": "collection",
+          "settings": [
+            {
+              "type": "text",
+              "id": "title",
+              "label": "Title", 
+              "info": "e.g. Trending Now, Best Sellers"
+            }, 
+			{
+              "type": "collection",
+              "id": "handle",
+              "label": "Collection"
+            }, 
+            {
+              "type": "number",
+              "id": "product_limit",
+              "label": "Product limit",
+              "default": 6, 
+              "info": "If type is Shopify collection"
+            }, 
+			{ 
+              "type": "header", 
+              "content": "View More button"
+            }, 
+            {
+              "type": "checkbox",
+              "id": "show_more_button",
+              "label": "Show View More Button?",
+              "default": false,
+              "info": "If checked, and there are more products in the collection than shown here, there will be a button which goes to the collection"
+            },
+            {
+              "type": "url",
+              "id": "collection_url",
+              "label": "Optional Button URL ",
+              "info": "If you want to have the view more button go to a different URL, then enter it here."
+            },
+            {
+              "type": "text",
+              "id": "show_more_text",
+              "label": "More Button Text",
+              "default": "View More"
+            }
+		  ]
+        }
+	],
+    "presets": [
+      {
+        "name": "Custom slider",
+        "category": "Collections"
+      }
+    ]
+  }
+{% endschema %}
+
+<script>
+  $(window).on('load', function() {
+    $('.featured-collection').each(function() {
+    })
+  })
+  
+  $(".custom-slider--button").on('click', function() {
+    let $clicked = $(this);
+    if ($clicked.attr('data-slider-active') == "true" ) {
+      return;
+    }
+    $(".custom-slider--button").removeClass('custom-slider--button-active');
+    let $previous = $(".custom-slider--button[data-slider-active='true']");
+    let $activeCol = $(".custom-slider--collection[data-slider-active='true']");
+    let $newCol = $(".custom-slider--collection[data-slider-active='false']");
+    $clicked.attr('data-slider-active', 'true');
+
+    $activeCol.attr('data-slider-active', 'false');
+
+
+    setTimeout(function() {
+
+      $clicked.addClass('custom-slider--button-active');
+      $newCol.attr('data-slider-active', 'true');
+      $activeCol.attr('data-slider-hidden', 'true');
+      $newCol.attr('data-slider-hidden', 'false');
+      $previous.attr('data-slider-active', 'false');
+    }, 700)
+
+  })
+  
+</script>

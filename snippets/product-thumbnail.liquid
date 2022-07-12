@@ -1,3 +1,4 @@
+<!-- product-thumbnail.liquid -->
 {% include "attribute-product-title" %}
 {% include "attribute-product-featured-image" %}
 
@@ -30,7 +31,7 @@
             </div>
           </div>
         </div>
-
+        
         <form action="/cart/add" 
           method="post" 
           enctype="multipart/form-data" 
@@ -41,6 +42,58 @@
             padding-horizontal-4 small--padding-horizontal-6
             font-family-heading font-weight-4 font-size-2 text-no-decoration text-uppercase letter-spacing-1">
             <h3 class="font-weight-6 font-size-1 margin-bottom-2 small--margin-bottom-3">{{ product.title }}</h3>
+
+			{% comment %} Yotpo case #00626279: The code blocks below has some modifications. This is to remove the word 'Review' after the star rating in PLPs{% endcomment %}
+            <div class="custom-grid-rating">
+              <div id="pid-{{ product.id }}" class="yotpo bottomLine"
+                   data-appkey="z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH"
+                   data-domain="{{shop.permanent_domain | escape }}"
+                   data-product-id="{{ product.id }}"
+                   data-product-models="{{ product.id }}"
+                   data-name="{{ product.title | escape }}"
+                   data-url="{{ shop.url }}{{ product.url }}"
+                   data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+                   data-description="{{ product.description | escape }}"
+                   data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+              </div>
+            </div>
+            <script>
+  			var yotpoPayload = {
+  				methods: [
+			    {
+			      method: "bottomline",
+			      params: {
+			        pid: "{{ product.id }}",
+			        skip_average_score: true
+					}
+			    },
+    			{
+			      method: "bottomline",
+			      params: {
+			        pid: "{{ product.id }}",
+			      },
+			      format: "json"
+			    }
+			   ],
+			   app_key: "z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH",
+			   is_mobile: "false"
+			};
+			  $.ajax({
+			    url: "https://staticw2.yotpo.com/batch",
+			    method: "POST",
+			    contentType: 'application/json; charset=utf-8',
+			    dataType: 'JSON',
+			    data: JSON.stringify(yotpoPayload),
+			    success: function(response) {
+			      if(response[1].result.total>1) {
+			        document.querySelector("#pid-{{ product.id }}").innerHTML = response[0].result.replace(" Reviews","");
+			        }else{
+			        document.querySelector("#pid-{{ product.id }}").innerHTML = response[0].result.replace(" Review","");
+			        }
+			  	}
+			  });
+			</script>
+			{% comment %} ./Yotpo case #00626279{% endcomment %}
 
             <div class="text-default">
               {%- if product.compare_at_price and product.compare_at_price > 0 and product.compare_at_price > product.price -%}

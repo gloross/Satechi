@@ -1,0 +1,54 @@
+{%- if featured_collection_products != blank -%}
+  {%- assign arrow_classes = "inline-block absolute position-center-vertical z-index-2 cursor-pointer background-white border-radius-circle font-size-4 text-primary-dark overflow-hidden" -%}
+
+  <div id="FeaturedCollection" 
+       data-slider-id="{{ title }}"
+       data-slider-active="{% if forloop.index == 1%}true{% else %}false{% endif %}" 
+       data-slider-hidden="{% if forloop.index == 1%}false{% else %}true{% endif %}" 
+       class="custom-slider--collection padding-bottom-8 padding-top-6 medium--padding-bottom-16 margin-vertical-0 large--margin-bottom-0 overflow-hidden">
+    <div class="container">
+
+      <div class="margin-horizontal--4 small--margin-horizontal--6 
+        large--margin-horizontal-0">
+        <div class="relative overflow-visible">
+          {% comment %}
+            Carousel
+          {% endcomment %}
+          <div class="relative featured-collection-outer overflow-hidden">
+            <div class="margin-horizontal--1">
+              <div class="featured-collection-clone featured-collection">
+                {{ featured_collection_products }}
+              </div>
+            </div>
+          </div>
+
+          {% comment %}
+            Custom arrows
+          {% endcomment %}
+          <span class="left--6 arrow-left {{ arrow_classes }}"
+            style="width: 3rem; height: 3rem;">
+            <span class="absolute position-center">&larr;</span>
+          </span>
+
+          <span class="right--6 arrow-right {{ arrow_classes }}"
+            style="width: 3rem; height: 3rem;">
+            <span class="absolute position-center">&rarr;</span>
+          </span>
+
+        </div>
+      </div>
+
+      {%- if more_button -%}
+        <div class="text-center padding-top-12">
+          <a href="{{ button_url }}"
+            class="button border border-secondary background-transparent text-default border-default-hover background-default-hover text-white-hover"
+            title="{{ button_text }}">
+            {{ button_text }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+                                     
+                                     

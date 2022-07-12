@@ -1,3 +1,4 @@
+{% comment %}
 <a class="product-yotpo-review-stars white-space-nowrap inline-block link"
   href="#Reviews"
   >
@@ -12,10 +13,65 @@
     data-description="{{ product.description | escape }}"
     data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
   </div>
-
-  {%- if product.metafields.yotpo.reviews_count != blank -%}
-    <span class="font-size-2 font-weight-4 text-medium-grey">({{ product.metafields.yotpo.reviews_count }})</span>
-  {%- endif -%}
-
-  <span class="invisible">Reviews</span>
 </a>
+{% endcomment %}
+
+{% comment %}
+Yotpo Case #00626279:
+The code block below is a star rating widget pulled via API.
+The API call will return the star rating HTML code which allows us to customize the HTML before rendering it on the front-end
+The javascript String.replace() function was used to remove the word 'Reviews' in the star rating.
+{% endcomment %}
+
+<a class="product-yotpo-review-stars white-space-nowrap inline-block link"
+  href="#Reviews"
+  >
+  <div id="static-html" class="yotpo bottomLine inline-block align-middle overflow-hidden"
+    data-appkey="z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH"
+    data-domain="{{shop.permanent_domain | escape }}"
+    data-product-id="{{ product.id }}"
+    data-product-models="{{ product.id }}"
+    data-name="{{ product.title | escape }}"
+    data-url="{{ shop.url }}{{ product.url }}"
+    data-image-url="{{ product.featured_image | product_img_url: 'large' |replace: '?', '%3F' | replace: '&','%26'}}"
+    data-description="{{ product.description | escape }}"
+    data-bread-crumbs="{% for tag in product.tags %}{{ tag | escape }};{% endfor %}">
+  </div>
+</a>
+
+<script>
+  var yotpoPayload = {
+  methods: [
+    {
+      method: "bottomline",
+      params: {
+        pid: "{{ product.id }}",
+        skip_average_score: true
+      }
+    },
+    {
+	  method: "bottomline",
+	  params: {
+	  pid: "{{ product.id }}",
+	},
+      format: "json"
+    }    
+  ],
+  app_key: "z7toeAETSrvYlmLD69iH2nj6pSbtKEXZauiKsojH",
+  is_mobile: "false"
+};
+  $.ajax({
+    url: "https://staticw2.yotpo.com/batch",
+    method: "POST",
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'JSON',
+    data: JSON.stringify(yotpoPayload),
+    success: function(response) {
+      if(response[1].result.total>1) {
+		  document.querySelector("#static-html").innerHTML = response[0].result.replace(" Reviews","");
+		  }else{
+		  document.querySelector("#static-html").innerHTML = response[0].result.replace(" Review","");
+		  }
+	  }
+  });
+</script>
