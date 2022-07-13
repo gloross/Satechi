@@ -17,6 +17,9 @@
       {% paginate search.results by section.settings.pagination_limit %}
         <div class="grid grid-gap-4 columns-{{ column_count_mobile }} large--columns-{{ column_count_desktop }}">
           {% for product in search.results %}
+            {%- if product.tags contains 'hidden' -%}
+              {%- continue -%}
+            {%- endif -%}
             {% include "attribute-product-search-excluded" %}
 
             {%- if product_search_excluded -%}

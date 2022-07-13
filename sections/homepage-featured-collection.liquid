@@ -10,6 +10,9 @@
 
 {%- capture featured_collection_products -%}
   {%- for product in collection.products limit: product_limit -%}
+    {%- if product.tags contains 'hidden' -%}
+      {%- continue -%}
+    {%- endif -%}
     <div class="margin-1 small--margin-2">
       {% include "product-thumbnail" %}
     </div>
@@ -29,55 +32,55 @@
       {
         "type": "text",
         "id": "title",
-        "label": "Title", 
+        "label": "Title",
         "info": "e.g. Trending Now, Best Sellers"
-      }, 
-      { 
-        "type": "select", 
-        "id": "featured_collection_type", 
-        "label": "Section type", 
-        "options": [ 
-          { 
-            "value": "collection", 
+      },
+      {
+        "type": "select",
+        "id": "featured_collection_type",
+        "label": "Section type",
+        "options": [
+          {
+            "value": "collection",
             "label": "Shopify Collection"
-          }, 
-          { 
-            "value": "widget", 
+          },
+          {
+            "value": "widget",
             "label": "App widget"
           }
-        ], 
+        ],
         "default": "collection"
-      }, 
-      { 
-        "type": "header", 
+      },
+      {
+        "type": "header",
         "content": "Shopify collection"
-      }, 
+      },
       {
         "type": "collection",
         "id": "handle",
         "label": "Collection"
-      }, 
+      },
       {
         "type": "number",
         "id": "product_limit",
         "label": "Product limit",
-        "default": 6, 
+        "default": 6,
         "info": "If type is Shopify collection"
-      }, 
-      { 
-        "type": "header", 
+      },
+      {
+        "type": "header",
         "content": "App widget"
-      }, 
-      { 
-        "type": "textarea", 
-        "id": "featured_products_widget", 
-        "label": "Widget code", 
+      },
+      {
+        "type": "textarea",
+        "id": "featured_products_widget",
+        "label": "Widget code",
         "info": "If type is App widget, paste code here"
-      }, 
-      { 
-        "type": "header", 
+      },
+      {
+        "type": "header",
         "content": "View More button"
-      }, 
+      },
       {
         "type": "checkbox",
         "id": "show_more_button",

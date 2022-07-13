@@ -9,6 +9,9 @@
 {%- assign collection_lowest_price_operator = default_collection_lowest_price_operator -%}
 
 {%- for product in collection.products -%}
+  {%- if product.tags contains 'hidden' -%}
+    {%- continue -%}
+  {%- endif -%}
   {%- if product.price < collection_lowest_price_operator -%}
     {%- assign collection_lowest_price_operator = product_price -%}
   {%- endif -%}

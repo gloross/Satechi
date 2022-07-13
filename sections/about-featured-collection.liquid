@@ -10,6 +10,9 @@
 
 {%- capture featured_collection_products -%}
   {%- for product in collection.products limit: product_limit -%}
+    {%- if product.tags contains 'hidden' -%}
+      {%- continue -%}
+    {%- endif -%}
     <div class="padding-horizontal-1 small--padding-horizontal-2">
       {% include "product-thumbnail" %}
     </div>
@@ -26,19 +29,19 @@
         "type": "collection",
         "id": "handle",
         "label": "Collection"
-      }, 
+      },
       {
         "type": "text",
         "id": "title",
-        "label": "Title", 
+        "label": "Title",
         "info": "Leave blank to use collection name"
-      }, 
+      },
       {
         "type": "number",
         "id": "product_limit",
         "label": "Product limit",
         "default": 6
-      }, 
+      },
       {
         "type": "checkbox",
         "id": "show_more_button",

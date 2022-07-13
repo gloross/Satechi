@@ -26,6 +26,9 @@
               <div class="container">
                 <div class="margin-horizontal--4 small--margin-horizontal--6 large--margin-horizontal-0 grid grid-gap-xs large--grid-gap-4 columns-2{% comment %}TODO: {% endcomment %} large--columns-{{ column_count_desktop }}">
                   {% for product in collection.products %}
+                    {%- if product.tags contains 'hidden' -%}
+                      {%- continue -%}
+                    {%- endif -%}
                     <div class="width-100">
                       {% include "product-thumbnail" %}
                     </div>
@@ -53,18 +56,18 @@
       "type": "header",
       "content": "Hero"
     },
-    { 
-      "type": "text", 
-      "id": "hero_min_height", 
-      "label": "Desktop minimum height (in px)", 
+    {
+      "type": "text",
+      "id": "hero_min_height",
+      "label": "Desktop minimum height (in px)",
       "default": "304"
-    }, 
-    { 
-      "type": "text", 
-      "id": "hero_min_height_mobile", 
-      "label": "Mobile minimum height (in px)", 
+    },
+    {
+      "type": "text",
+      "id": "hero_min_height_mobile",
+      "label": "Mobile minimum height (in px)",
       "default": "200"
-    }, 
+    },
     {
       "type": "header",
       "content": "Product layout"

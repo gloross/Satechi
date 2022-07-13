@@ -44,6 +44,9 @@
         {%- include 'collection-thumbnail' -%}
 
         {%- for product in collection.products limit: 5 -%}
+          {%- if product.tags contains 'hidden' -%}
+            {%- continue -%}
+          {%- endif -%}
           <div class="width-100">
             {% include "product-thumbnail" %}
           </div>
@@ -54,7 +57,7 @@
 </div>
 
 <style type="text/css">
-  .collection-thumbnail-arrow > * { 
+  .collection-thumbnail-arrow > * {
     width: 1.375rem;
     height: 1.375rem;
   }
@@ -68,24 +71,24 @@
       "type": "header",
       "content": "Hero"
     },
-    { 
-      "type": "image_picker", 
-      "id": "collection_list_image", 
-      "label": "Hero image", 
+    {
+      "type": "image_picker",
+      "id": "collection_list_image",
+      "label": "Hero image",
       "info": "Recommended size: 2880px wide. If left blank, collection image of 'All' collection will be used"
-    }, 
-    { 
-      "type": "text", 
-      "id": "hero_min_height", 
-      "label": "Desktop minimum height (in px)", 
+    },
+    {
+      "type": "text",
+      "id": "hero_min_height",
+      "label": "Desktop minimum height (in px)",
       "default": "304"
-    }, 
-    { 
-      "type": "text", 
-      "id": "hero_min_height_mobile", 
-      "label": "Mobile minimum height (in px)", 
+    },
+    {
+      "type": "text",
+      "id": "hero_min_height_mobile",
+      "label": "Mobile minimum height (in px)",
       "default": "200"
-    }, 
+    },
     {
       "type": "header",
       "content": "Product layout"
@@ -102,8 +105,8 @@
       "label": "Products per row (mobile)",
       "default": 2
     }
-  ], 
-  "blocks": [ 
+  ],
+  "blocks": [
     {
       "type": "collections",
       "name": "Collections",
@@ -111,13 +114,13 @@
         {
           "type": "collection",
           "id": "collection",
-          "label": "Collection", 
+          "label": "Collection",
           "info": "Collection thumbnail + first 5 products in collection will show"
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Collection List image", 
+          "label": "Collection List image",
           "info": "Will override the default collection image on this page only. Recommended size: 724 x 848px"
         }
       ]

@@ -2,10 +2,10 @@
 
 <div class="custom-slider--buttons text-center margin-bottom-5 max-width-5 center medium--max-width-100">
   {% for block in section.blocks %}
-    <button 
+    <button
             id="custom-slider--button-{{ forloop.index }}"
             data-slider-id="{{ block.settings.title }}"
-            data-slider-active="{% if forloop.index == 1 %}true{% else %}false{% endif %}" 
+            data-slider-active="{% if forloop.index == 1 %}true{% else %}false{% endif %}"
             class="custom-slider--button {% if forloop.index == 1%}custom-slider--button-active {% endif %}font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy"
             >{{ block.settings.title }}
             </button>
@@ -24,6 +24,9 @@
 
 {%- capture featured_collection_products -%}
   {%- for product in collection.products limit: product_limit -%}
+    {%- if product.tags contains 'hidden' -%}
+      {%- continue -%}
+    {%- endif -%}
     <div class="margin-1 small--margin-2">
       {% include "product-thumbnail" %}
     </div>
@@ -51,7 +54,7 @@
 {% schema %}
   {
     "name": "Custom slider",
-    "settings": [ 
+    "settings": [
     ],
 	"blocks": [
         {
@@ -61,25 +64,25 @@
             {
               "type": "text",
               "id": "title",
-              "label": "Title", 
+              "label": "Title",
               "info": "e.g. Trending Now, Best Sellers"
-            }, 
+            },
 			{
               "type": "collection",
               "id": "handle",
               "label": "Collection"
-            }, 
+            },
             {
               "type": "number",
               "id": "product_limit",
               "label": "Product limit",
-              "default": 6, 
+              "default": 6,
               "info": "If type is Shopify collection"
-            }, 
-			{ 
-              "type": "header", 
+            },
+			{
+              "type": "header",
               "content": "View More button"
-            }, 
+            },
             {
               "type": "checkbox",
               "id": "show_more_button",
@@ -116,7 +119,7 @@
     $('.featured-collection').each(function() {
     })
   })
-  
+
   $(".custom-slider--button").on('click', function() {
     let $clicked = $(this);
     if ($clicked.attr('data-slider-active') == "true" ) {
@@ -141,5 +144,5 @@
     }, 700)
 
   })
-  
+
 </script>
