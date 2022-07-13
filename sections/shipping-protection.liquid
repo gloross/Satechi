@@ -1,9 +1,8 @@
 {%- assign _section  = section.settings -%}
 {%- assign _blocks = section.blocks -%}
-{%- assign featured_product = _section.featured_product -%}
 
-{%- if featured_product -%}
-  <section class="section-shipping-protection js-section-shipping-protection">
+{%- if _section.featured_product -%}
+  <section class="section-shipping-protection js-section-shipping-protection" data-product-handle="{{- _section.featured_product -}}">
     <div class="section__inner">
       <header class="section__header">
         <h2 class="section__title">
@@ -17,19 +16,33 @@
             <div class="shipping-protection__checkbox">
               <input
               type="checkbox"
-              name="{{ featured_product.title }}"
-              id="{{ featured_product.id }}"
-              quantity="1">
+              name="product"
+              id="product--{{ section.id }}"
+              quantity="1"
+              class="js-product-checkbox"
+              {% for line_item in checkout.line_items %}
+                {%- assign line_item_handle = line_item.product.handle -%}
+                {%- if line_item_handle == _section.featured_product -%}
+                  checked="true"
+                  {% break %}
+                {%- endif -%}
+              {% endfor %}>
 
               <label
-              for="{{ featured_product.id }}">
+              for="product--{{ section.id }}">
                 {{- _section.text -}}
               </label>
             </div>
+
+            <span class="shipping-protection__price js-shipping-protection-price"></span>
           </header>
 
           <div class="shipping-protection__body">
-            <div class="shipping-protection__icon"></div>
+            {%- if _section.image != blank -%}
+              <div class="shipping-protection__image">
+                <img src="{{- _section.image | img_url: '320x' -}}" alt="{{- _section.image.alt -}}">
+              </div>
+            {%- endif -%}
 
             {%- if _blocks.size > 0 -%}
               <div class="shipping-protection__features">
@@ -66,6 +79,11 @@
         "type": "product",
         "id": "featured_product",
         "label": "Product"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
       },
       {
         "type": "textarea",

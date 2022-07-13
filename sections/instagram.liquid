@@ -10,7 +10,7 @@
       <div class="aspect-ratio-1x1 relative">
         <div class="absolute absolute-fill">
           <img data-src="{{ block.settings.image | img_url: '768x768', scale: 2 }}"
-            class="block object-fit-cover object-position-center" 
+            class="block object-fit-cover object-position-center"
             alt="" />
         </div>
       </div>
@@ -21,34 +21,34 @@
 {% schema %}
   {
     "name": "Instagram / Image Feed",
-    "settings": [ 
-      { 
-        "type": "select", 
-        "id": "image_feed_type", 
-        "label": "Image feed type", 
-        "options": [ 
-          { 
-            "value": "instagram", 
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_feed_type",
+        "label": "Image feed type",
+        "options": [
+          {
+            "value": "instagram",
             "label": "Instagram by Foursixty"
-          }, 
-          { 
-            "value": "manual", 
+          },
+          {
+            "value": "manual",
             "label": "Manually curated images"
           }
-        ], 
+        ],
         "default": "manual"
       }
     ],
-    "blocks": [ 
+    "blocks": [
       {
         "type": "image",
         "name": "Manual image",
-        "limit": 4, 
+        "limit": 4,
         "settings": [
-          { 
-            "label": "Image", 
-            "id": "image", 
-            "type": "image_picker", 
+          {
+            "label": "Image",
+            "id": "image",
+            "type": "image_picker",
             "info": "Suggested size: 768 x 768px"
           }
         ]
