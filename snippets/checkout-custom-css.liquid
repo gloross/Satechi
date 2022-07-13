@@ -108,13 +108,11 @@ body {
   padding-top: 3em;
 }
 
-.section-shipping-protection .section__inner {}
-
-.section-shipping-protection .section__header {}
-
-.section-shipping-protection .section__title {}
-
-.section-shipping-protection .section__body {}
+@media screen and (max-width: 767px) {
+  .section-shipping-protection {
+    padding-top: 2em;
+  }
+}
 
 /* ------------------------------------------------------------ *\
   Shipping Protection
@@ -131,8 +129,6 @@ body {
   justify-content: space-between;
   margin-bottom: 10px;
 }
-
-.shipping-protection .shipping-protection__checkbox {}
 
 .shipping-protection .shipping-protection__checkbox input{
   opacity: 0;
@@ -212,5 +208,34 @@ body {
 .shipping-protection .shipping-protection__price {
   font-weight: 700;
 }
+
+@media screen and (max-width: 767px) {
+  .shipping-protection {
+    padding: 1em;
+  }
+
+  .shipping-protection .shipping-protection__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .shipping-protection .shipping-protection__price {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+
+  .shipping-protection .shipping-protection__checkbox label {
+    font-size: 12px;
+  }
+
+  .shipping-protection .shipping-protection__checkbox label:before {
+    margin-right: 5px;
+  }
+
+  .shipping-protection .shipping-protection__features li {
+    font-size: 12px;
+  }
+}
+
 
 {% endstyle %}

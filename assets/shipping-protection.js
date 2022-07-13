@@ -8,79 +8,92 @@ const section = document.querySelector(selectors.sectionShippingProtection);
 const productHandle = section.dataset.productHandle;
 const productCheckbox = document.querySelector(selectors.productCheckbox);
 
-function addItemToCart(productId) {
-  let formData = {
-    items: [
-      {
-        id: productId,
-        quantity: 1,
+const init = function () {
+  if (!section) {
+    return;
+  }
+
+  function moveSection() {
+    const sectionShippingMethod = document.querySelector(".section--shipping-method");
+    sectionShippingMethod.parentNode.insertBefore(section, sectionShippingMethod);
+  }
+
+  moveSection();
+
+  function addItemToCart(productId) {
+    let formData = {
+      items: [
+        {
+          id: productId,
+          quantity: 1,
+        },
+      ],
+    };
+    fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    ],
-  };
-  fetch("/cart/add.js", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => {
-      window.location.reload();
+      body: JSON.stringify(formData),
     })
-    .then((data) => {
-      console.log("item added", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-
-function removeItemFromCart(productId) {
-  let productIdJSON = JSON.parse('{"' + productId + '": 0}');
-  let updateData = {
-    updates: productIdJSON,
-  };
-  fetch("/cart/update.js", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateData),
-  })
-    .then(function (data) {
-      console.log(data.status, data.body);
-      if (data.status == 200) {
-        console.log("item being removed to cart");
+      .then((response) => {
         window.location.reload();
-      } else {
-        console.error("Request returned an error", data);
-      }
+      })
+      .then((data) => {
+        console.log("item added", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  function removeItemFromCart(productId) {
+    let productIdJSON = JSON.parse('{"' + productId + '": 0}');
+    let updateData = {
+      updates: productIdJSON,
+    };
+    fetch("/cart/update.js", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
     })
-    .catch(function (error) {
-      console.error("Request failed", error);
+      .then(function (data) {
+        console.log(data.status, data.body);
+        if (data.status == 200) {
+          window.location.reload();
+        } else {
+          console.error("Request returned an error", data);
+        }
+      })
+      .catch(function (error) {
+        console.error("Request failed", error);
+      });
+  }
+
+  function checkboxChange(element, data) {
+    element.addEventListener("change", (e) => {
+      if (element.checked) {
+        addItemToCart(data.variants[0].id);
+      } else {
+        removeItemFromCart(data.variants[0].id);
+      }
     });
-}
+  }
 
-function checkboxChange(element, data) {
-  element.addEventListener("change", (e) => {
-    if (element.checked) {
-      addItemToCart(data.variants[0].id);
-    } else {
-      removeItemFromCart(data.variants[0].id);
-    }
-  });
-}
+  function fetchProduct(productHandle) {
+    let productUrl = "/products/" + productHandle + ".js";
+    fetch(productUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        checkboxChange(productCheckbox, data);
+        document.querySelector(selectors.shippingProtectionPrice).innerHTML = `${Shopify.formatMoney(data.price)}`;
+      });
+  }
 
-function fetchProduct(productHandle) {
-  let productUrl = "/products/" + productHandle + ".js";
-  fetch(productUrl)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      checkboxChange(productCheckbox, data);
-      document.querySelector(selectors.shippingProtectionPrice).innerHTML = `${Shopify.formatMoney(data.price)}`;
-    });
-}
+  fetchProduct(productHandle);
+};
 
-fetchProduct(productHandle);
+init();

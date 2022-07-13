@@ -66,8 +66,6 @@
             return dollars + cents;
           }
 
-          console.log(formatString);
-
           switch(formatString.match(placeholderRegex)[1]) {
             case 'amount':
               value = formatWithDelimiters(cents, 2);
@@ -104,7 +102,6 @@
     <!-- End of satechi Zendesk Widget script -->
 
         <script>
-      console.log(window.innerWidth);
       if (window.innerWidth > 500) {
         zE(function() {
           zE.setHelpCenterSuggestions({ labels: ['top3_widget'] });
