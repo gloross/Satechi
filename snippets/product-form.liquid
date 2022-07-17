@@ -1,18 +1,13 @@
 
 {%- include "attribute-cart-ajax-enabled" -%}
 {%- capture product_json -%}{% include "product-json" %}{%- endcapture -%}
-{%- assign ajax_cart_form = '' -%}
 
-{%- if cart_ajax_enabled -%}
-  {%- assign ajax_cart_form = 'ajax-cart-form' -%}
-{%- endif -%}
-
-{% form 'product',
-  product,
-  class: 'js-product-form product-page-form',
-  data-behavior: ajax_cart_form,
-  data-product-json: product_json
-%}
+<form action="/cart/add"
+  method="post"
+  enctype="multipart/form-data"
+  class="js-product-form product-page-form"
+  {% if cart_ajax_enabled %}data-behavior="ajax-cart-form"{% endif %}
+  data-product-json='{{ product_json }}'>
   <input type="hidden" name="id" value="{{ current_variant.id }}" />
   <input type="hidden" id="quantity" name="quantity" value="1" />
 
@@ -35,10 +30,6 @@
 
     {% include "product-reviews-stars" %}
   </div>
-
-  <p style="display: none;">
-    {{- form | payment_terms -}}
-  </p>
 
   {%- if product.description != blank -%}
     <div class="rte font-size-4 margin-bottom-6">
@@ -91,4 +82,4 @@
       {{ settings.product_shipping_message_small | remove: "<p>" | remove: "</p>" }}
     </div>
   {%- endif -%}
-{% endform %}
+</form>

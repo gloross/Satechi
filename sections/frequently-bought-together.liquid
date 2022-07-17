@@ -1,0 +1,99 @@
+{%- assign _section  = section.settings -%}
+{%- assign product_list = product.metafields.custom.frequently_bought_together.value -%}
+
+{%- if product_list.count > 0 -%}
+  <section class="section-frequently-bought padding-bottom-8 large--padding-bottom-16">
+    <div class="container">
+      <header class="section__header">
+        {%- if _section.heading != blank -%}
+          <div class="text-center margin-bottom-5 max-width-5 center medium--max-width-100">
+            <h2 class="font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy">
+              {{ _section.heading | newline_to_br }}
+            </h2>
+          </div>
+        {%- endif -%}
+      </header>
+
+      <div class="section__body">
+        <div class="grid columns-1 large--columns-4 grid-gap-4">
+          <div class="section__products grid columns-1 large--columns-3 grid-gap-4 column-span-3 large--columns-span-3 margin-horizontal--4 large--padding-right-12 small--margin-horizontal--6 large--margin--horizontal-0">
+            <div class="section__products__image js-product-image" data-product-price="{{ product.price }}" data-product-id="{{ product.variants[0].id }}">
+              <a href="{{ product.url }}">
+                <img src="{{ product.images.first | img_url: '720x' }}" alt="{{ product.title }}" loading="lazy">
+              </a>
+            </div>
+            {%- for featured_product in product_list -%}
+              <div class="section__products__image js-product-image" data-product-price="{{ featured_product.price }}" data-product-id="{{ featured_product.variants[0].id }}">
+                <a href="{{ featured_product.url | within: collection }}">
+                  <img src="{{- featured_product.images.first | img_url: '720x' -}}" alt="{{ featured_product.title }}" loading="lazy">
+                </a>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="column-span-1">
+            <div class="section__checkboxes js-checkboxes">
+              <div class="section__checkbox">
+                <input
+                type="checkbox"
+                name="{{ product.title }}"
+                id="{{ product.variants[0].id }}"
+                checked="true">
+
+                <label
+                for="{{ product.variants[0].id }}"
+                class="text-default font-weight-5 font-size-4 letter-spacing--1">
+                  Current Product: {{ product.title }}
+                </label>
+              </div>
+
+              {%- for featured_product in product_list -%}
+                <div class="section__checkbox">
+                  <input
+                  type="checkbox"
+                  name="{{ featured_product.title }}"
+                  id="{{ featured_product.variants[0].id }}"
+                  checked="true">
+
+                  <label
+                  for="{{ featured_product.variants[0].id }}"
+                  class="text-default font-weight-5 font-size-4 letter-spacing--1">
+                    {{- featured_product.title -}}
+                  </label>
+                </div>
+              {%- endfor -%}
+            </div>
+
+            <div class="section__actions">
+              <a href="{{ section.id }}" class="button width-100 js-ajax-add-to-cart">
+                {{- _section.button_label | default: "Buy now" -}}
+              </a>
+
+              <span class="section__total-price js-section-total-price text-default font-weight-5 font-size-4 letter-spacing--1"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Frequently Bought",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Frequently Bought Together"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button Label",
+        "default": "Buy Now"
+      }
+    ]
+  }
+{% endschema %}
