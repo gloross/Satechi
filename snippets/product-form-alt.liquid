@@ -1,0 +1,53 @@
+
+{%- include "attribute-cart-ajax-enabled" -%}
+{%- capture product_json -%}{% include "product-json" %}{%- endcapture -%}
+
+<form action="/cart/add"
+  method="post"
+  enctype="multipart/form-data"
+  class="js-product-form product-page-form"
+  {% if cart_ajax_enabled %}data-behavior="ajax-cart-form"{% endif %}
+  data-product-json='{{ product_json }}'>
+  <input
+    name="items[0]id"
+    type="hidden"
+    value="{{ product.variants.first.id }}">
+
+  {%- for featured_product in product_list -%}
+      <input
+        name="items[{{- forloop.index -}}]id"
+        value="{{- featured_product.selected_or_first_available_variant.id -}}"
+        type="hidden"
+        class="">
+  {%- endfor -%}
+
+  <input type="hidden" id="quantity" name="quantity" value="1" />
+
+  <div class="product-form-atc large--hide margin-bottom-8">
+    {% if product.selected_or_first_available_variant.available or template contains 'pre-order' %}
+      <button type="submit" class="js-add-to-cart button width-100">
+        {% if template contains 'pre-order' %}
+          Pre-Order Now
+        {% else %}
+          Add to cart
+        {% endif %}
+      </button>
+    {% else %}
+      <a class="klaviyo-bis-trigger button width-100" href="#">Email When Available</a>
+    {% endif %}
+  </div>
+
+  <div class="product-form-atc hide large--block">
+    {% if product.selected_or_first_available_variant.available or template contains 'pre-order' %}
+      <button type="submit" class="js-add-to-cart button width-100">
+        {% if template contains 'pre-order' %}
+          Pre-Order Now
+        {% else %}
+          Add to cart
+        {% endif %}
+      </button>
+    {% else %}
+      <a class="klaviyo-bis-trigger button width-100" href="#">Email When Available</a>
+    {% endif %}
+  </div>
+</form>

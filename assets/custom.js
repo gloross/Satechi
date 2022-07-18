@@ -143,6 +143,8 @@ function addItemsToCart(selectedProducts) {
 
 atcButton.addEventListener("click", (e) => {
   e.preventDefault();
+  e.target.parentElement.nextElementSibling.querySelector("button").click();
+
   addItemsToCart(selectedProducts);
 });
 
@@ -162,14 +164,9 @@ document.querySelector(".js-checkboxes").addEventListener("change", (e) => {
 
   checkedItems = [...document.querySelectorAll(".js-checkboxes input:checked")];
   selectedProducts = checkedItems.map((item) => ({id: item.id, quantity: 1}));
-  console.log(selectedProducts.length);
+
   if (selectedProducts.length > 0) {
     atcButton.removeAttribute("disabled");
-
-    atcButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      addItemsToCart(selectedProducts);
-    });
   } else {
     atcButton.setAttribute("disabled", "");
   }
