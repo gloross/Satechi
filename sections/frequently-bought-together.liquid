@@ -6,7 +6,7 @@
     <div class="container">
       <header class="section__header">
         {%- if _section.heading != blank -%}
-          <div class="text-center margin-bottom-5 max-width-5 center medium--max-width-100">
+          <div class="text-center margin-bottom-5 center medium--max-width-100">
             <h2 class="font-family-heading font-size-6 font-weight-6 text-uppercase letter-spacing-2 margin-bottom-6 medium--margin-bottom-8 large--margin-bottom-9 line-height-copy">
               {{ _section.heading | newline_to_br }}
             </h2>
@@ -65,11 +65,11 @@
             </div>
 
             <div class="section__actions">
+              <span class="section__total-price js-section-total-price text-default font-weight-5 font-size-4 letter-spacing--1"></span>
+
               <a href="{{ section.id }}" class="button width-100 js-ajax-add-to-cart">
                 {{- _section.button_label | default: "Buy now" -}}
               </a>
-
-              <span class="section__total-price js-section-total-price text-default font-weight-5 font-size-4 letter-spacing--1"></span>
             </div>
 
             {% include 'product-form-alt' %}

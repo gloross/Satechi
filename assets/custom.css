@@ -118,17 +118,9 @@
   Section Frequently Bought
 \* ------------------------------------------------------------ */
 
-/* .section-frequently-bought {
+.product-page-form.is-hidden {
+  display: none;
 }
-
-.section-frequently-bought .section__header {
-}
-
-.section-frequently-bought .section__body {
-}
-
-.section-frequently-bought .section__products {
-} */
 
 .section-frequently-bought .section__products__image {
   max-width: 180px;
@@ -141,12 +133,26 @@
   display: none;
 }
 
-.section-frequently-bought .section__products__image.is-hidden:after {
+.section-frequently-bought
+  .section__products__image.is-hidden
+  + .section__products__image.is-hidden
+  + .section__products__image:before {
+  content: none !important;
+}
+
+.section-frequently-bought .section__products__image.is-hidden:not(:nth-child(2)) + .section__products__image:before {
+  content: none !important;
+}
+
+.section-frequently-bought .section__products__image.is-hidden:before {
   display: none;
 }
 
 .section-frequently-bought .section__products__image:not(:first-child):not(:only-child):before {
   content: "+";
+}
+
+.section-frequently-bought .section__products__image:before {
   font-size: 72px;
   position: absolute;
   display: inline-block;
@@ -212,7 +218,60 @@
   visibility: hidden;
 }
 
+.section-frequently-bought .section__actions {
+  margin-top: 20px;
+}
+
+.section-frequently-bought .section__total-price {
+  display: block;
+  margin-bottom: 10px;
+}
+
 .section-frequently-bought .section__actions a[disabled] {
   pointer-events: none;
   opacity: 0.7;
+}
+
+@media screen and (max-width: 960px) {
+  .section-frequently-bought .section__products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .section-frequently-bought .section__products__image {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section-frequently-bought .section__products__image {
+    max-width: 100px;
+    height: 100px;
+  }
+
+  .section-frequently-bought .section__products__image:before {
+    font-size: 50px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .section-frequently-bought .section__products__image {
+    max-width: 75px;
+    height: 75px;
+  }
+
+  .section-frequently-bought .section__products__image:before {
+    font-size: 36px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .section-frequently-bought .section__products__image {
+    max-width: 60px;
+    height: 60px;
+  }
+
+  .section-frequently-bought .section__products__image:before {
+    font-size: 32px;
+  }
 }

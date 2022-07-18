@@ -5,7 +5,7 @@
 <form action="/cart/add"
   method="post"
   enctype="multipart/form-data"
-  class="js-product-form product-page-form"
+  class="js-product-form product-page-form is-hidden"
   {% if cart_ajax_enabled %}data-behavior="ajax-cart-form"{% endif %}
   data-product-json='{{ product_json }}'>
   <input
